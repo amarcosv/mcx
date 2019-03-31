@@ -916,8 +916,11 @@ void mcx_loadconfig(FILE *in, Config *cfg){
      cfg->his.maxmedia=cfg->medianum-1; /*skip media 0*/
      cfg->his.detnum=cfg->detnum;
      cfg->his.srcnum=cfg->srcnum;
+#ifdef SAVE_PHOTONLAUNCH
+	 cfg->his.colcount = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 9; /*column count=maxmedia+2*/ //Size increased from 6 to 9 if issaveexit =1
+#else
      cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
-
+#endif
      if(in==stdin)
      	fprintf(stdout,"Please specify the source type[pencil|cone|gaussian]:\n\t");
      if(fscanf(in,"%s", strtypestr)==1 && strtypestr[0]){
@@ -1320,7 +1323,13 @@ int mcx_loadjson(cJSON *root, Config *cfg){
      cfg->his.maxmedia=cfg->medianum-1; /*skip media 0*/
      cfg->his.detnum=cfg->detnum;
      cfg->his.srcnum=cfg->srcnum;
-     cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
+
+#ifdef SAVE_PHOTONLAUNCH
+	 cfg->his.colcount = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 9; /*column count=maxmedia+2*/ //Size increased from 6 to 9 if issaveexit =1
+#else
+	 cfg->his.colcount = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 6; /*column count=maxmedia+2*/
+#endif
+    
      return 0;
 }
 
