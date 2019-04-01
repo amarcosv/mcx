@@ -187,8 +187,7 @@ __device__ inline void savedetphoton(float n_det[], uint *detectedphoton, float 
 #else
 			baseaddr *= 2 + gcfg->maxmedia*(2 + gcfg->ismomentum) + (gcfg->issaveexit > 0) * 6;
 #endif // SAVE_PHOTONLAUNCH
-
-			
+						
 			n_det[baseaddr++] = detid;
 			for (i = 0; i < gcfg->maxmedia*(2 + gcfg->ismomentum); i++)
 				n_det[baseaddr++] = ppath[i]; ///< save partial pathlength to the memory
@@ -1644,11 +1643,11 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 	OutputType *gfield;
 	RandType *gseeddata = NULL;
 #ifdef SAVE_PHOTONLAUNCH
-	int detreclen = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 8;//############################ Array length increased from 6 to 9
+	int detreclen = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 9;// Array length increased from 6 to 9
 #else
-	int detreclen = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 6;//############################
+	int detreclen = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 6;
 #endif // SAVE_PHOTONLAUNCH
-
+	gsrcpattern = NULL; /*Initialize to avoid RunTime check error*/
 	unsigned int is2d = (cfg->dim.x == 1 ? 1 : (cfg->dim.y == 1 ? 2 : (cfg->dim.z == 1 ? 3 : 0)));
 	MCXParam param = { cfg->steps,minstep,0,0,cfg->tend,R_C0*cfg->unitinmm,
 					(uint)cfg->issave2pt,(uint)cfg->isreflect,(uint)cfg->isrefint,(uint)cfg->issavedet,1.f / cfg->tstep,

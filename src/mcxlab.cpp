@@ -224,7 +224,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 	    cfg.exportfield = (float*)calloc(fieldlen,sizeof(float));
 	}
 	if(nlhs>=2){
-	    cfg.exportdetected=(float*)malloc((2+(cfg.medianum-1)*(2+(cfg.ismomentum>0))+(cfg.issaveexit>0)*6)*cfg.maxdetphoton*sizeof(float));
+#ifdef SAVE_PHOTONLAUNCH	
+		cfg.exportdetected = (float*)malloc((2 + (cfg.medianum - 1)*(2 + (cfg.ismomentum > 0)) + (cfg.issaveexit > 0) * 9)*cfg.maxdetphoton * sizeof(float));
+#else
+		cfg.exportdetected = (float*)malloc((2 + (cfg.medianum - 1)*(2 + (cfg.ismomentum > 0)) + (cfg.issaveexit > 0) * 6)*cfg.maxdetphoton * sizeof(float));
+#endif	    
         }
         if(nlhs>=4){
 	    cfg.seeddata=malloc(cfg.maxdetphoton*sizeof(float)*RAND_WORD_LEN);
@@ -300,7 +304,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 	}
 	/** if the 2nd output presents, output the detected photon partialpath data */
 	if(nlhs>=2){
-            fielddim[0]=2+(cfg.medianum-1)*(2+(cfg.ismomentum>0))+(cfg.issaveexit>0)*6; fielddim[1]=cfg.detectedcount; 
+#ifdef SAVE_PHOTONLAUNCH	
+		fielddim[0] = 2 + (cfg.medianum - 1)*(2 + (cfg.ismomentum > 0)) + (cfg.issaveexit > 0) * 9; fielddim[1] = cfg.detectedcount;
+#else
+		fielddim[0] = 2 + (cfg.medianum - 1)*(2 + (cfg.ismomentum > 0)) + (cfg.issaveexit > 0) * 6; fielddim[1] = cfg.detectedcount;
+#endif            
             fielddim[2]=0; fielddim[3]=0;
             if(cfg.detectedcount>0){
                     mxSetFieldByNumber(plhs[1],jstruct,0, mxCreateNumericArray(2,fielddim,mxSINGLE_CLASS,mxREAL));
@@ -670,7 +678,7 @@ void mcx_set_field(const mxArray *root,const mxArray *item,int idx, Config *cfg)
 	     cfg->workload[i]=val[i];
         printf("mcx.workload=<<%d>>;\n",arraydim[0]*arraydim[1]);
     }else{
-        printf(S_RED"WARNING: redundant field '%s'\n"S_RESET,name);
+        printf(S_RED"WARNING: redundant field '%s'\n" S_RESET,name);
     }
     if(jsonshapes){
         Grid3D grid={&(cfg->vol),&(cfg->dim),{1.f,1.f,1.f},0};
@@ -836,14 +844,19 @@ void mcx_validate_config(Config *cfg){
         if(cfg->seed==SEED_FROM_FILE){
             if(cfg->respin>1 || cfg->respin<0){
 	       cfg->respin=1;
-	       fprintf(stderr,S_RED"WARNING: respin is disabled in the replay mode\n"S_RESET);
+	       fprintf(stderr,S_RED"WARNING: respin is disabled in the replay mode\n" S_RESET);
 	    }
         }
      }
      cfg->his.maxmedia=cfg->medianum-1; /*skip medium 0*/
      cfg->his.detnum=cfg->detnum;
      cfg->his.srcnum=cfg->srcnum;
-     cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
+#ifdef SAVE_PHOTONLAUNCH	
+	 cfg->his.colcount = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 9; /*column count=maxmedia+2*/
+#else
+	 cfg->his.colcount = 2 + (cfg->medianum - 1)*(2 + (cfg->ismomentum > 0)) + (cfg->issaveexit > 0) * 6; /*column count=maxmedia+2*/
+#endif
+    
      mcx_replay_prep(cfg);
 }
 

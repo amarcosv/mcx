@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <MATLAB_LIBS_LINK_PATH>C:\Program Files\MATLAB\R2019a\extern\lib\win64\microsoft</MATLAB_LIBS_LINK_PATH>
+    <MATLAB_INCLUDE_PATH>C:\Program Files\MATLAB\R2019a\extern\include</MATLAB_INCLUDE_PATH>
+    <MATLAB_MEX_LIBS>libmx.lib; libmex.lib; libmat.lib;</MATLAB_MEX_LIBS>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="MATLAB_LIBS_LINK_PATH">
+      <Value>$(MATLAB_LIBS_LINK_PATH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="MATLAB_INCLUDE_PATH">
+      <Value>$(MATLAB_INCLUDE_PATH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="MATLAB_MEX_LIBS">
+      <Value>$(MATLAB_MEX_LIBS)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

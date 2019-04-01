@@ -744,7 +744,8 @@ void mcx_prepdomain(char *filename, Config *cfg){
  * @param[in] in: file handle to the .inp file
  * @param[in] cfg: simulation configuration
  */
-
+#ifdef MULTI_SRC
+#endif
 void mcx_loadconfig(FILE *in, Config *cfg){
      uint i,gates,itmp;
      size_t count;
@@ -1156,7 +1157,9 @@ int mcx_loadjson(cJSON *root, Config *cfg){
      if(Optode){
         cJSON *dets, *src=FIND_JSON_OBJ("Source","Optode.Source",Optode);
         if(src){
-           subitem=FIND_JSON_OBJ("Pos","Optode.Source.Pos",src);
+			int nsources = cJSON_GetArraySize(src);
+			printf("Founded %d sources", nsources);
+           subitem=FIND_JSON_OBJ("Pos","Optode.Source.Pos",src);  
            if(subitem){
               cfg->srcpos.x=subitem->child->valuedouble;
               cfg->srcpos.y=subitem->child->next->valuedouble;
