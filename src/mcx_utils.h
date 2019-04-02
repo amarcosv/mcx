@@ -132,15 +132,8 @@ typedef struct MCXConfig{
 	size_t nphoton;               /**<total simulated photon number*/
         unsigned int nblocksize;      /**<thread block size*/
 	unsigned int nthread;         /**<num of total threads, multiple of 128*/
-	int seed;                     /**<random number generator seed*/
-#ifdef MULTI_SRC
-	float4 srcnum;					/** Number of sources to be simulated*/
-	float4* srcpos;                /**<src position in mm*/
-#else
+	int seed;                     /**<random number generator seed*/ 
 	float4 srcpos;                /**<src position in mm*/
-#endif
-	
-
 	float4 srcdir;                /**<src normal direction*/
 	float tstart;                 /**<start time in second*/
 	float tstep;                  /**<time step in second*/

@@ -744,8 +744,7 @@ void mcx_prepdomain(char *filename, Config *cfg){
  * @param[in] in: file handle to the .inp file
  * @param[in] cfg: simulation configuration
  */
-#ifdef MULTI_SRC
-#endif
+
 void mcx_loadconfig(FILE *in, Config *cfg){
      uint i,gates,itmp;
      size_t count;

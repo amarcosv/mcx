@@ -344,8 +344,16 @@ if(nargout>=2)
                 newdetp.mom=detp(2*medianum+2:3*medianum+1,:)'; % 3rd medianum block is the momentum transfer
             end
             if(isfield(cfg(i),'issaveexit') && cfg(i).issaveexit)
+                nfields=length(detp(:,1))-(1+3*medianum)-1;
+                if(nfields==6)
                 newdetp.p=detp(end-6:end-4,:)';             %columns 7-5 from the right store the exit positions*/
                 newdetp.v=detp(end-3:end-1,:)';	     %columns 4-2 from the right store the exit dirs*/
+                else
+                newdetp.p=detp(end-9:end-7,:)';             %columns 10-8 from the right store the exit positions*/
+                newdetp.v=detp(end-6:end-4,:)';	     %columns 7-5 from the right store the exit dirs*/
+                newdetp.p0=detp(end-3:end-1,:)';	     %columns 4-2 from the right store the launch positions*/
+                end
+                
             end
 	    newdetp.w0=detp(end,:)';  % last column is the initial packet weight
             newdetp.prop=cfg(i).prop;
