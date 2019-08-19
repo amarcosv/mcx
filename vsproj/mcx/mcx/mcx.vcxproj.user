@@ -13,7 +13,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SaveLaunch|x64'">
-    <LocalDebuggerCommandArguments>-A -f "D:\amarcos\code\mcx_custom\mcx\example\srctest\1benchmark-isotropic.json" -b 0  -d 1 -x 1 -s outputTest</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\x64\Debug_SaveLaunch\vesselTest.json -s spiral_out -H 1000000</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -367,7 +367,7 @@ copy "$(OutDir)$(TargetFileName)" "$(OutDir)..\..\..\..\mcxlab"
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;SAVE_DETECTORS;SAVE_PHOTONLAUNCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;SAVE_DETECTORS;SAVE_PHOTONLAUNCH;SRC_ISOPATTERN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -382,7 +382,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CodeGeneration>compute_30,sm_30;compute_70,sm_70;%(CodeGeneration)</CodeGeneration>
       <AdditionalCompilerOptions>/openmp</AdditionalCompilerOptions>
-      <Defines>USE_XORSHIFT128P_RAND;USE_ATOMIC;SAVE_DETECTORS;SAVE_PHOTONLAUNCH;USE_CACHEBOX;%(Defines)</Defines>
+      <Defines>USE_XORSHIFT128P_RAND;USE_ATOMIC;SAVE_DETECTORS;SAVE_PHOTONLAUNCH;SRC_ISOPATTERN;USE_CACHEBOX;%(Defines)</Defines>
       <FastMath>true</FastMath>
       <GPUDebugInfo>true</GPUDebugInfo>
       <GenerateLineInfo>true</GenerateLineInfo>

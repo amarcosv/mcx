@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MCXLAB - Monte Carlo eXtreme for MATLAB/Octave by Qianqina Fang
+%
+% In this example, we show the most basic usage of MCXLAB.
+%
+% This file is part of Monte Carlo eXtreme (MCX) URL:http://mcx.sf.net
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% clear cfg cfgs
+% cfg.nphoton=1e5;
+% cfg.unitinmm=0.1;
+% cfg.vol=uint8(ones(100,100,100));
+% cfg.srcpos=[75 50 50];
+% cfg.srcdir=[1/sqrt(3) 1/sqrt(3) 1/sqrt(3)];
+% cfg.srctype='isotropic';
+% cfg.gpuid=1;
+% % cfg.gpuid='11'; % use two GPUs together
+% cfg.autopilot=1;
+% cfg.prop=[0 0 1 1;0.005 10 0.9 1.37];
+% cfg.tstart=0;
+% cfg.tend=5e-9;
+% cfg.tstep=1e-10;
+% cfg.detpos=[50 50 0 70.7];
+% cfg.issaveexit=1;
+% cfg.isreflect=0;
+% % calculate the flux distribution with the given config
+% %flux=mcxlab(cfg);
+% 
+% 
+% 
+% % calculate the flux and partial path lengths for the two configurations
+% [fluxs,detps]=mcxlab(cfg);
+% 
+%  imagesc(squeeze(log(fluxs(1).data(:,30,:,1)))-squeeze(log(fluxs(2).data(:,30,:,1))));
+
+ 
+ 
+ clear cfg cfgs
+cfg.nphoton=1e6;
+cfg.unitinmm=0.1;
+cfg.vol=uint8(ones(100,100,100));
+
+cfg.srctype='line';
+cfg.srcpos=[0 0 50];
+cfg.srcparam1=[99 0 0 0];
+
+cfg.srcparam2=[99 0 0 0];
+cfg.srcdir=[0 1 0];
+cfg.gpuid=1;
+% cfg.gpuid='11'; % use two GPUs together
+cfg.autopilot=1;
+cfg.prop=[0 0 1 1;0.5 10 0.9 1.37];
+cfg.tstart=0;
+cfg.tend=5e-9;
+cfg.tstep=5e-9;
+%cfg.detpos=[50 50 0 70.7];
+cfg.issaveexit=0;
+cfg.isreflect=0;
+cfg.issrcfrom0=1;
+% calculate the flux distribution with the given config
+flux=mcxlab(cfg);
+
+fcw=flux.data*cfg.tstep;
+
+% calculate the flux and partial path lengths for the two configurations
+%[fcw]=mcxlab(cfg);
+ 
+ 
+ figure;
+
+imagesc(log10(abs(squeeze(fcw(50,:,:)))))
+axis equal; colorbar
+title('pencil beam at volume center');
+
+xAxis=linspace(0,99,100);%.*cfg.unitinmm;
+yAxis=linspace(0,99,100);%.*cfg.unitinmm;
+zAxis=linspace(0,99,100);%.*cfg.unitinmm;
+[Y,X,Z]=meshgrid(yAxis,xAxis,zAxis);
+
+figure,
+ hs=slice(Y,X,Z,log10(abs(fcw)),[],[50],[0,50]);
+   set(hs,'linestyle','none');
+axis equal;
+xlabel('x (mm)');
+ylabel('y (mm)');
+zlabel('z (mm)');

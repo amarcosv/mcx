@@ -168,6 +168,7 @@ __device__ inline uint finddetector(MCXpos *p0) {
  * @param[in] v: the direction vector of the current photon packet
  * @param[in] t: random number generator (RNG) states
  * @param[in] seeddata: the RNG seed of the photon at launch, need to save for replay
+ * @param[in] p1: the intial launching position of the current photon packet
  */
 #ifdef SAVE_PHOTONLAUNCH
 __device__ inline void savedetphoton(float n_det[], uint *detectedphoton, float *ppath, MCXpos *p0, MCXdir *v, RandType t[RAND_BUF_LEN], RandType *seeddata, MCXpos *pl) {
@@ -183,11 +184,11 @@ __device__ inline void savedetphoton(float n_det[], uint *detectedphoton, float 
 			for (i = 0; i < gcfg->issaveseed*RAND_BUF_LEN; i++)
 				seeddata[baseaddr*RAND_BUF_LEN + i] = t[i]; ///< save photon seed for replay
 #ifdef SAVE_PHOTONLAUNCH
-			baseaddr *= 2 + gcfg->maxmedia*(2 + gcfg->ismomentum) + (gcfg->issaveexit > 0) * 9;//##################################################   Length increased by 3 positions
+			baseaddr *= 2 + gcfg->maxmedia*(2 + gcfg->ismomentum) + (gcfg->issaveexit > 0) * 9;//  Length increased by 3 positions to store photon launching postion
 #else
 			baseaddr *= 2 + gcfg->maxmedia*(2 + gcfg->ismomentum) + (gcfg->issaveexit > 0) * 6;
 #endif // SAVE_PHOTONLAUNCH
-						
+
 			n_det[baseaddr++] = detid;
 			for (i = 0; i < gcfg->maxmedia*(2 + gcfg->ismomentum); i++)
 				n_det[baseaddr++] = ppath[i]; ///< save partial pathlength to the memory
@@ -198,7 +199,7 @@ __device__ inline void savedetphoton(float n_det[], uint *detectedphoton, float 
 				baseaddr += 3;
 
 #ifdef SAVE_PHOTONLAUNCH
-				// Here we have to insert our 3 positions
+				// Here we have to insert our 3 fields
 				*((float3*)(n_det + baseaddr)) = float3(pl->x, pl->y, pl->z);
 				baseaddr += 3;
 #endif // SAVE_PHOTONLAUNCH
@@ -643,7 +644,7 @@ __device__ inline int launchnewphoton(MCXpos *p, MCXdir *v, MCXtime *f, float3* 
 #else
 				savedetphoton(n_det, dpnum, ppath, p, v, photonseed, seeddata);
 #endif
-				
+
 			clearpath(ppath, gcfg->maxmedia*(2 + gcfg->ismomentum));
 		}
 #endif
@@ -704,6 +705,28 @@ __device__ inline int launchnewphoton(MCXpos *p, MCXdir *v, MCXtime *f, float3* 
 		 * Only one branch is taken because of template, this can reduce thread divergence
 		 */
 		switch (mcxsource) {
+#ifdef SRC_ISOPATTERN
+		case(MCX_SRC_ISOPATTERN):{
+			int launch_id = __float2int_rn(rand_uniform01(t)*(gcfg->srcparam1.x-1));
+			//srcparam1 contains the number of fluorophores. 
+			//src vector is [x0 x1 ... xn, y0 y1 ... yn, z0 z1 ... zn] where n is the number of point sources.
+			*((float4*)p) = float4(p->x + srcpattern[launch_id],
+				p->y + srcpattern[launch_id + (int)gcfg->srcparam1.x],
+				p->z + srcpattern[launch_id + 2 * (int)gcfg->srcparam1.x],
+				1.0f);
+			// Uniform point picking on a sphere 
+			// http://mathworld.wolfram.com/SpherePointPicking.html
+			float ang, stheta, ctheta, sphi, cphi;
+			ang = TWO_PI * rand_uniform01(t); //next arimuth angle
+			sincosf(ang, &sphi, &cphi);	
+			ang = acosf(2.f*rand_uniform01(t) - 1.f); //sine distribution	
+			sincosf(ang, &stheta, &ctheta);
+			rotatevector(v, stheta, ctheta, sphi, cphi);
+			canfocus = 0;
+			//printf("ISO Launch [%f %f %f %f]\n", p->x, p->y, p->z, p->w);
+			break;
+		}
+#endif
 		case(MCX_SRC_PLANAR):
 		case(MCX_SRC_PATTERN):
 		case(MCX_SRC_PATTERN3D):
@@ -1328,11 +1351,11 @@ kernel void mcx_main_loop(uint media[], OutputType field[], float genergy[], uin
 						GPUDEBUG(("atomic write to [%d] %e, w=%f\n", idx1dold, weight, p.w));
 					}
 #endif
-				}
-			}
+		}
+	}
 			w0 = p.w;
 			f.pathlen = 0.f;
-		}
+}
 
 		/** launch new photon when exceed time window or moving from non-zero voxel to zero voxel without reflection */
 		if ((mediaid == 0 && (((isdet & 0xF) == 0 && (!gcfg->doreflect || (gcfg->doreflect && n1 == gproperty[0].w))) || (isdet == bcAbsorb || isdet == bcCylic))) || f.t > gcfg->twin1) {
@@ -1351,13 +1374,13 @@ kernel void mcx_main_loop(uint media[], OutputType field[], float genergy[], uin
 #ifdef SAVE_PHOTONLAUNCH
 			if (launchnewphoton<mcxsource>(&p, &pl, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
 				n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN * sizeof(RandType)),
-				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress)) 
+				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
 #else
 			if (launchnewphoton<mcxsource>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
 				n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN * sizeof(RandType)),
-				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))				
+				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
 #endif
-			break;
+				break;
 			isdet = mediaid & DET_MASK;
 			mediaid &= MED_MASK;
 			continue;
@@ -1893,6 +1916,11 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 		CUDA_ASSERT(cudaMalloc((void **)&gsrcpattern, sizeof(float)*(int)(cfg->srcparam1.w*cfg->srcparam2.w*cfg->srcnum)));
 	else if (cfg->srctype == MCX_SRC_PATTERN3D)
 		CUDA_ASSERT(cudaMalloc((void **)&gsrcpattern, sizeof(float)*(int)(cfg->srcparam1.x*cfg->srcparam1.y*cfg->srcparam1.z*cfg->srcnum)));
+#ifdef SRC_ISOPATTERN
+	else if (cfg->srctype == MCX_SRC_ISOPATTERN)
+		CUDA_ASSERT(cudaMalloc((void **)&gsrcpattern, sizeof(float)*(3 * cfg->srcparam1.x)));
+#endif
+#
 
 #ifndef SAVE_DETECTORS
 #pragma omp master
@@ -1948,7 +1976,7 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 #endif
 		MCX_FPRINTF(cfg->flog, "- compiled with: RNG [%s] with Seed Length [%d]\n", MCX_RNG_NAME, (int)((sizeof(RandType)*RAND_BUF_LEN) >> 2));
 		fflush(cfg->flog);
-}
+	}
 #pragma omp barrier
 
 	MCX_FPRINTF(cfg->flog, "\nGPU=%d (%s) threadph=%d extra=%d np=%ld nthread=%d maxgate=%d repetition=%d\n", gpuid + 1, gpu[gpuid].name, param.threadphoton, param.oddphotons,
@@ -1965,6 +1993,10 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 			CUDA_ASSERT(cudaMemcpy(gsrcpattern, cfg->srcpattern, sizeof(float)*(int)(cfg->srcparam1.w*cfg->srcparam2.w*cfg->srcnum), cudaMemcpyHostToDevice));
 		else if (cfg->srctype == MCX_SRC_PATTERN3D)
 			CUDA_ASSERT(cudaMemcpy(gsrcpattern, cfg->srcpattern, sizeof(float)*(int)(cfg->srcparam1.x*cfg->srcparam1.y*cfg->srcparam1.z*cfg->srcnum), cudaMemcpyHostToDevice));
+#ifdef SRC_ISOPATTERN
+		else if (cfg->srctype == MCX_SRC_ISOPATTERN)
+			CUDA_ASSERT(cudaMemcpy(gsrcpattern, cfg->srcpattern, sizeof(float)*(3 * cfg->srcparam1.x), cudaMemcpyHostToDevice));
+#endif
 
 
 	CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->prop, cfg->medianum * sizeof(Medium), 0, cudaMemcpyHostToDevice));
@@ -2025,7 +2057,7 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 			{
 				if (cfg->debuglevel & MCX_DEBUG_PROGRESS)
 					CUDA_ASSERT(cudaEventCreate(&updateprogress));
-			}
+		}
 #endif
 			MCX_FPRINTF(cfg->flog, "simulation run#%2d ... \n", iter + 1); fflush(cfg->flog);
 			mcx_flush(cfg);
@@ -2047,6 +2079,9 @@ void mcx_run_simulation(Config *cfg, GPUInfo *gpu) {
 			case(MCX_SRC_SLIT): mcx_main_loop<MCX_SRC_SLIT> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
 			case(MCX_SRC_PENCILARRAY): mcx_main_loop<MCX_SRC_PENCILARRAY> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
 			case(MCX_SRC_PATTERN3D): mcx_main_loop<MCX_SRC_PATTERN3D> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+#ifdef SRC_ISOPATTERN
+			case(MCX_SRC_ISOPATTERN): mcx_main_loop<MCX_SRC_ISOPATTERN> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+#endif
 			}
 
 #pragma omp master
@@ -2156,7 +2191,7 @@ is more than what your have specified (%d), please use the -H option to specify 
 						field[fieldlen + i] += field[i];
 				}
 			}
-			} /*end of respin loop*/
+	} /*end of respin loop*/
 
 #pragma omp critical
 		if (cfg->runtime < toc)
@@ -2188,7 +2223,7 @@ is more than what your have specified (%d), please use the -H option to specify 
 		if (param.twin1 < cfg->tend) {
 			CUDA_ASSERT(cudaMemset(genergy, 0, sizeof(float)*(gpu[gpuid].autothread << 1)));
 		}
-		} /*end of time-gate group loop*/
+} /*end of time-gate group loop*/
 #pragma omp barrier
 
 	 /*let the master thread to deal with the normalization and file IO*/

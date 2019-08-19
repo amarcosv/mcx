@@ -1,19 +1,371 @@
 ﻿  
-  D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G -lineinfo  --keep-dir x64\Debug_SaveLaunch -maxrregcount=0  --machine 64 --compile     -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od  /FS /Zi /RTC1 /MDd " -o x64\Debug_SaveLaunch\mcx_core.cu.obj "D:\amarcos\code\mcx_custom\mcx\src\mcx_core.cu" -clean 
+  D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G -lineinfo  --keep-dir x64\Debug_SaveLaunch -maxrregcount=0  --machine 64 --compile     -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DSRC_ISOPATTERN -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DSRC_ISOPATTERN -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od  /FS /Zi /RTC1 /MDd " -o x64\Debug_SaveLaunch\mcx_core.cu.obj "D:\amarcos\code\mcx_custom\mcx\src\mcx_core.cu" -clean 
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   mcx_core.cu
   Compiling CUDA source file ..\..\..\src\mcx_core.cu...
   
-  D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G -lineinfo  --keep-dir x64\Debug_SaveLaunch -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_SaveLaunch\vc141.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_SaveLaunch\mcx_core.cu.obj "D:\amarcos\code\mcx_custom\mcx\src\mcx_core.cu" 
+  D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G -lineinfo  --keep-dir x64\Debug_SaveLaunch -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DSRC_ISOPATTERN -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_PHOTONLAUNCH -DSRC_ISOPATTERN -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Fdx64\Debug_SaveLaunch\vc141.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_SaveLaunch\mcx_core.cu.obj "D:\amarcos\code\mcx_custom\mcx\src\mcx_core.cu" 
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : ptxas warning : Conflicting options --device-debug and --generate-line-info specified, ignoring --generate-line-info option
 CUDACOMPILE : nvcc warning : '--device-debug (-G)' overrides '--generate-line-info (-lineinfo)'
   mcx_core.cu
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1626): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1696): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1697): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1769): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1781): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1787): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1788): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1791): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1791): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1792): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1792): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1832): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1832): note: consider using '%zu' in the format string
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1918): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1938): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1955): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1979): warning C4477: 'fprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 5 has type 'size_t'
+  D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1979): note: consider using '%zd' in the format string
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(1995): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2238): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2241): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2260): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2266): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2302): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2316): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:/amarcos/code/mcx_custom/mcx/src/mcx_core.cu(2326): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
   cJSON.c
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(126): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(133): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(134): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(135): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(168): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(175): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(230): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(347): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(369): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(437): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(458): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
+d:\amarcos\code\mcx_custom\mcx\src\cjson\cjson.c(460): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
   mcextreme.c
   mcx_shapes.c
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(58): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(60): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(64): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(76): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(124): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(152): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(178): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(179): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(180): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(182): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(202): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(203): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(204): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(212): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(227): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(229): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(231): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(206): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(214): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(255): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(256): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(257): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(279): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(281): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(283): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(259): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(268): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(306): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(307): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(308): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(315): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(316): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(317): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(330): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(333): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(336): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(310): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(319): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(360): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(361): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(362): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(370): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(371): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(372): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(380): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(389): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(404): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(406): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(408): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(364): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(374): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(382): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(391): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(458): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(459): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(485): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(486): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(491): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(493): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(498): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(499): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(438): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(455): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(468): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(543): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(548): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(565): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(566): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(571): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(573): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(578): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(579): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(523): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(539): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(546): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(553): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(600): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(601): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(602): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(603): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(615): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(617): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(619): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(605): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(643): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(644): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(645): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_shapes.c(654): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
   mcx_utils.c
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(246): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(338): warning C4267: '=': conversion from 'size_t' to 'short', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(361): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(365): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(371): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(373): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(391): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(393): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(421): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(423): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(429): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(430): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(458): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(460): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(462): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(465): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(575): warning C4013: 'mkdir' undefined; assuming extern returning int
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(607): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(616): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(654): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(677): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(737): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(770): warning C4477: 'fscanf' : format string '%ld' requires an argument of type 'long *', but variadic argument 1 has type 'size_t *'
+  d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(770): note: consider using '%zd' in the format string
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(774): warning C4477: 'fprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 1 has type 'size_t'
+  d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(774): note: consider using '%zd' in the format string
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(962): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(967): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(979): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(770): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(776): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(779): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(784): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(786): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(795): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(797): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(803): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(818): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(821): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(825): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(831): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(837): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(843): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(880): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(894): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(907): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(920): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(926): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(943): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(952): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(956): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(963): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(964): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(975): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(976): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1027): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1034): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1036): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1038): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1040): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1042): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1048): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1068): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1069): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1070): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1099): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1115): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1131): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1190): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1191): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1196): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1197): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1198): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1200): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1208): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1210): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1212): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1214): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1220): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1222): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1224): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1226): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1243): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1246): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1272): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1273): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1288): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1295): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1296): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1297): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1300): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1316): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1343): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1344): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1345): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1014): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1017): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1023): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1251): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1267): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1317): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1318): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1335): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1396): warning C4477: 'fprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 1 has type 'size_t'
+  d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1396): note: consider using '%zd' in the format string
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1450): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1436): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1513): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1519): warning C4018: '<': signed/unsigned mismatch
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1482): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1664): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1666): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1699): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1745): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1769): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1747): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1751): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: see declaration of 'strtok'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1759): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: see declaration of 'strtok'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1767): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: see declaration of 'strtok'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1770): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(440): note: see declaration of 'strtok'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(1878): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: see declaration of 'strncpy'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(2023): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(2024): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(2126): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(2263): note: see declaration of 'sscanf'
+d:\amarcos\code\mcx_custom\mcx\src\mcx_utils.c(2138): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   tictoc.c
   Generating Code...
   mcx.vcxproj -> D:\amarcos\code\mcx_custom\mcx\vsproj\mcx\x64\Debug_SaveLaunch\mcx.exe
