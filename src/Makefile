@@ -153,12 +153,18 @@ logfermi:   log
 xorfermi xorofermi posixfermi logfermi debugxor debuglog:   LINKOPT+=$(OMP)
 xorfermi:    fermi
 xorfermi:     CUCCOPT+=-DUSE_XORSHIFT128P_RAND
+
+half: fermi
 half: CUCCOPT+=-DUSE_HALF
 half: CUGENCODE=-arch=sm_60
 
 double: fermi
 double: CUCCOPT+=-DUSE_DOUBLE
 double: CUGENCODE=-arch=sm_60
+
+moredouble: fermi
+moredouble: CUCCOPT+=-DUSE_MORE_DOUBLE
+moredouble: CUGENCODE=-arch=sm_60
 
 static:     fermi
 static:     AR=nvcc
@@ -192,6 +198,23 @@ doc: makedocdir
 	$(DOXY) $(DOXYCFG)
 
 OBJS      := $(addsuffix $(OBJSUFFIX), $(FILES))
+
+TARGETSUFFIX:=$(suffix $(BINARY))
+
+ifeq ($(TARGETSUFFIX),.so)
+        CPPOPT+= $(DLLFLAG) 
+	CUCCOPT+= -Xcompiler $(DLLFLAG) 
+        LINKOPT+= -shared -Wl,-soname,$(BINARY).1 
+endif
+
+ifeq ($(TARGETSUFFIX),.a)
+        CCFLAGS+=
+        AR         := ar  
+        ARFLAGS    := cr
+        AROUTPUT   :=
+        EXTRALIB   :=
+        OPENMPLIB  :=
+endif
 
 all xor xoro posix fast log debugxor debuglog half xorfermi xorofermi posixfermi logfermi\
  fermi mex oct fermimex fermioct: cudasdk $(OUTPUT_DIR)/$(BINARY)

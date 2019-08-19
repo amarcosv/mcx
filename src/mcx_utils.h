@@ -87,7 +87,8 @@ typedef struct MCXHistoryHeader{
         float normalizer;              /**< what is the normalization factor */
 	int respin;                    /**< if positive, repeat count so total photon=totalphoton*respin; if negative, total number is processed in respin subset */
 	unsigned int  srcnum;          /**< number of sources for simultaneous pattern sources */
-	int reserved[3];               /**< reserved fields for future extension */
+	unsigned int  savedetflag;     /**< number of sources for simultaneous pattern sources */
+	int reserved[2];               /**< reserved fields for future extension */
 } History;
 
 /**
@@ -176,6 +177,7 @@ typedef struct MCXConfig{
 	char issaveexit;             /**<1 save the exit position and dir of a detected photon, 0 do not save*/
 	char issaveref;              /**<1 save diffuse reflectance at the boundary voxels, 0 do not save*/
         char ismomentum;             /**<1 to save momentum transfer for detected photons, implies issavedet=1*/
+        char internalsrc;            /*1 all photons launch positions are inside non-zero voxels, 0 let mcx search entry point*/
 	char srctype;                /**<0:pencil,1:isotropic,2:cone,3:gaussian,4:planar,5:pattern,\
                                          6:fourier,7:arcsine,8:disk,9:fourierx,10:fourierx2d,11:zgaussian,12:line,13:slit*/
         char outputtype;             /**<'X' output is flux, 'F' output is fluence, 'E' energy deposit*/
@@ -201,6 +203,7 @@ typedef struct MCXConfig{
         int replaydet;               /**<the detector id for which to replay the detected photons, start from 1*/
         char seedfile[MAX_PATH_LENGTH];/**<if the seed is specified as a file (mch), mcx will replay the photons*/
         unsigned int debuglevel;     /**<a flag to control the printing of the debug information*/
+        unsigned int savedetflag;    /**<a flag to control the output fields of detected photon data*/
         char deviceid[MAX_DEVICE];   /**<a 0-1 mask for all the GPUs, a mask of 1 means this GPU will be used*/
         float workload[MAX_DEVICE];  /**<an array storing the relative weight when distributing photons between multiple GPUs*/
         int parentid;                /**<flag for testing if mcx is executed inside matlab*/
@@ -254,6 +257,8 @@ void mcx_cleargpuinfo(GPUInfo **gpuinfo);
 int  mcx_isbinstr(const char * str);
 void mcx_progressbar(float percent, Config *cfg);
 void mcx_flush(Config *cfg);
+int  mcx_run_from_json(char *jsonstr);
+float mcx_updatemua(unsigned int mediaid, Config *cfg);
 
 #ifdef MCX_CONTAINER
 #ifdef __cplusplus

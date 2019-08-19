@@ -38,6 +38,7 @@
 #include "mcx_utils.h"
 #include "mcx_const.h"
 #include "mcx_shapes.h"
+#include "mcx_core.h"
 
 /**
  * Macro to load JSON keys
@@ -77,7 +78,7 @@
 
 const char shortopt[]={'h','i','f','n','t','T','s','a','g','b','-','z','u','H','P',
                  'd','r','S','p','e','U','R','l','L','-','I','-','G','M','A','E','v','D',
-		 'k','q','Y','O','F','-','-','x','X','-','-','m','V','B','W','\0'};
+		 'k','q','Y','O','F','-','-','x','X','-','K','m','V','B','W','w','-','\0'};
 
 /**
  * Long command line options
@@ -94,7 +95,7 @@ const char *fullopt[]={"--help","--interactive","--input","--photon",
 		 "--seed","--version","--debug","--voidtime","--saveseed",
 		 "--replaydet","--outputtype","--outputformat","--maxjumpdebug",
                  "--maxvoidstep","--saveexit","--saveref","--gscatter","--mediabyte",
-                 "--momentum","--specular","--bc","--workload",""};
+                 "--momentum","--specular","--bc","--workload","--savedetflag","--internalsrc",""};
 
 /**
  * Output data types
@@ -115,6 +116,19 @@ const char outputtype[]={'x','f','e','j','p','m','\0'};
  */
 
 const char debugflag[]={'R','M','P','\0'};
+
+/**
+ * Recorded fields for detected photons
+ * D: detector ID (starting from 1) [1]
+ * S: partial scattering event count [#media]
+ * P: partial path lengths [#media]
+ * M: momentum transfer [#media]
+ * X: exit position [3]
+ * V: exit direction vector [3]
+ * W: initial weight [1]
+ */
+
+const char saveflag[]={'D','S','P','M','X','V','W','\0'};
 
 /**
  * Output file format
@@ -145,6 +159,16 @@ const char boundarycond[]={'_','r','a','m','c','\0'};
 const char *srctypeid[]={"pencil","isotropic","cone","gaussian","planar",
     "pattern","fourier","arcsine","disk","fourierx","fourierx2d","zgaussian",
     "line","slit","pencilarray","pattern3d",""};
+
+
+/**
+ * Media byte format
+ * User can specify the source type using a string
+ */
+
+const unsigned int mediaformatid[]={1,2,4,100,101,102,103,104,0};
+const char *mediaformat[]={"byte","short","integer","muamus_float","mua_float","muamus_half","asgn_byte","muamus_short",""};
+
 
 /**
  * Flag to decide if parameter has been initialized over command line
@@ -214,6 +238,8 @@ void mcx_initcfg(Config *cfg){
      cfg->his.normalizer=1.f;
      cfg->his.respin=1;
      cfg->his.srcnum=1;
+     cfg->savedetflag=0x5;
+     cfg->his.savedetflag=cfg->savedetflag;
      cfg->shapedata=NULL;
      cfg->seeddata=NULL;
      cfg->maxvoidstep=1000;
@@ -224,6 +250,7 @@ void mcx_initcfg(Config *cfg){
      cfg->issaveseed=0;
      cfg->issaveexit=0;
      cfg->ismomentum=0;
+     cfg->internalsrc=0;
      cfg->replay.seed=NULL;
      cfg->replay.weight=NULL;
      cfg->replay.tof=NULL;
@@ -299,6 +326,8 @@ void mcx_clearcfg(Config *cfg){
         free(cfg->exportfield);
      if(cfg->exportdetected)
         free(cfg->exportdetected);
+     if(cfg->exportdebugdata)
+        free(cfg->exportdebugdata);
      if(cfg->seeddata)
         free(cfg->seeddata);
 
@@ -510,6 +539,38 @@ void mcx_normalize(float field[], float scale, int fieldlen, int option, int pid
      float kahant=*sum+kahany;
      *kahanc=kahant-*sum-kahany;
      *sum=kahant;
+ }
+
+ /**
+ * @brief Retrieve mua for different cfg.vol formats to convert fluence back to energy in post-processing 
+ *
+ * @param[out] output: medium absorption coefficient for the current voxel
+ * @param[in] mediaid: medium index of the current voxel
+ * @param[in] cfg: simulation configuration
+ */
+ 
+ float mcx_updatemua(unsigned int mediaid, Config *cfg){
+     float mua;
+     if(cfg->mediabyte<=4)
+         mua=cfg->prop[mediaid & MED_MASK].mua;
+     else if(cfg->mediabyte==MEDIA_MUA_FLOAT)
+         mua=fabs(*((float *)&mediaid));
+     else if(cfg->mediabyte==MEDIA_ASGN_BYTE){
+         union {
+            unsigned i;
+            unsigned char h[4];
+        } val;
+        val.i=mediaid & MED_MASK;
+        mua=val.h[0]*(1.f/255.f)*(cfg->prop[2].mua-cfg->prop[1].mua)+cfg->prop[1].mua;
+     }else if(cfg->mediabyte==MEDIA_AS_SHORT){
+         union {
+            unsigned int i;
+            unsigned short h[2];
+         } val;
+        val.i=mediaid & MED_MASK;
+        mua=val.h[0]*(1.f/65535.f)*(cfg->prop[2].mua-cfg->prop[1].mua)+cfg->prop[1].mua;
+     }
+     return mua;
  }
 
 /**
@@ -734,6 +795,35 @@ void mcx_prepdomain(char *filename, Config *cfg){
      for(int i=0;i<6;i++)
         if(cfg->bc[i]>='A' && mcx_lookupindex(cfg->bc+i,boundarycond))
 	   MCX_ERROR(-4,"unknown boundary condition specifier");
+
+     if((cfg->mediabyte==MEDIA_AS_F2H || cfg->mediabyte==MEDIA_MUA_FLOAT || cfg->mediabyte==MEDIA_AS_HALF) && cfg->medianum<2)
+         MCX_ERROR(-4,"the 'prop' field must contain at least 2 rows for the requested media format");
+     if((cfg->mediabyte==MEDIA_ASGN_BYTE || cfg->mediabyte==MEDIA_AS_SHORT) && cfg->medianum<3)
+         MCX_ERROR(-4,"the 'prop' field must contain at least 3 rows for the requested media format");
+
+     if(cfg->ismomentum)
+         cfg->savedetflag=SET_SAVE_MOM(cfg->savedetflag);
+     if(cfg->issaveexit){
+         cfg->savedetflag=SET_SAVE_PEXIT(cfg->savedetflag);
+	 cfg->savedetflag=SET_SAVE_VEXIT(cfg->savedetflag);
+     }
+     if(cfg->issavedet && cfg->savedetflag==0)
+         cfg->savedetflag=0x5;
+     if(cfg->mediabyte>=100){
+	 cfg->savedetflag=UNSET_SAVE_NSCAT(cfg->savedetflag);
+	 cfg->savedetflag=UNSET_SAVE_PPATH(cfg->savedetflag);
+	 cfg->savedetflag=UNSET_SAVE_MOM(cfg->savedetflag);
+     }
+     if(cfg->issaveref>1){
+        if(cfg->issavedet==0)
+	    MCX_ERROR(-4,"you must have at least two outputs if issaveref is greater than 1");
+
+        if(cfg->dim.x*cfg->dim.y*cfg->dim.z > cfg->maxdetphoton){
+	    MCX_FPRINTF(cfg->flog,"you must set --maxdetphoton larger than the total size of the voxels when --issaveref is greater than 1; autocorrecting ...\n");
+	    cfg->maxdetphoton=cfg->dim.x*cfg->dim.y*cfg->dim.z;
+        }
+	cfg->savedetflag=0x5;
+     }
 }
 
 /**
@@ -916,7 +1006,8 @@ void mcx_loadconfig(FILE *in, Config *cfg){
      cfg->his.maxmedia=cfg->medianum-1; /*skip media 0*/
      cfg->his.detnum=cfg->detnum;
      cfg->his.srcnum=cfg->srcnum;
-     cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
+     cfg->his.savedetflag=cfg->savedetflag;
+     //cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
 
      if(in==stdin)
      	fprintf(stdout,"Please specify the source type[pencil|cone|gaussian]:\n\t");
@@ -998,6 +1089,13 @@ int mcx_loadjson(cJSON *root, Config *cfg){
           }else{
 	     strncpy(filename,volfile,MAX_PATH_LENGTH);
 	  }
+	}
+	val=FIND_JSON_OBJ("MediaFormat","Domain.MediaFormat",Domain);
+	if(val){
+            cfg->mediabyte=mcx_keylookup((char*)FIND_JSON_KEY("MediaFormat","Domain.MediaFormat",Domain,"byte",valuestring),mediaformat);
+	    if(cfg->mediabyte==-1)
+	       MCX_ERROR(-1,"Unsupported media format.");
+	    cfg->mediabyte=mediaformatid[cfg->mediabyte];
 	}
         if(!flagset['u'])
 	    cfg->unitinmm=FIND_JSON_KEY("LengthUnit","Domain.LengthUnit",Domain,1.f,valuedouble);
@@ -1270,12 +1368,14 @@ int mcx_loadjson(cJSON *root, Config *cfg){
         if(!flagset['S'])  cfg->issave2pt=FIND_JSON_KEY("DoSaveVolume","Session.DoSaveVolume",Session,cfg->issave2pt,valueint);
         if(!flagset['U'])  cfg->isnormalized=FIND_JSON_KEY("DoNormalize","Session.DoNormalize",Session,cfg->isnormalized,valueint);
         if(!flagset['d'])  cfg->issavedet=FIND_JSON_KEY("DoPartialPath","Session.DoPartialPath",Session,cfg->issavedet,valueint);
-        if(!flagset['X'])  cfg->issaveexit=FIND_JSON_KEY("DoSaveExit","Session.DoSaveExit",Session,cfg->issaveexit,valueint);
+        if(!flagset['X'])  cfg->issaveref=FIND_JSON_KEY("DoSaveRef","Session.DoSaveRef",Session,cfg->issaveref,valueint);
+        if(!flagset['x'])  cfg->issaveexit=FIND_JSON_KEY("DoSaveExit","Session.DoSaveExit",Session,cfg->issaveexit,valueint);
         if(!flagset['q'])  cfg->issaveseed=FIND_JSON_KEY("DoSaveSeed","Session.DoSaveSeed",Session,cfg->issaveseed,valueint);
         if(!flagset['A'])  cfg->autopilot=FIND_JSON_KEY("DoAutoThread","Session.DoAutoThread",Session,cfg->autopilot,valueint);
 	if(!flagset['m'])  cfg->ismomentum=FIND_JSON_KEY("DoDCS","Session.DoDCS",Session,cfg->ismomentum,valueint);
 	if(!flagset['V'])  cfg->isspecular=FIND_JSON_KEY("DoSpecular","Session.DoSpecular",Session,cfg->isspecular,valueint);
-	if(!flagset['D'])  cfg->debuglevel=mcx_parsedebugopt(FIND_JSON_KEY("Debug","Session.Debug",Session,"",valuestring),debugflag);
+	if(!flagset['D'])  cfg->debuglevel=mcx_parsedebugopt(FIND_JSON_KEY("DebugFlag","Session.DebugFlag",Session,"",valuestring),debugflag);
+	cfg->savedetflag=mcx_parsedebugopt(FIND_JSON_KEY("SaveDataMask","Session.SaveDataMask",Session,"",valuestring),saveflag);
 
         if(!cfg->outputformat)  cfg->outputformat=mcx_keylookup((char *)FIND_JSON_KEY("OutputFormat","Session.OutputFormat",Session,"mc2",valuestring),outputformat);
         if(cfg->outputformat<0)
@@ -1320,7 +1420,8 @@ int mcx_loadjson(cJSON *root, Config *cfg){
      cfg->his.maxmedia=cfg->medianum-1; /*skip media 0*/
      cfg->his.detnum=cfg->detnum;
      cfg->his.srcnum=cfg->srcnum;
-     cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
+     cfg->his.savedetflag=cfg->savedetflag;
+     //cfg->his.colcount=2+(cfg->medianum-1)*(2+(cfg->ismomentum>0))+(cfg->issaveexit>0)*6; /*column count=maxmedia+2*/
      return 0;
 }
 
@@ -1384,11 +1485,13 @@ void mcx_loadvolume(char *filename,Config *cfg){
      }
      datalen=cfg->dim.x*cfg->dim.y*cfg->dim.z;
      cfg->vol=(unsigned int*)malloc(sizeof(unsigned int)*datalen);
-     if(cfg->mediabyte==4)
+     if(cfg->mediabyte==MEDIA_AS_F2H)
+         inputvol=(unsigned char*)malloc(sizeof(unsigned char)*(datalen<<3));
+     else if(cfg->mediabyte>=4)
          inputvol=(unsigned char*)(cfg->vol);
      else
          inputvol=(unsigned char*)malloc(sizeof(unsigned char)*cfg->mediabyte*datalen);
-     res=fread(inputvol,sizeof(unsigned char)*cfg->mediabyte,datalen,fp);
+     res=fread(inputvol,sizeof(unsigned char)*(cfg->mediabyte==MEDIA_AS_F2H? 8 : MIN(cfg->mediabyte,4)),datalen,fp);
      fclose(fp);
      if(res!=datalen){
      	 mcx_error(-6,"file size does not match specified dimensions",__FILE__,__LINE__);
@@ -1401,12 +1504,49 @@ void mcx_loadvolume(char *filename,Config *cfg){
        unsigned short *val=(unsigned short *)inputvol;
        for(i=0;i<datalen;i++)
          cfg->vol[i]=val[i];
+     }else if(cfg->mediabyte==MEDIA_MUA_FLOAT){
+       union{
+           float f;
+	   uint  i;
+       } f2i;
+       float *val=(float *)inputvol;
+       for(i=0;i<datalen;i++){
+         f2i.f=val[i]*cfg->unitinmm;
+         cfg->vol[i]=f2i.i;
+       }
+     }else if(cfg->mediabyte==MEDIA_AS_F2H){
+        float *val=(float *)inputvol;
+	union{
+	    float f[2];
+	    unsigned int i[2];
+	    unsigned short h[2];
+	} f2h;
+	unsigned short tmp;
+        for(i=0;i<datalen;i++){
+	    f2h.f[0]=val[i<<1]*cfg->unitinmm;
+	    f2h.f[1]=val[(i<<1)+1]*cfg->unitinmm;
+
+	    f2h.h[0] = (f2h.i[0] >> 31) << 5;
+	    tmp = (f2h.i[0] >> 23) & 0xff;
+	    tmp = (tmp - 0x70) & ((unsigned int)((int)(0x70 - tmp) >> 4) >> 27);
+	    f2h.h[0] = (f2h.h[0] | tmp) << 10;
+	    f2h.h[0] |= (f2h.i[0] >> 13) & 0x3ff;
+
+	    f2h.h[1] = (f2h.i[1] >> 31) << 5;
+	    tmp = (f2h.i[1] >> 23) & 0xff;
+	    tmp = (tmp - 0x70) & ((unsigned int)((int)(0x70 - tmp) >> 4) >> 27);
+	    f2h.h[1] = (f2h.h[1] | tmp) << 10;
+	    f2h.h[1] |= (f2h.i[1] >> 13) & 0x3ff;
+
+            cfg->vol[i]=f2h.i[0];
+	}
      }
-     for(i=0;i<datalen;i++){
+     if(cfg->mediabyte<=4)
+       for(i=0;i<datalen;i++){
          if(cfg->vol[i]>=cfg->medianum)
             mcx_error(-6,"medium index exceeds the specified medium types",__FILE__,__LINE__);
      }
-     if(cfg->mediabyte<4)
+     if(cfg->mediabyte<4 || cfg->mediabyte==MEDIA_AS_F2H)
          free(inputvol);
 }
 
@@ -1440,8 +1580,15 @@ void mcx_loadseedfile(Config *cfg){
     cfg->nphoton=his.savedphoton;
 
     if(cfg->outputtype==otJacobian || cfg->outputtype==otWP || cfg->outputtype==otDCS ){ //cfg->replaydet>0
-       int i,j;
-       float *ppath=(float*)malloc(his.savedphoton*his.colcount*sizeof(float));
+       int i,j, hasdetid=0, offset;
+       float plen, *ppath;
+       hasdetid=SAVE_DETID(his.savedetflag);
+       offset=SAVE_NSCAT(his.savedetflag)*his.maxmedia;
+
+       if(((!hasdetid) && cfg->detnum>1) || !SAVE_PPATH(his.savedetflag))
+           mcx_error(-7,"please rerun the baseline simulation and save detector ID (D) and partial-path (P) using '-w DP'",__FILE__,__LINE__);
+
+       ppath=(float*)malloc(his.savedphoton*his.colcount*sizeof(float));
        cfg->replay.weight=(float*)malloc(his.savedphoton*sizeof(float));
        cfg->replay.tof=(float*)calloc(his.savedphoton,sizeof(float));
        cfg->replay.detid=(int*)calloc(his.savedphoton,sizeof(int));
@@ -1455,10 +1602,11 @@ void mcx_loadseedfile(Config *cfg){
                if(i!=cfg->nphoton)
                    memcpy((char *)(cfg->replay.seed)+cfg->nphoton*his.seedbyte, (char *)(cfg->replay.seed)+i*his.seedbyte, his.seedbyte);
                cfg->replay.weight[cfg->nphoton]=1.f;
-	       cfg->replay.detid[cfg->nphoton]=(int)(ppath[i*his.colcount]);
-               for(j=2;j<his.maxmedia+2;j++){
-                   cfg->replay.weight[cfg->nphoton]*=expf(-cfg->prop[j-1].mua*ppath[i*his.colcount+j]*his.unitinmm);
-                   cfg->replay.tof[cfg->nphoton]+=ppath[i*his.colcount+j]*his.unitinmm*R_C0*cfg->prop[j-1].n;
+               cfg->replay.detid[cfg->nphoton]=(hasdetid) ? (int)(ppath[i*his.colcount]): 1;
+               for(j=hasdetid;j<his.maxmedia+hasdetid;j++){
+	           plen=ppath[i*his.colcount+offset+j]*his.unitinmm;
+                   cfg->replay.weight[cfg->nphoton]*=expf(-cfg->prop[j-hasdetid+1].mua*plen);
+                   cfg->replay.tof[cfg->nphoton]+=plen*R_C0*cfg->prop[j-hasdetid+1].n;
                }
                if(cfg->replay.tof[cfg->nphoton]<cfg->tstart || cfg->replay.tof[cfg->nphoton]>cfg->tend) /*need to consider -g*/
                    continue;
@@ -1932,6 +2080,12 @@ void mcx_parsecmd(int argc, char* argv[], Config *cfg){
  		                i=mcx_readarg(argc,argv,i,&(cfg->issaveref),"char");
  				if (cfg->issaveref) cfg->issaveref=1;
  				break;
+		     case 'w':
+			        if(i+1<argc && isalpha(argv[i+1][0]) ){
+				    cfg->savedetflag=mcx_parsedebugopt(argv[++i],saveflag);
+			        }else
+				    i=mcx_readarg(argc,argv,i,&(cfg->savedetflag),"int");
+ 				break;
 		     case '-':  /*additional verbose parameters*/
                                 if(strcmp(argv[i]+2,"maxvoidstep")==0)
                                      i=mcx_readarg(argc,argv,i,&(cfg->maxvoidstep),"int");
@@ -1939,14 +2093,22 @@ void mcx_parsecmd(int argc, char* argv[], Config *cfg){
                                      i=mcx_readarg(argc,argv,i,&(cfg->maxjumpdebug),"int");
                                 else if(strcmp(argv[i]+2,"gscatter")==0)
                                      i=mcx_readarg(argc,argv,i,&(cfg->gscatter),"int");
-                                else if(strcmp(argv[i]+2,"mediabyte")==0)
-                                     i=mcx_readarg(argc,argv,i,&(cfg->mediabyte),"int");
-                                else if(strcmp(argv[i]+2,"faststep")==0)
+                                else if(strcmp(argv[i]+2,"mediabyte")==0){
+				     if(i+1<argc && isalpha(argv[i+1][0]) ){
+				         cfg->mediabyte=mcx_keylookup(argv[++i],mediaformat);
+					 if(cfg->mediabyte==-1)
+					     MCX_ERROR(-1,"Unsupported media format.");
+					 cfg->mediabyte=mediaformatid[cfg->mediabyte];
+			             }else
+				         i=mcx_readarg(argc,argv,i,&(cfg->mediabyte),"int");
+                                }else if(strcmp(argv[i]+2,"faststep")==0)
                                      i=mcx_readarg(argc,argv,i,&(cfg->faststep),"char");
                                 else if(strcmp(argv[i]+2,"root")==0)
                                      i=mcx_readarg(argc,argv,i,cfg->rootpath,"string");
                                 else if(strcmp(argv[i]+2,"reflectin")==0)
                                      i=mcx_readarg(argc,argv,i,&(cfg->isrefint),"char");
+                                else if(strcmp(argv[i]+2,"internalsrc")==0)
+		                     i=mcx_readarg(argc,argv,i,&(cfg->internalsrc),"int");
                                 else
                                      MCX_FPRINTF(cfg->flog,"unknown verbose option: --%s\n",argv[i]+2);
 		     	        break;
@@ -2054,7 +2216,7 @@ int mcx_lookupindex(char *key, const char *index){
  */
 
 void mcx_version(Config *cfg){
-    const char ver[]="$Rev::      $2019.3";
+    const char ver[]="$Rev::      $2019.4";
     int v=0;
     sscanf(ver,"$Rev::%x",&v);
     MCX_FPRINTF(cfg->flog, "MCX Revision %x\n",v);
@@ -2078,6 +2240,39 @@ int mcx_isbinstr(const char * str){
 }
 
 /**
+ * @brief Run MCX simulations from a JSON input in a persistent session
+ *
+ * @param[in] jsonstr: a string in the JSON format, the content of the .json input file
+ */
+
+int mcx_run_from_json(char *jsonstr){
+     Config  mcxconfig;            /** mcxconfig: structure to store all simulation parameters */
+     GPUInfo *gpuinfo=NULL;        /** gpuinfo: structure to store GPU information */
+     unsigned int activedev=0;     /** activedev: count of total active GPUs to be used */
+
+     mcx_initcfg(&mcxconfig);
+     mcx_readconfig(jsonstr, &mcxconfig);
+
+     if(!(activedev=mcx_list_gpu(&mcxconfig,&gpuinfo))){
+         mcx_error(-1,"No GPU device found\n",__FILE__,__LINE__);
+     }
+
+#ifdef _OPENMP
+     omp_set_num_threads(activedev);
+     #pragma omp parallel
+     {
+#endif
+         mcx_run_simulation(&mcxconfig,gpuinfo); 
+#ifdef _OPENMP
+     }
+#endif
+
+     mcx_cleargpuinfo(&gpuinfo);
+     mcx_clearcfg(&mcxconfig);
+     return 0;
+}
+
+/**
  * @brief Print MCX output header
  *
  * @param[in] cfg: simulation configuration
@@ -2095,7 +2290,7 @@ void mcx_printheader(Config *cfg){
 ###############################################################################\n\
 #    The MCX Project is funded by the NIH/NIGMS under grant R01-GM114365      #\n\
 ###############################################################################\n\
-$Rev::      $2019.3 $Date::                       $ by $Author::              $\n\
+$Rev::      $2019.4 $Date::                       $ by $Author::              $\n\
 ###############################################################################\n"S_RESET);
 }
 
@@ -2122,7 +2317,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
                                if negative, divide #photon into r subsets\n\
  -b [1|0]      (--reflect)     1 to reflect photons at ext. boundary;0 to exit\n\
  -B '______'   (--bc)          per-face boundary condition (BC), 6 letters for\n\
-                               bounding box faces at -x,-y,-z,+x,+y,+z axes;\n\
+    /case insensitive/         bounding box faces at -x,-y,-z,+x,+y,+z axes;\n\
 			       overwrite -b if given. \n\
 			       each letter can be one of the following:\n\
 			       '_': undefined, fallback to -b\n\
@@ -2146,11 +2341,9 @@ where possible parameters include (the first value in [*|*] is the default)\n\
                                detector (det ID starts from 1), used with -E \n\
 			       if 0, replay all detectors and sum all Jacobians\n\
 			       if -1, replay all detectors and save separately\n\
- -P '{...}'    (--shapes)      a JSON string for additional shapes in the grid\n\
  -V [0|1]      (--specular)    1 source located in the background,0 inside mesh\n\
  -e [0.|float] (--minenergy)   minimum energy level to terminate a photon\n\
  -g [1|int]    (--gategroup)   number of time gates per run\n\
- -a [0|1]      (--array)       1 for C array (row-major); 0 for Matlab array\n\
 \n"S_BOLD S_CYAN"\
 == GPU options ==\n"S_RESET"\
  -L            (--listgpu)     print GPU information only\n\
@@ -2163,19 +2356,44 @@ where possible parameters include (the first value in [*|*] is the default)\n\
  -W '50,30,20' (--workload)    workload for active devices; normalized by sum\n\
  -I            (--printgpu)    print GPU information and run program\n\
 \n"S_BOLD S_CYAN"\
+== Input options ==\n"S_RESET"\
+ -P '{...}'    (--shapes)      a JSON string for additional shapes in the grid\n\
+ -K [1|int|str](--mediabyte)   volume data format, use either a number or a str\n\
+                               1 or byte: 0-128 tissue labels\n\
+			       2 or short: 0-65535 (max to 4000) tissue labels\n\
+			       4 or integer: integer tissue labels \n\
+                             100 or muamus_float: 2x 32bit floats for mua/mus\n\
+                             101 or mua_float: 1 float per voxel for mua\n\
+			     102 or muamus_half: 2x 16bit float for mua/mus\n\
+			     103 or asgn_byte: 4x byte gray-levels for mua/s/g/n\n\
+			     104 or muamus_short: 2x short gray-levels for mua/s\n\
+ -a [0|1]      (--array)       1 for C array (row-major); 0 for Matlab array\n\
+\n"S_BOLD S_CYAN"\
 == Output options ==\n"S_RESET"\
  -s sessionid  (--session)     a string to label all output file names\n\
  -O [X|XFEJPM] (--outputtype)  X - output flux, F - fluence, E - energy deposit\n\
-                               J - Jacobian (replay mode),   P - scattering, \n\
+    /case insensitive/         J - Jacobian (replay mode),   P - scattering, \n\
 			       event counts at each voxel (replay mode only)\n\
                                M - momentum transfer; \n\
  -d [1|0]      (--savedet)     1 to save photon info at detectors; 0 not save\n\
+ -w [DP|DSPMXVW](--savedetflag)a string controlling detected photon data fields\n\
+    /case insensitive/         1 D  output detector ID (1)\n\
+                               2 S  output partial scat. even counts (#media)\n\
+                               4 P  output partial path-lengths (#media)\n\
+			       8 M  output momentum transfer (#media)\n\
+			      16 X  output exit position (3)\n\
+			      32 V  output exit direction (3)\n\
+			      64 W  output initial weight (1)\n\
+      combine multiple items by using a string, or add selected numbers together\n\
+      by default, mcx only saves detector ID and partial-path data\n\
  -x [0|1]      (--saveexit)    1 to save photon exit positions and directions\n\
-                               setting -x to 1 also implies setting '-d' to 1\n\
+                               setting -x to 1 also implies setting '-d' to 1.\n\
+			       same as adding 'XV' to -w.\n\
  -X [0|1]      (--saveref)     1 to save diffuse reflectance at the air-voxels\n\
                                right outside of the domain; if non-zero voxels\n\
 			       appear at the boundary, pad 0s before using -X\n\
- -m [0|1]      (--momentum)    1 to save photon momentum transfer,0 not to save\n\
+ -m [0|1]      (--momentum)    1 to save photon momentum transfer,0 not to save.\n\
+                               same as adding 'M' to the -w flag\n\
  -q [0|1]      (--saveseed)    1 to save photon RNG seed for replay; 0 not save\n\
  -M [0|1]      (--dumpmask)    1 to dump detector volume masks; 0 do not save\n\
  -H [1000000] (--maxdetphoton) max number of detected photons\n\
@@ -2196,7 +2414,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
  -D [0|int]    (--debug)       print debug information (you can use an integer\n\
   or                           or a string by combining the following flags)\n\
  -D [''|RMP]                   1 R  debug RNG\n\
-                               2 M  store photon trajectory info\n\
+    /case insensitive/         2 M  store photon trajectory info\n\
                                4 P  print progress bar\n\
       combine multiple items by using a string, or add selected numbers together\n\
 \n"S_BOLD S_CYAN"\
@@ -2205,6 +2423,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
  --gscatter     [1e9|int]      after a photon completes the specified number of\n\
                                scattering events, mcx then ignores anisotropy g\n\
                                and only performs isotropic scattering for speed\n\
+ --internalsrc  [0|1]          set to 1 to skip entry search to speedup launch\n\
  --maxvoidstep  [1000|int]     maximum distance (in voxel unit) of a photon that\n\
                                can travel before entering the domain, if \n\
                                launched outside (i.e. a widefield source)\n\
@@ -2217,7 +2436,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
 example: (autopilot mode)\n"S_GREEN"\
        %s -A 1 -n 1e7 -f input.inp -G 1 -D P\n"S_RESET"\
 or (manual mode)\n"S_GREEN"\
-       %s -t 16384 -T 64 -n 1e7 -f input.inp -s test -r 2 -g 10 -d 1 -b 1 -G 1\n"S_RESET"\
+       %s -t 16384 -T 64 -n 1e7 -f input.inp -s test -r 2 -g 10 -d 1 -w dpx -b 1 -G 1\n"S_RESET"\
 or (use multiple devices - 1st,2nd and 4th GPUs - together with equal load)\n"S_GREEN"\
        %s -A -n 1e7 -f input.inp -G 1101 -W 10,10,10\n"S_RESET"\
 or (use inline domain definition)\n"S_GREEN"\

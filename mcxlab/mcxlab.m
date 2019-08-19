@@ -41,6 +41,14 @@ function varargout=mcxlab(varargin)
 %                      dimension (in x or y); srcpos/srcdir must belong to
 %                      the 2D plane in such case.
 %                      for 2D simulations, Example: <demo_mcxlab_2d.m>
+%
+%                      MCXLAB also accepts 4D arrays to define continuously varying media. 
+%                      The following formats are accepted
+%                        1 x Nx x Ny x Nz float32 array: mua values for each voxel (must use permute to make 1st dimension singleton)
+%                        2 x Nx x Ny x Nz float32 array: mua/mus values for each voxel (g/n use prop(2,:))
+%                        4 x Nx x Ny x Nz uint8 array: mua/mus/g/n gray-scale (0-255) interpolating between prop(2,:) and prop(3,:)
+%                        2 x Nx x Ny x Nz uint16 array: mua/mus gray-scale (0-65535) interpolating between prop(2,:) and prop(3,:)
+%                        Example: <demo_continuous_mua_mus.m>. If voxel-based media are used, partial-path/momentum outputs are disabled
 %     *cfg.prop:       an N by 4 array, each row specifies [mua, mus, g, n] in order.
 %                      the first row corresponds to medium type 0
 %                      (background) which is typically [0 0 1 1]. The
@@ -66,7 +74,7 @@ function varargout=mcxlab(varargin)
 %      cfg.respin:     repeat simulation for the given time (integer) [1]
 %                      if negative, divide the total photon number into respin subsets
 %      cfg.isreflect:  [1]-consider refractive index mismatch, 0-matched index
-%      cfg.bc          per-face boundary condition (BC), a strig of 6 letters for
+%      cfg.bc          per-face boundary condition (BC), a strig of 6 letters (case insensitive) for
 %                      bounding box faces at -x,-y,-z,+x,+y,+z axes;
 %		               overwrite cfg.isreflect if given.
 %                      each letter can be one of the following:
@@ -86,6 +94,12 @@ function varargout=mcxlab(varargin)
 %      cfg.gscatter:   after a photon completes the specified number of
 %                      scattering events, mcx then ignores anisotropy g
 %                      and only performs isotropic scattering for speed [1e9]
+%      cfg.detphotons: detected photon data for replay. In the replay mode (cfg.seed 
+%                      is set as the 4th output of the baseline simulation), cfg.detphotons
+%                      should be set to the 2nd output (detphoton) of the baseline simulation
+%                      or detphoton.data subfield (as a 2D array). cfg.detphotons can use
+%                      a subset of the detected photon selected by the user.
+%                      Example: <demo_mcxlab_replay.m>
 %
 %== GPU settings ==
 %      cfg.autopilot:  1-automatically set threads and blocks, [0]-use nthread/nblocksize
@@ -169,8 +183,20 @@ function varargout=mcxlab(varargin)
 %                      the first non-zero voxel
 %
 %== Output control ==
+%      cfg.savedetflag: ['dp'] - a string (case insensitive) controlling the output detected photon data fields
+%                          1 d  output detector ID (1)
+%                          2 s  output partial scat. even counts (#media)
+%                          4 p  output partial path-lengths (#media)
+%                          8 m  output momentum transfer (#media)
+%                         16 x  output exit position (3)
+%                         32 v  output exit direction (3)
+%                         64 w  output initial weight (1)
+%                      combine multiple items by using a string, or add selected numbers together
+%                      by default, mcx only saves detector ID (d) and partial-path data (p)
 %      cfg.issaveexit: [0]-save the position (x,y,z) and (vx,vy,vz) for a detected photon
-%                      Example: <demo_lambertian_exit_angle.m>
+%                      same as adding 'xv' to cfg.savedetflag. Example: <demo_lambertian_exit_angle.m>
+%      cfg.ismomentum: 1 to save photon momentum transfer,[0] not to save.
+%                      save as adding 'M' to cfg.savedetflag string
 %      cfg.issaveref:  [0]-save diffuse reflectance/transmittance in the non-zero voxels
 %                      next to a boundary voxel. The reflectance data are stored as 
 %                      negative values; must pad zeros next to boundaries
@@ -185,7 +211,7 @@ function varargout=mcxlab(varargin)
 %      cfg.session:    a string for output file names (only used when no return variables)
 %
 %== Debug ==
-%      cfg.debuglevel:  debug flag string, one or a combination of ['R','M','P'], no space
+%      cfg.debuglevel:  debug flag string (case insensitive), one or a combination of ['R','M','P'], no space
 %                    'R':  debug RNG, output fluence.data is filled with 0-1 random numbers
 %                    'M':  return photon trajectory data as the 5th output
 %                    'P':  show progress bar
@@ -299,6 +325,29 @@ if(isstruct(varargin{1}))
                 varargin{1}(i).(castlist{j})=double(varargin{1}(i).(castlist{j}));
             end
         end
+        if (isfield(varargin{1}(i),'vol') && ndims(varargin{1}(i).vol)==4)
+            if((isa(varargin{1}(i).vol,'single') || isa(varargin{1}(i).vol,'double')) && isfield(varargin{1}(i),'unitinmm'))
+                varargin{1}(i).vol=varargin{1}(i).vol*varargin{1}(i).unitinmm;
+            end
+        end
+	if(isfield(varargin{1}(i),'detphotons') && isstruct(varargin{1}(i).detphotons))
+	    if(isfield(varargin{1}(i).detphotons,'data'))
+	        varargin{1}(i).detphotons=varargin{1}(i).detphotons.data;
+	    else
+	        fulldetdata={'detid','nscat','ppath','mom','p','v','w0'};
+	        detfields=ismember(fulldetdata,fieldnames(varargin{1}(i).detphotons));
+		detdata=[];
+		for j=1:length(detfields)
+		    if(detfields(j))
+                        val=typecast(varargin{1}(i).detphotons.(fulldetdata{j})(:),'single');
+		        detdata=[detdata reshape(val,size(varargin{1}(i).detphotons.(fulldetdata{j})))];
+		    end
+		end
+		varargin{1}(i).detphotons=detdata';
+		varargin{1}(i).savedetflag='dspmxvw';
+		varargin{1}(i).savedetflag(detfields==0)=[];
+	    end
+        end
     end
 end
 
@@ -331,23 +380,35 @@ end
 if(nargout>=2)
 
     for i=1:length(varargout{2})
-        if(~isfield(cfg(i),'issaveexit') || cfg(i).issaveexit~=2)
+        if((~isfield(cfg(i),'savedetflag')) || ((isfield(cfg(i),'savedetflag')) && isempty(cfg(i).savedetflag)))
+            cfg(i).savedetflag='DP';
+            if(isfield(cfg(i),'issaveexit') && cfg(i).issaveexit)
+                cfg(i).savedetflag=[cfg(i).savedetflag,'XV'];
+            end
+            if(isfield(cfg(i),'ismomentum') && cfg(i).ismomentum)
+                cfg(i).savedetflag=[cfg(i).savedetflag,'M'];
+            end
+	end
+	if(ndims(cfg(i).vol)==4)
+	    cfg(i).savedetflag='';
+	    if((isa(cfg(i).vol,'single') || isa(cfg(i).vol,'double')) && isfield(cfg(i),'unitinmm'))
+	        cfg(i).vol=cfg(i).vol*cfg(i).unitinmm;
+	    end
+	end
+        if((~isfield(cfg(i),'issaveexit') || cfg(i).issaveexit~=2))
             medianum=size(cfg(i).prop,1)-1;
             detp=varargout{2}(i).data;
             if(isempty(detp))
                 continue;
             end
-            newdetp.detid=int32(detp(1,:))';
-            newdetp.nscat=int32(detp(2:medianum+1,:))';    % 1st medianum block is num of scattering
-            newdetp.ppath=detp(medianum+2:2*medianum+1,:)';% 2nd medianum block is partial path
-            if(isfield(cfg(i),'ismomentum') && cfg(i).ismomentum)
-                newdetp.mom=detp(2*medianum+2:3*medianum+1,:)'; % 3rd medianum block is the momentum transfer
+            flags={cfg(i).savedetflag};
+            if(isfield(cfg(i),'issaveref'))
+                flags{end+1}=cfg(i).issaveref;
             end
-            if(isfield(cfg(i),'issaveexit') && cfg(i).issaveexit)
-                newdetp.p=detp(end-6:end-4,:)';             %columns 7-5 from the right store the exit positions*/
-                newdetp.v=detp(end-3:end-1,:)';	     %columns 4-2 from the right store the exit dirs*/
+            if(isfield(cfg(i),'srcnum'))
+                flags{end+1}=cfg(i).srcnum;
             end
-	    newdetp.w0=detp(end,:)';  % last column is the initial packet weight
+            newdetp=mcxdetphoton(detp,medianum,flags{:});
             newdetp.prop=cfg(i).prop;
             newdetp.data=detp;      % enable this line for compatibility
             newdetpstruct(i)=newdetp;
