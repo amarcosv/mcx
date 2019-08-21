@@ -170,6 +170,21 @@ __device__ inline void saveexitppath(float n_det[],float *ppath,MCXpos *p0,uint 
       }
 }
 
+#ifdef SAVE_LAUNCHPOS
+/**
+ * @brief Recording detected photon information at photon termination
+ * @param[in] n_det: pointer to the detector position array
+ * @param[in] detectedphoton: variable in the global-mem recording the total detected photons
+ * @param[in] ppath: buffer in the shared-mem to store the photon partial-pathlengths
+ * @param[in] p: the position/weight of the current photon packet
+ * @param[in] p0: the initial launching position of the current photon packet
+ * @param[in] v: the direction vector of the current photon packet
+ * @param[in] t: random number generator (RNG) states
+ * @param[in] seeddata: the RNG seed of the photon at launch, need to save for replay
+ */
+
+__device__ inline void savedetphoton(float n_det[], uint* detectedphoton, float* ppath, MCXpos* p, MCXpos* p0, MCXdir* v, RandType t[RAND_BUF_LEN], RandType* seeddata, uint* idx1d) {
+#else
 /**
  * @brief Recording detected photon information at photon termination
  * @param[in] n_det: pointer to the detector position array
@@ -178,11 +193,15 @@ __device__ inline void saveexitppath(float n_det[],float *ppath,MCXpos *p0,uint 
  * @param[in] p0: the position/weight of the current photon packet
  * @param[in] v: the direction vector of the current photon packet
  * @param[in] t: random number generator (RNG) states
- * @param[in] seeddata: the RNG seed of the photon at launch, need to save for replay 
+ * @param[in] seeddata: the RNG seed of the photon at launch, need to save for replay
  */
 
-__device__ inline void savedetphoton(float n_det[],uint *detectedphoton,float *ppath,MCXpos *p0,MCXdir *v,RandType t[RAND_BUF_LEN],RandType *seeddata,uint *idx1d){
-      uint detid=finddetector(p0);
+__device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float* ppath, MCXpos * p0, MCXdir * v, RandType t[RAND_BUF_LEN], RandType * seeddata, uint * idx1d) {
+#endif //SAVE_LAUNCHPOS
+#ifdef SAVE_LAUNCHPOS
+#else
+#endif //SAVE_LAUNCHPOS
+uint detid=finddetector(p0);
       if(detid){
 	 uint baseaddr=atomicAdd(detectedphoton,1);
 	 if(baseaddr<gcfg->maxdetphoton){
@@ -195,7 +214,11 @@ __device__ inline void savedetphoton(float n_det[],uint *detectedphoton,float *p
 	    for(i=0;i<gcfg->partialdata;i++)
 		n_det[baseaddr++]=ppath[i]; ///< save partial pathlength to the memory
             if(SAVE_PEXIT(gcfg->savedetflag)){
-	            *((float3*)(n_det+baseaddr))=float3(p0->x,p0->y,p0->z);
+#ifdef SAVE_LAUNCHPOS
+		* ((float3*)(n_det + baseaddr)) = float3(p->x, p->y, p->z);
+#else
+		* ((float3*)(n_det + baseaddr)) = float3(p0->x, p0->y, p0->z);
+#endif //SAVE_LAUNCHPOS
 		    baseaddr+=3;
 	    }
 	    if(SAVE_VEXIT(gcfg->savedetflag)){
@@ -204,6 +227,12 @@ __device__ inline void savedetphoton(float n_det[],uint *detectedphoton,float *p
 	    }
 	    if(SAVE_W0(gcfg->savedetflag))
 	        n_det[baseaddr++]=ppath[gcfg->w0offset-1];
+#ifdef SAVE_LAUNCHPOS
+	    if (SAVE_PLAUNCH(gcfg->savedetflag)) {
+		*((float3*)(n_det + baseaddr)) = float3(p0->x, p0->y, p0->z);
+		baseaddr += 3;
+	    }
+#endif //SAVE_LAUNCHPOS
 	 }
       }
 }
@@ -657,11 +686,50 @@ __device__ inline void rotatevector(MCXdir *v, float stheta, float ctheta, float
       GPUDEBUG(("new dir: %10.5e %10.5e %10.5e\n",v->x,v->y,v->z));
 }
 
+#ifdef SAVE_LAUNCHPOS
 /**
  * @brief Terminate a photon and launch a new photon according to specified source form
  *
- * This function terminates the current photon and launches a new photon according 
- * to the source type selected. Currently, over a dozen source types are supported, 
+ * This function terminates the current photon and launches a new photon according
+ * to the source type selected. Currently, over a dozen source types are supported,
+ * including pencil, isotropic, planar, fourierx, gaussian, zgaussian etc.
+ *
+ * @param[in,out] p: the 3D position and weight of the photon
+ * @param[in,out] p0: the photon initial launching position
+ * @param[in,out] v: the direction vector of the photon
+ * @param[in,out] f: the parameter vector of the photon
+ * @param[in,out] rv: the reciprocal direction vector of the photon (rv[i]=1/v[i])
+ * @param[out] prop: the optical properties of the voxel the photon is launched into
+ * @param[in,out] idx1d: the linear index of the voxel containing the photon at launch
+ * @param[in] field: the 3D array to store photon weights
+ * @param[in,out] mediaid: the medium index at the voxel at launch
+ * @param[in,out] w0: initial weight, reset here after launch
+ * @param[in] isdet: whether the previous photon being terminated lands at a detector
+ * @param[in,out] ppath: pointer to the shared-mem buffer to store photon partial-path data
+ * @param[in,out] n_det: array in the constant memory where detector positions are stored
+ * @param[in,out] dpnum: global-mem variable where the count of detected photons are stored
+ * @param[in] t: RNG state
+ * @param[in,out] photonseed: RNG state stored at photon's launch time if replay is needed
+ * @param[in] media: domain medium index array, read-only
+ * @param[in] srcpattern: user-specified source pattern array if pattern source is used
+ * @param[in] threadid: the global index of the current thread
+ * @param[in] rngseed: in the replay mode, pointer to the saved detected photon seed data
+ * @param[in,out] seeddata: pointer to the buffer to save detected photon seeds
+ * @param[in,out] gdebugdata: pointer to the buffer to save photon trajectory positions
+ * @param[in,out] gprogress: pointer to the host variable to update progress bar
+ */
+
+template <const int isinternal, const  int isreflect, const int issavedet>
+__device__ inline int launchnewphoton(MCXpos* p, MCXpos* p0, MCXdir* v, MCXtime* f, float3* rv, Medium* prop, uint* idx1d, OutputType* field,
+    uint* mediaid, OutputType* w0, uint isdet, float ppath[], float n_det[], uint* dpnum,
+    RandType t[RAND_BUF_LEN], RandType photonseed[RAND_BUF_LEN],
+    uint media[], float srcpattern[], int threadid, RandType rngseed[], RandType seeddata[], float gdebugdata[], volatile int gprogress[]) {
+#else
+/**
+ * @brief Terminate a photon and launch a new photon according to specified source form
+ *
+ * This function terminates the current photon and launches a new photon according
+ * to the source type selected. Currently, over a dozen source types are supported,
  * including pencil, isotropic, planar, fourierx, gaussian, zgaussian etc.
  *
  * @param[in,out] p: the 3D position and weight of the photon
@@ -689,10 +757,12 @@ __device__ inline void rotatevector(MCXdir *v, float stheta, float ctheta, float
  */
 
 template <const int isinternal, const  int isreflect, const int issavedet>
-__device__ inline int launchnewphoton(MCXpos *p,MCXdir *v,MCXtime *f,float3* rv,Medium *prop,uint *idx1d, OutputType *field,
-           uint *mediaid,OutputType *w0,uint isdet, float ppath[],float n_det[],uint *dpnum,
-	   RandType t[RAND_BUF_LEN],RandType photonseed[RAND_BUF_LEN],
-	   uint media[],float srcpattern[],int threadid,RandType rngseed[],RandType seeddata[],float gdebugdata[],volatile int gprogress[]){
+__device__ inline int launchnewphoton(MCXpos * p, MCXdir * v, MCXtime * f, float3 * rv, Medium * prop, uint * idx1d, OutputType * field,
+    uint * mediaid, OutputType * w0, uint isdet, float ppath[], float n_det[], uint * dpnum,
+    RandType t[RAND_BUF_LEN], RandType photonseed[RAND_BUF_LEN],
+    uint media[], float srcpattern[], int threadid, RandType rngseed[], RandType seeddata[], float gdebugdata[], volatile int gprogress[]) {
+#endif //SAVE_LAUNCHPOS
+
       *w0=1.f;     ///< reuse to count for launchattempt
       int canfocus=1; ///< non-zero: focusable, zero: not focusable
       *rv=float3(gcfg->ps.x,gcfg->ps.y,gcfg->ps.z); ///< reuse as the origin of the src, needed for focusable sources
@@ -734,7 +804,11 @@ __device__ inline int launchnewphoton(MCXpos *p,MCXdir *v,MCXtime *f,float3* rv,
       // let's handle detectors here
           if(issavedet){
              if((isdet&DET_MASK)==DET_MASK && *mediaid==0 && gcfg->issaveref<2)
-	         savedetphoton(n_det,dpnum,ppath,p,v,photonseed,seeddata,idx1d);
+#ifdef SAVE_LAUNCHPOS
+		 savedetphoton(n_det, dpnum, ppath, p, p0, v, photonseed, seeddata, idx1d);
+#else
+		 savedetphoton(n_det, dpnum, ppath, p, v, photonseed, seeddata, idx1d);
+#endif //SAVE_LAUNCHPOS
              clearpath(ppath,gcfg->partialdata);
           }
 #endif
@@ -984,6 +1058,13 @@ __device__ inline int launchnewphoton(MCXpos *p,MCXdir *v,MCXtime *f,float3* rv,
 	    }
 	  }
 
+#ifdef SAVE_LAUNCHPOS
+	  /**
+	   * Save photon initial launching position
+	   */
+	  *p0 = *p;
+#endif //SAVE_LAUNCHPOS
+
           /**
            * Compute the reciprocal of the velocity vector
            */
@@ -1105,6 +1186,10 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
      MCXdir  v={0.f,0.f,0.f, 0.f};   ///< Photon direction state: {x,y,z}: unitary direction vector in grid unit, nscat:total scat event
      MCXtime f={0.f,0.f,0.f,-1.f};   ///< Photon parameter state: pscat: remaining scattering probability,t: photon elapse time, pathlen: total pathlen in one voxel, ndone: completed photons
 
+#ifdef SAVE_LAUNCHPOS
+     MCXpos  p0 = { 0.f,0.f,0.f,-1.f };   ///< Photon launch position: {x,y,z}: coordinates in grid unit, w:packet weight
+#endif //SAVE_LAUNCHPOS
+
      uint idx1d, idx1dold;    ///< linear index to the current voxel in the media array
 
      uint  mediaid=gcfg->mediaidorig;
@@ -1132,9 +1217,15 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
 
      gpu_rng_init(t,n_seed,idx);
 
-     if(launchnewphoton<isinternal,isreflect,issavedet>(&p,&v,&f,&rv,&prop,&idx1d,field,&mediaid,&w0,0,ppath,
-       n_det,detectedphoton,t,(RandType*)(sharedmem+threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN*sizeof(RandType)),media,srcpattern,
-       idx,(RandType*)n_seed,seeddata,gdebugdata,gprogress)){
+#ifdef SAVE_LAUNCHPOS
+     if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, 0, ppath,
+	 n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)), media, srcpattern,
+	 idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress)){
+#else
+     if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, 0, ppath,
+	 n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)), media, srcpattern,
+	 idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress)) {
+#endif //SAVE_LAUNCHPOS
          GPUDEBUG(("thread %d: fail to launch photon\n",idx));
 	 n_pos[idx]=*((float4*)(&p));
 	 n_dir[idx]=*((float4*)(&v));
@@ -1404,9 +1495,16 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
 		 }
 	      }
               GPUDEBUG(("direct relaunch at idx=[%d] mediaid=[%d], ref=[%d] bcflag=%d timegate=%d\n",idx1d,mediaid,gcfg->doreflect,isdet,f.t>gcfg->twin1));
-	      if(launchnewphoton<isinternal,isreflect,issavedet>(&p,&v,&f,&rv,&prop,&idx1d,field,&mediaid,&w0,(mediaidold & DET_MASK),ppath,
-	          n_det,detectedphoton,t,(RandType*)(sharedmem+threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN*sizeof(RandType)),
-		  media,srcpattern,idx,(RandType*)n_seed,seeddata,gdebugdata,gprogress))
+
+#ifdef SAVE_LAUNCHPOS
+	      if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+		  n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+		  media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#else
+	      if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+		  n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+		  media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#endif //SAVE_LAUNCHPOS
                    break;
               isdet=mediaid & DET_MASK;
               mediaid &= MED_MASK;
@@ -1419,9 +1517,15 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
                    p.w*=ROULETTE_SIZE;
                 else{
                    GPUDEBUG(("relaunch after Russian roulette at idx=[%d] mediaid=[%d], ref=[%d]\n",idx1d,mediaid,gcfg->doreflect));
-                   if(launchnewphoton<isinternal,isreflect,issavedet>(&p,&v,&f,&rv,&prop,&idx1d,field,&mediaid,&w0,(mediaidold & DET_MASK),ppath,
-	                n_det,detectedphoton,t,(RandType*)(sharedmem+threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN*sizeof(RandType)),
-			media,srcpattern,idx,(RandType*)n_seed,seeddata,gdebugdata,gprogress))
+#ifdef SAVE_LAUNCHPOS
+		   if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+		       n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+		       media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#else
+		   if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+		       n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+		       media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#endif //SAVE_LAUNCHPOS
                         break;
                    isdet=mediaid & DET_MASK;
                    mediaid &= MED_MASK;
@@ -1457,9 +1561,15 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
                         transmit(&v,n1,prop.n,flipdir);
                         if(mediaid==0){ // transmission to external boundary
                             GPUDEBUG(("transmit to air, relaunch\n"));
-		    	    if(launchnewphoton<isinternal,isreflect,issavedet>(&p,&v,&f,&rv,&prop,&idx1d,field,&mediaid,&w0,(mediaidold & DET_MASK),
-			        ppath,n_det,detectedphoton,t,(RandType*)(sharedmem+threadIdx.x*gcfg->issaveseed*RAND_BUF_LEN*sizeof(RandType)),
-				media,srcpattern,idx,(RandType*)n_seed,seeddata,gdebugdata,gprogress))
+#ifdef SAVE_LAUNCHPOS
+			    if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0,&v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK),
+				ppath, n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#else
+			    if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK),
+				ppath, n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+#endif //SAVE_LAUNCHPOS
                                 break;
                             isdet=mediaid & DET_MASK;
                             mediaid &= MED_MASK;
@@ -1679,7 +1789,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      float4 *gPpos,*gPdir,*gPlen;
      uint   *gPseed,*gdetected;
      int    *greplaydetid=NULL;
-     float  *gPdet,*gsrcpattern,*genergy,*greplayw=NULL,*greplaytof=NULL,*gdebugdata=NULL;
+     float  *gPdet,*gsrcpattern=NULL,*genergy,*greplayw=NULL,*greplaytof=NULL,*gdebugdata=NULL;
      OutputType *gfield;
      RandType *gseeddata=NULL;
 
@@ -1692,7 +1802,11 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      */
      unsigned int partialdata=(cfg->medianum-1)*(SAVE_NSCAT(cfg->savedetflag)+SAVE_PPATH(cfg->savedetflag)+SAVE_MOM(cfg->savedetflag)); // buf len for media-specific data, copy from gpu to host
      unsigned int w0offset=partialdata+3;    // offset for photon sharing buffer
-     unsigned int hostdetreclen=partialdata+SAVE_DETID(cfg->savedetflag)+3*(SAVE_PEXIT(cfg->savedetflag)+SAVE_VEXIT(cfg->savedetflag))+SAVE_W0(cfg->savedetflag); // host-side det photon data buffer length
+#ifdef SAVE_LAUNCHPOS
+	 unsigned int hostdetreclen = partialdata + SAVE_DETID(cfg->savedetflag) + 3 * (SAVE_PEXIT(cfg->savedetflag) + SAVE_VEXIT(cfg->savedetflag)+ SAVE_PLAUNCH(cfg->savedetflag)) + SAVE_W0(cfg->savedetflag); // host-side det photon data buffer length
+#else
+	 unsigned int hostdetreclen = partialdata + SAVE_DETID(cfg->savedetflag) + 3 * (SAVE_PEXIT(cfg->savedetflag) + SAVE_VEXIT(cfg->savedetflag)) + SAVE_W0(cfg->savedetflag); // host-side det photon data buffer length
+#endif //SAVE_LAUNCHPOS
      unsigned int is2d=(cfg->dim.x==1 ? 1 : (cfg->dim.y==1 ? 2 : (cfg->dim.z==1 ? 3 : 0)));
 
      MCXParam param={cfg->steps,minstep,0,0,cfg->tend,R_C0*cfg->unitinmm,

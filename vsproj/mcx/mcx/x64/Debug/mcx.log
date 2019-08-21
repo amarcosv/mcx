@@ -1,0 +1,5 @@
+﻿  mcx.vcxproj -> D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug\mcx.exe
+  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart*.dll" "D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug\"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart32_92.dll
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart64_92.dll
+          2 file(s) copied.

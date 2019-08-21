@@ -117,6 +117,21 @@ const char outputtype[]={'x','f','e','j','p','m','\0'};
 
 const char debugflag[]={'R','M','P','\0'};
 
+#ifdef SAVE_LAUNCHPOS
+/**
+ * Recorded fields for detected photons
+ * D: detector ID (starting from 1) [1]
+ * S: partial scattering event count [#media]
+ * P: partial path lengths [#media]
+ * M: momentum transfer [#media]
+ * X: exit position [3]
+ * V: exit direction vector [3]
+ * W: initial weight [1]
+ * L: initial launching position [3]
+ */
+
+const char saveflag[]={'D','S','P','M','X','V','W','L','\0'};
+#else
 /**
  * Recorded fields for detected photons
  * D: detector ID (starting from 1) [1]
@@ -128,7 +143,8 @@ const char debugflag[]={'R','M','P','\0'};
  * W: initial weight [1]
  */
 
-const char saveflag[]={'D','S','P','M','X','V','W','\0'};
+const char saveflag[] = { 'D','S','P','M','X','V','W','\0' };
+#endif //SAVE_LAUNCHPOS
 
 /**
  * Output file format
@@ -805,14 +821,14 @@ void mcx_prepdomain(char *filename, Config *cfg){
          cfg->savedetflag=SET_SAVE_MOM(cfg->savedetflag);
      if(cfg->issaveexit){
          cfg->savedetflag=SET_SAVE_PEXIT(cfg->savedetflag);
-	 cfg->savedetflag=SET_SAVE_VEXIT(cfg->savedetflag);
+		 cfg->savedetflag=SET_SAVE_VEXIT(cfg->savedetflag);
      }
      if(cfg->issavedet && cfg->savedetflag==0)
          cfg->savedetflag=0x5;
      if(cfg->mediabyte>=100){
-	 cfg->savedetflag=UNSET_SAVE_NSCAT(cfg->savedetflag);
-	 cfg->savedetflag=UNSET_SAVE_PPATH(cfg->savedetflag);
-	 cfg->savedetflag=UNSET_SAVE_MOM(cfg->savedetflag);
+		 cfg->savedetflag=UNSET_SAVE_NSCAT(cfg->savedetflag);
+		 cfg->savedetflag=UNSET_SAVE_PPATH(cfg->savedetflag);
+		 cfg->savedetflag=UNSET_SAVE_MOM(cfg->savedetflag);
      }
      if(cfg->issaveref>1){
         if(cfg->issavedet==0)

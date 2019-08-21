@@ -34,9 +34,14 @@ if(regexp(savedetflag,'[vV]'))
 end
 if(regexp(savedetflag,'[wW]'))
     len=1;
-    newdetp.w0=detp(c0:(c0+len-1),:)';  % last column is the initial packet weight
+    newdetp.w0=detp(c0:(c0+len-1),:)';  % column for the initial packet weight
     if(nargin>4 && srcnum>1)
         newdetp.w0=typecast(newdetp.w0,'uint32');
     end
+    c0=c0+len;
+end
+len=3;
+if(regexp(savedetflag,'[lL]'))
+    newdetp.p0=detp(c0:(c0+len-1),:)';	     % last column is the initial launching position
     c0=c0+len;
 end

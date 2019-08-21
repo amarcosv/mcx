@@ -191,6 +191,7 @@ function varargout=mcxlab(varargin)
 %                         16 x  output exit position (3)
 %                         32 v  output exit direction (3)
 %                         64 w  output initial weight (1)
+%                         128 l initial launch position (3)  
 %                      combine multiple items by using a string, or add selected numbers together
 %                      by default, mcx only saves detector ID (d) and partial-path data (p)
 %      cfg.issaveexit: [0]-save the position (x,y,z) and (vx,vy,vz) for a detected photon

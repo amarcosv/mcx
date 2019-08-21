@@ -81,6 +81,10 @@
 #define SAVE_PEXIT(a)         ((a)>>4 & 0x1)   /**<  save exit positions */
 #define SAVE_VEXIT(a)         ((a)>>5 & 0x1)   /**<  save exit vector/directions */
 #define SAVE_W0(a)            ((a)>>6 & 0x1)   /**<  save initial weight */
+#ifdef SAVE_LAUNCHPOS
+#define SAVE_PLAUNCH(a)       ((a)>>7 & 0x1)   /**<  save initial launch position */
+#endif
+
 
 #define SET_SAVE_DETID(a)     ((a) | 0x1   )   /**<  mask to save detector ID*/
 #define SET_SAVE_NSCAT(a)     ((a) | 0x1<<1)   /**<  output partial scattering counts */
@@ -89,6 +93,9 @@
 #define SET_SAVE_PEXIT(a)     ((a) | 0x1<<4)   /**<  save exit positions */
 #define SET_SAVE_VEXIT(a)     ((a) | 0x1<<5)   /**<  save exit vector/directions */
 #define SET_SAVE_W0(a)        ((a) | 0x1<<6)   /**<  save initial weight */
+#ifdef SAVE_LAUNCHPOS
+#define SET_SAVE_PLAUNCH(a)   ((a) | 0x1<<7)   /**<  save initial launch position */
+#endif //SAVE_LAUNCHPOS
 
 #define UNSET_SAVE_DETID(a)     ((a) & ~(0x1)   )   /**<  mask to save detector ID*/
 #define UNSET_SAVE_NSCAT(a)     ((a) & ~(0x1<<1))   /**<  output partial scattering counts */
@@ -97,6 +104,9 @@
 #define UNSET_SAVE_PEXIT(a)     ((a) & ~(0x1<<4))   /**<  save exit positions */
 #define UNSET_SAVE_VEXIT(a)     ((a) & ~(0x1<<5))   /**<  save exit vector/directions */
 #define UNSET_SAVE_W0(a)        ((a) & ~(0x1<<6))   /**<  save initial weight */
+#ifdef SAVE_LAUNCHPOS
+#define UNSET_SAVE_PLAUNCH(a)   ((a) & ~(0x1<<7))   /**<  save initial launch position */
+#endif //SAVE_LAUNCHPOS
 
 #ifndef MCX_CONTAINER
   #define S_RED     "\x1b[31m"
