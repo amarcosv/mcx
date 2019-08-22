@@ -1032,6 +1032,27 @@ __device__ inline int launchnewphoton(MCXpos * p, MCXdir * v, MCXtime * f, float
                       canfocus=(gcfg->srctype==MCX_SRC_SLIT);
 		      break;
 		}
+#ifdef SRC_FLUOPATTERN
+		case(MCX_SRC_FLUOPATTERN): {
+		    int launch_id = __float2int_rn(rand_uniform01(t) * (gcfg->srcparam1.x - 1));
+		    //srcparam1 contains the number of fluorophores. 
+		    //src vector is [x0 x1 ... xn y0 y1 ... yn z0 z1 ... zn] where n is the number of point sources.
+		    *((float4*)p) = float4(p->x + srcpattern[launch_id],
+			p->y + srcpattern[launch_id + (int)gcfg->srcparam1.x],
+			p->z + srcpattern[launch_id + 2 * (int)gcfg->srcparam1.x],
+			1.0f);
+		    // Uniform point picking on a sphere 
+		    // http://mathworld.wolfram.com/SpherePointPicking.html
+		    float ang, stheta, ctheta, sphi, cphi;
+		    ang = TWO_PI * rand_uniform01(t); //next arimuth angle
+		    sincosf(ang, &sphi, &cphi);
+		    ang = acosf(2.f * rand_uniform01(t) - 1.f); //sine distribution	
+		    sincosf(ang, &stheta, &ctheta);
+		    rotatevector(v, stheta, ctheta, sphi, cphi);
+		    canfocus = 0;
+		    break;
+		}
+#endif //SRC_FLUOPATTERN
 	  }
           /**
            * If beam focus is set, determine the incident angle
@@ -2049,6 +2070,10 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
          CUDA_ASSERT(cudaMalloc((void **) &gsrcpattern, sizeof(float)*(int)(cfg->srcparam1.w*cfg->srcparam2.w*cfg->srcnum)));
      else if(cfg->srctype==MCX_SRC_PATTERN3D)
          CUDA_ASSERT(cudaMalloc((void **) &gsrcpattern, sizeof(float)*(int)(cfg->srcparam1.x*cfg->srcparam1.y*cfg->srcparam1.z*cfg->srcnum)));
+#ifdef SRC_FLUOPATTERN
+     else if (cfg->srctype == MCX_SRC_FLUOPATTERN)
+	 CUDA_ASSERT(cudaMalloc((void**)& gsrcpattern, sizeof(float)* (3 * cfg->srcparam1.x)));
+#endif //SRC_FLUOPATTERN
 	 
 #ifndef SAVE_DETECTORS
 #pragma omp master
@@ -2120,6 +2145,10 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
            CUDA_ASSERT(cudaMemcpy(gsrcpattern,cfg->srcpattern,sizeof(float)*(int)(cfg->srcparam1.w*cfg->srcparam2.w*cfg->srcnum), cudaMemcpyHostToDevice));
 	else if(cfg->srctype==MCX_SRC_PATTERN3D)
 	   CUDA_ASSERT(cudaMemcpy(gsrcpattern,cfg->srcpattern,sizeof(float)*(int)(cfg->srcparam1.x*cfg->srcparam1.y*cfg->srcparam1.z*cfg->srcnum), cudaMemcpyHostToDevice));
+#ifdef SRC_FLUOPATTERN
+	else if (cfg->srctype == MCX_SRC_FLUOPATTERN)
+	    CUDA_ASSERT(cudaMemcpy(gsrcpattern, cfg->srcpattern, sizeof(float)* (3 * cfg->srcparam1.x), cudaMemcpyHostToDevice));
+#endif //SRC_FLUOPATTERN
      
 
      CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->prop,  cfg->medianum*sizeof(Medium), 0, cudaMemcpyHostToDevice));

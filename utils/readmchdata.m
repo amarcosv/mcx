@@ -71,11 +71,11 @@ photonseed=[];
 	savedetflag=fread(fid,1,'uint');
 	junk=fread(fid,2,'uint');
    
-    data=zeros(hd(4),hd(7));
-    for i=1:hd(4)
-        data(i,:)=fread(fid,hd(7),'float32');        
-    end
-
+%     data=zeros(hd(4),hd(7));
+%     for i=1:hd(4)
+        data=fread(fid,hd(7)*hd(4),'float32');        
+%     end
+      data=reshape(data,[hd(4),hd(7)])';
     
 %  end
      fclose(fid);

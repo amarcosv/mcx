@@ -172,9 +172,16 @@ const char boundarycond[]={'_','r','a','m','c','\0'};
  * User can specify the source type using a string
  */
 
-const char *srctypeid[]={"pencil","isotropic","cone","gaussian","planar",
+#ifdef SRC_FLUOPATTERN
+const char* srctypeid[] = { "pencil","isotropic","cone","gaussian","planar",
     "pattern","fourier","arcsine","disk","fourierx","fourierx2d","zgaussian",
-    "line","slit","pencilarray","pattern3d",""};
+    "line","slit","pencilarray","pattern3d","fluopattern","" };
+#else 
+const char* srctypeid[] = { "pencil","isotropic","cone","gaussian","planar",
+    "pattern","fourier","arcsine","disk","fourierx","fourierx2d","zgaussian",
+    "line","slit","pencilarray","pattern3d","" };
+#endif //SRC_FLUOPATTERN
+
 
 
 /**
@@ -1339,6 +1346,34 @@ int mcx_loadjson(cJSON *root, Config *cfg){
 		 }
               }
            }
+#ifdef SRC_FLUOPATTERN
+	   subitem = FIND_JSON_OBJ("SourceList", "Optode.Source.SourceList", src);
+	   if (subitem) {
+	       char listfile[MAX_PATH_LENGTH];
+	       cJSON* pat = FIND_JSON_OBJ("Data", "Optode.Source.Pattern.Data", subitem);
+	       if (pat) {
+		   if (cfg->rootpath[0]) {
+#ifdef WIN32
+		       sprintf(listfile, "%s\\%s", cfg->rootpath, pat->valuestring);
+#else
+		       sprintf(listfile, "%s/%s", cfg->rootpath, pat->valuestring);
+#endif
+		   }
+		   else {
+		       strncpy(listfile, pat->valuestring, MAX_PATH_LENGTH);
+		   }
+		   FILE* fid = fopen(listfile, "rb");
+		   if (fid != NULL) {
+		       if (cfg->srcpattern) free(cfg->srcpattern);
+		       fread(&cfg->srcparam1.x, sizeof(float), 1, fid); /** Read number of sources store it as a src parameter*/
+		       cfg->srcpattern = (float*)calloc(3 * cfg->srcparam1.x, sizeof(float));
+		       fread((void*)cfg->srcpattern, sizeof(float), 3 * cfg->srcparam1.x, fid); /** Read source positions*/
+		       fclose(fid);
+		   }else
+			   MCX_ERROR(-1, "Incomplete pattern data");
+	       }
+	   }
+#endif //SRC_FLUOPATTERN
         }
         dets=FIND_JSON_OBJ("Detector","Optode.Detector",Optode);
         if(dets){
@@ -1391,8 +1426,8 @@ int mcx_loadjson(cJSON *root, Config *cfg){
 	if(!flagset['m'])  cfg->ismomentum=FIND_JSON_KEY("DoDCS","Session.DoDCS",Session,cfg->ismomentum,valueint);
 	if(!flagset['V'])  cfg->isspecular=FIND_JSON_KEY("DoSpecular","Session.DoSpecular",Session,cfg->isspecular,valueint);
 	if(!flagset['D'])  cfg->debuglevel=mcx_parsedebugopt(FIND_JSON_KEY("DebugFlag","Session.DebugFlag",Session,"",valuestring),debugflag);
-	if(!flagset['W'])  cfg->savedetflag=mcx_parsedebugopt(FIND_JSON_KEY("SaveDataMask","Session.SaveDataMask",Session,"",valuestring),saveflag);
-
+	if(!flagset['w'])  cfg->savedetflag=mcx_parsedebugopt(FIND_JSON_KEY("SaveDataMask","Session.SaveDataMask",Session,"",valuestring),saveflag);
+	
         if(!cfg->outputformat)  cfg->outputformat=mcx_keylookup((char *)FIND_JSON_KEY("OutputFormat","Session.OutputFormat",Session,"mc2",valuestring),outputformat);
         if(cfg->outputformat<0)
                 mcx_error(-2,"the specified output format is not recognized",__FILE__,__LINE__);
