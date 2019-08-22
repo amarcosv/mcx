@@ -199,9 +199,10 @@ __device__ inline void savedetphoton(float n_det[], uint* detectedphoton, float*
 __device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float* ppath, MCXpos * p0, MCXdir * v, RandType t[RAND_BUF_LEN], RandType * seeddata, uint * idx1d) {
 #endif //SAVE_LAUNCHPOS
 #ifdef SAVE_LAUNCHPOS
+    uint detid=finddetector(p);
 #else
+    uint detid = finddetector(p0);
 #endif //SAVE_LAUNCHPOS
-uint detid=finddetector(p0);
       if(detid){
 	 uint baseaddr=atomicAdd(detectedphoton,1);
 	 if(baseaddr<gcfg->maxdetphoton){
@@ -1187,7 +1188,7 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
      MCXtime f={0.f,0.f,0.f,-1.f};   ///< Photon parameter state: pscat: remaining scattering probability,t: photon elapse time, pathlen: total pathlen in one voxel, ndone: completed photons
 
 #ifdef SAVE_LAUNCHPOS
-     MCXpos  p0 = { 0.f,0.f,0.f,-1.f };   ///< Photon launch position: {x,y,z}: coordinates in grid unit, w:packet weight
+     MCXpos  p0 = { 0.f,0.f,0.f,0.f };   ///< Photon launch position: {x,y,z}: coordinates in grid unit, w:packet weight
 #endif //SAVE_LAUNCHPOS
 
      uint idx1d, idx1dold;    ///< linear index to the current voxel in the media array
@@ -1562,7 +1563,7 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
                         if(mediaid==0){ // transmission to external boundary
                             GPUDEBUG(("transmit to air, relaunch\n"));
 #ifdef SAVE_LAUNCHPOS
-			    if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0,&v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK),
+			    if (launchnewphoton<isinternal, isreflect, issavedet>(&p, &p0, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK),
 				ppath, n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
 				media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
 #else

@@ -2164,8 +2164,7 @@ void mcx_parsecmd(int argc, char* argv[], Config *cfg){
  * @param[out] debugflag: the numerical format of the debug flag
  */
 
-int mcx_parsedebugopt(char *debugopt,const char *debugflag){
-    char *c=debugopt,*p;
+int mcx_parsedebugopt(char *debugopt,const char *debugflag){    char *c=debugopt,*p;
     int debuglevel=0;
 
     while(*c){
