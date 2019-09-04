@@ -66,7 +66,7 @@ int main (int argc, char *argv[]) {
      /** 
         This line runs the main MCX simulation for each GPU inside each thread 
       */
-     mcx_run_simulation(&mcxconfig,gpuinfo); 
+     //mcx_run_simulation(&mcxconfig,gpuinfo); 
 
 #ifdef _OPENMP
      }

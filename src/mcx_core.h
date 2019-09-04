@@ -151,8 +151,10 @@ typedef struct  __align__(16) KernelParams {
   unsigned char bc[8];               /**< boundary conditions */
 }MCXParam;
 
-void mcx_run_simulation(Config *cfg,GPUInfo *gpu);
+//void mcx_run_simulation(Config *cfg,GPUInfo *gpu);
 int  mcx_list_gpu(Config *cfg, GPUInfo **info);
+void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons);
+
 
 #ifdef  __cplusplus
 }

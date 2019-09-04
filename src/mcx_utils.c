@@ -2312,7 +2312,9 @@ int mcx_run_from_json(char *jsonstr){
      #pragma omp parallel
      {
 #endif
-         mcx_run_simulation(&mcxconfig,gpuinfo); 
+	 float* gPdet;
+	 mcx_run_simulation(&mcxconfig, gpuinfo, &gPdet);
+        // mcx_run_simulation(&mcxconfig,gpuinfo); 
 #ifdef _OPENMP
      }
 #endif

@@ -226,8 +226,9 @@ __device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float
 		    *((float3*)(n_det+baseaddr))=float3(v->x,v->y,v->z);
 		    baseaddr+=3;
 	    }
-	    if(SAVE_W0(gcfg->savedetflag))
-	        n_det[baseaddr++]=ppath[gcfg->w0offset-1];
+	    if (SAVE_W0(gcfg->savedetflag)) {
+		n_det[baseaddr++]=ppath[gcfg->w0offset-1];
+	    }
 #ifdef SAVE_LAUNCHPOS
 	    if (SAVE_PLAUNCH(gcfg->savedetflag)) {
 		*((float3*)(n_det + baseaddr)) = float3(p0->x, p0->y, p0->z);
@@ -1771,7 +1772,9 @@ int mcx_list_gpu(Config *cfg, GPUInfo **info){
  * @param[in] gpu: the GPU information structure
  */
 
-void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
+void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
+//void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
+
 
      int i,iter;
      float  minstep=1.f; //MIN(MIN(cfg->steps.x,cfg->steps.y),cfg->steps.z);
@@ -1811,7 +1814,8 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      float4 *gPpos,*gPdir,*gPlen;
      uint   *gPseed,*gdetected;
      int    *greplaydetid=NULL;
-     float  *gPdet,*gsrcpattern=NULL,*genergy,*greplayw=NULL,*greplaytof=NULL,*gdebugdata=NULL;
+     float  *gPdet;
+     float  *gsrcpattern=NULL,*genergy,*greplayw=NULL,*greplaytof=NULL,*gdebugdata=NULL;
      OutputType *gfield;
      RandType *gseeddata=NULL;
 
@@ -1869,8 +1873,10 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
              cfg->exportfield=(float *)calloc(sizeof(float)*dimxyz,gpu[gpuid].maxgate*2);
 	 }
      }
+#ifndef NO_USE_RAM
      if(cfg->exportdetected==NULL)
-         cfg->exportdetected=(float*)malloc(hostdetreclen*cfg->maxdetphoton*sizeof(float));
+	  cfg->exportdetected=(float*)malloc(hostdetreclen*cfg->maxdetphoton*sizeof(float));
+#endif
      if(cfg->issaveseed && cfg->seeddata==NULL)
          cfg->seeddata=malloc(cfg->maxdetphoton*sizeof(RandType)*RAND_BUF_LEN);
      cfg->detectedcount=0;
@@ -2021,7 +2027,9 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      Plen=(float4*)malloc(sizeof(float4)*gpu[gpuid].autothread);
      Plen0=(float4*)malloc(sizeof(float4)*gpu[gpuid].autothread);
      energy=(float*)calloc(gpu[gpuid].autothread<<1,sizeof(float));
+#ifndef NO_USE_RAM
      Pdet=(float*)calloc(cfg->maxdetphoton,sizeof(float)*(hostdetreclen));
+#endif
      if(cfg->seed!=SEED_FROM_FILE)
          Pseed=(uint*)malloc(sizeof(RandType)*gpu[gpuid].autothread*RAND_BUF_LEN);
      else
@@ -2033,7 +2041,9 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      CUDA_ASSERT(cudaMalloc((void **) &gPpos, sizeof(float4)*gpu[gpuid].autothread));
      CUDA_ASSERT(cudaMalloc((void **) &gPdir, sizeof(float4)*gpu[gpuid].autothread));
      CUDA_ASSERT(cudaMalloc((void **) &gPlen, sizeof(float4)*gpu[gpuid].autothread));
+#ifndef NO_USE_RAM
      CUDA_ASSERT(cudaMalloc((void **) &gPdet, sizeof(float)*cfg->maxdetphoton*(hostdetreclen)));
+#endif
      CUDA_ASSERT(cudaMalloc((void **) &gdetected, sizeof(uint)));
      CUDA_ASSERT(cudaMalloc((void **) &genergy, sizeof(float)*(gpu[gpuid].autothread<<1)));
 
@@ -2156,6 +2166,20 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 
      MCX_FPRINTF(cfg->flog,"init complete : %d ms\n",GetTimeMillis()-tic);
 
+#ifdef NO_USE_RAM
+     size_t cudaMemory;			/**  Cuda total device memory*/
+     size_t cudaFreeMemory;		/**  Cuda device free memory*/
+     size_t cudaFreememory_ph;	/**  Cuda device free memory in photons*/
+
+     CUDA_ASSERT(cudaMemGetInfo(&cudaFreeMemory, &cudaMemory));
+     //printf("Photons struct size in GPU = %zu KB = %.2f GB\n", hfcfg->Nphotons * sizeof(photon), ((float)hfcfg->Nphotons * sizeof(photon)) / 1073741824.0f);
+    // printf("Free memory space in GPU = %d KB = %.2f GB of %.2f GB\n", cudaFreeMemory, cudaFreeMemory / 1073741824.0f, cudaMemory / 1073741824.0f);
+     cudaFreememory_ph = (cudaFreeMemory / (hostdetreclen*sizeof(float))) * 0.85;
+     cfg->maxdetphoton = (unsigned int)cudaFreememory_ph;
+     param.maxdetphoton = cfg->maxdetphoton;
+     CUDA_ASSERT(cudaMalloc((void**)& gPdet, sizeof(float)* cfg->maxdetphoton* (hostdetreclen)));
+#endif
+
      /*
          if one has to simulate a lot of time gates, using the GPU global memory
 	 requires extra caution. If the total global memory is bigger than the total
@@ -2248,7 +2272,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
            }
 }
            CUDA_ASSERT(cudaDeviceSynchronize());
-	   CUDA_ASSERT(cudaMemcpy(&detected, gdetected,sizeof(uint),cudaMemcpyDeviceToHost));
+	   CUDA_ASSERT(cudaMemcpy(&detected, gdetected,sizeof(uint),cudaMemcpyDeviceToHost));	   
            tic1=GetTimeMillis();
 	   toc+=tic1-tic0;
            MCX_FPRINTF(cfg->flog,"kernel complete:  \t%d ms\nretrieving fields ... \t",tic1-tic);
@@ -2280,8 +2304,10 @@ are more than what your have specified (%d), please use the --maxjumpdebug optio
            }
 #ifdef SAVE_DETECTORS
            if(cfg->issavedet){
+#ifndef NO_USE_RAM
            	CUDA_ASSERT(cudaMemcpy(Pdet, gPdet,sizeof(float)*cfg->maxdetphoton*(hostdetreclen),cudaMemcpyDeviceToHost));
 	        CUDA_ASSERT(cudaGetLastError());
+#endif
 		if(cfg->issaveseed)
 		    CUDA_ASSERT(cudaMemcpy(seeddata, gseeddata,sizeof(RandType)*cfg->maxdetphoton*RAND_BUF_LEN,cudaMemcpyDeviceToHost));
 		if(detected>cfg->maxdetphoton){
@@ -2294,18 +2320,23 @@ is more than what your have specified (%d), please use the -H option to specify 
 #pragma omp atomic
                 cfg->his.detected+=detected;
                 detected=MIN(detected,cfg->maxdetphoton);
+		cfg->detectedcount += detected;
 		if(cfg->exportdetected){
 #pragma omp critical
 {
+			#ifndef NO_USE_RAM
                         cfg->exportdetected=(float*)realloc(cfg->exportdetected,(cfg->detectedcount+detected)*hostdetreclen*sizeof(float));
 			if(cfg->issaveseed && cfg->seeddata)
 			    cfg->seeddata=(RandType*)realloc(cfg->seeddata,(cfg->detectedcount+detected)*sizeof(RandType)*RAND_BUF_LEN);
 	                memcpy(cfg->exportdetected+cfg->detectedcount*(hostdetreclen),Pdet,detected*(hostdetreclen)*sizeof(float));
 			if(cfg->issaveseed && cfg->seeddata)
 			    memcpy(((RandType*)cfg->seeddata)+cfg->detectedcount*RAND_BUF_LEN,seeddata,detected*sizeof(RandType)*RAND_BUF_LEN);
-                        cfg->detectedcount+=detected;
+			cfg->detectedcount += detected;
+#endif                        
 }
 		}
+		
+
 	   }
 #endif
            mcx_flush(cfg);
@@ -2456,14 +2487,14 @@ is more than what your have specified (%d), please use the -H option to specify 
              cfg->his.seedbyte=sizeof(RandType)*RAND_BUF_LEN;
 
          cfg->his.detected=cfg->detectedcount;
-         mcx_savedetphoton(cfg->exportdetected,cfg->seeddata,cfg->detectedcount,0,cfg);
+         //mcx_savedetphoton(cfg->exportdetected,cfg->seeddata,cfg->detectedcount,0,cfg);
      }
      if((cfg->debuglevel & MCX_DEBUG_MOVE) && cfg->parentid==mpStandalone && cfg->exportdebugdata){
          cfg->his.colcount=MCX_DEBUG_REC_LEN;
          cfg->his.savedphoton=cfg->debugdatalen;
 	 cfg->his.totalphoton=cfg->nphoton;
          cfg->his.detected=0;
-         mcx_savedetphoton(cfg->exportdebugdata,NULL,cfg->debugdatalen,0,cfg);
+        // mcx_savedetphoton(cfg->exportdebugdata,NULL,cfg->debugdatalen,0,cfg);
      }
 }
 #pragma omp barrier
@@ -2503,7 +2534,9 @@ is more than what your have specified (%d), please use the -H option to specify 
      cfg->energyabs=cfg->energytot-cfg->energyesc;
 }
 #pragma omp barrier
-
+     
+     * detectedphotons = gPdet;
+     gPdet = NULL;
      CUDA_ASSERT(cudaFree(gmedia));
      CUDA_ASSERT(cudaFree(gfield));
      CUDA_ASSERT(cudaFree(gPpos));
@@ -2528,14 +2561,16 @@ is more than what your have specified (%d), please use the -H option to specify 
              CUDA_ASSERT(cudaFree(greplaydetid));
      }
 
-     CUDA_ASSERT(cudaDeviceReset());
+    // CUDA_ASSERT(cudaDeviceReset());
 
      free(Ppos);
      free(Pdir);
      free(Plen);
      free(Plen0);
      free(Pseed);
+#ifndef NO_USE_RAM
      free(Pdet);
+#endif
      free(energy);
      free(field);
      free(srcpw);
