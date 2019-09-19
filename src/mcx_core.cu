@@ -2174,7 +2174,8 @@ void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
      CUDA_ASSERT(cudaMemGetInfo(&cudaFreeMemory, &cudaMemory));
      //printf("Photons struct size in GPU = %zu KB = %.2f GB\n", hfcfg->Nphotons * sizeof(photon), ((float)hfcfg->Nphotons * sizeof(photon)) / 1073741824.0f);
     // printf("Free memory space in GPU = %d KB = %.2f GB of %.2f GB\n", cudaFreeMemory, cudaFreeMemory / 1073741824.0f, cudaMemory / 1073741824.0f);
-     cudaFreememory_ph = (cudaFreeMemory / (hostdetreclen*sizeof(float))) * 0.85;
+     cudaFreememory_ph = (cudaFreeMemory / (hostdetreclen*sizeof(float))) * 0.98;
+     if (cudaFreememory_ph < cfg->maxdetphoton)
      cfg->maxdetphoton = (unsigned int)cudaFreememory_ph;
      param.maxdetphoton = cfg->maxdetphoton;
      CUDA_ASSERT(cudaMalloc((void**)& gPdet, sizeof(float)* cfg->maxdetphoton* (hostdetreclen)));

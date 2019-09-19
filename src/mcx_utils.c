@@ -1369,8 +1369,10 @@ int mcx_loadjson(cJSON *root, Config *cfg){
 		       cfg->srcpattern = (float*)calloc(3 * cfg->srcparam1.x, sizeof(float));
 		       fread((void*)cfg->srcpattern, sizeof(float), 3 * cfg->srcparam1.x, fid); /** Read source positions*/
 		       fclose(fid);
+		       cfg->fluoname = malloc(strlen(pat->valuestring));
+		       strcpy(cfg->fluoname, pat->valuestring);
 		   }else
-			   MCX_ERROR(-1, "Incomplete pattern data");
+			   MCX_ERROR(-1, "Incomplete fluorescence pattern data");
 	       }
 	   }
 #endif //SRC_FLUOPATTERN
