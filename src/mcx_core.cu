@@ -199,35 +199,36 @@ __device__ inline void savedetphoton(float n_det[], uint* detectedphoton, float*
 __device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float* ppath, MCXpos * p0, MCXdir * v, RandType t[RAND_BUF_LEN], RandType * seeddata, uint * idx1d) {
 #endif //SAVE_LAUNCHPOS
 #ifdef SAVE_LAUNCHPOS
-    uint detid=finddetector(p);
+    if (p->z < (gcfg->vsize.z-0.1f)) {
+    uint detid = finddetector(p);
 #else
     uint detid = finddetector(p0);
 #endif //SAVE_LAUNCHPOS
-      if(detid){
-	 uint baseaddr=atomicAdd(detectedphoton,1);
-	 if(baseaddr<gcfg->maxdetphoton){
+    if (detid) {
+	uint baseaddr = atomicAdd(detectedphoton, 1);
+	if (baseaddr < gcfg->maxdetphoton) {
 	    uint i;
-	    for(i=0;i<gcfg->issaveseed*RAND_BUF_LEN;i++)
-	        seeddata[baseaddr*RAND_BUF_LEN+i]=t[i]; ///< save photon seed for replay
-	    baseaddr*=gcfg->reclen;
-	    if(SAVE_DETID(gcfg->savedetflag))
-	        n_det[baseaddr++]=detid;
-	    for(i=0;i<gcfg->partialdata;i++)
-		n_det[baseaddr++]=ppath[i]; ///< save partial pathlength to the memory
-            if(SAVE_PEXIT(gcfg->savedetflag)){
+	    for (i = 0; i < gcfg->issaveseed * RAND_BUF_LEN; i++)
+		seeddata[baseaddr * RAND_BUF_LEN + i] = t[i]; ///< save photon seed for replay
+	    baseaddr *= gcfg->reclen;
+	    if (SAVE_DETID(gcfg->savedetflag))
+		n_det[baseaddr++] = detid;
+	    for (i = 0; i < gcfg->partialdata; i++)
+		n_det[baseaddr++] = ppath[i]; ///< save partial pathlength to the memory
+	    if (SAVE_PEXIT(gcfg->savedetflag)) {
 #ifdef SAVE_LAUNCHPOS
 		* ((float3*)(n_det + baseaddr)) = float3(p->x, p->y, p->z);
 #else
 		* ((float3*)(n_det + baseaddr)) = float3(p0->x, p0->y, p0->z);
 #endif //SAVE_LAUNCHPOS
-		    baseaddr+=3;
+		baseaddr += 3;
 	    }
-	    if(SAVE_VEXIT(gcfg->savedetflag)){
-		    *((float3*)(n_det+baseaddr))=float3(v->x,v->y,v->z);
-		    baseaddr+=3;
+	    if (SAVE_VEXIT(gcfg->savedetflag)) {
+		*((float3*)(n_det + baseaddr)) = float3(v->x, v->y, v->z);
+		baseaddr += 3;
 	    }
 	    if (SAVE_W0(gcfg->savedetflag)) {
-		n_det[baseaddr++]=ppath[gcfg->w0offset-1];
+		n_det[baseaddr++] = ppath[gcfg->w0offset - 1];
 	    }
 #ifdef SAVE_LAUNCHPOS
 	    if (SAVE_PLAUNCH(gcfg->savedetflag)) {
@@ -235,8 +236,9 @@ __device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float
 		baseaddr += 3;
 	    }
 #endif //SAVE_LAUNCHPOS
-	 }
-      }
+	}
+    }
+}
 }
 #endif
 
@@ -1171,6 +1173,37 @@ kernel void mcx_test_rng(OutputType field[],uint n_seed[]){
      }
 }
 
+#ifdef NO_USE_RAM
+/**
+ * @brief The core Monte Carlo photon simulation kernel (!!!Important!!!)
+ *
+ * This is the core Monte Carlo simulation kernel, please see Fig. 1 in Fang2009.
+ * everything in the GPU kernels is in grid-unit. To convert back to length, use
+ * cfg->unitinmm (scattering/absorption coeff, T, speed etc)
+ *
+ * @param[in] media: domain medium index array, read-only
+ * @param[out] field: the 3D/4D array where the fluence/energy-deposit are accummulated
+ * @param[in,out] genergy: the array storing the total launched and escaped energy for each thread
+ * @param[in] n_seed: the seed to the RNG of this thread
+ * @param[in,out] n_pos: the initial position state of the photon for each thread
+ * @param[in,out] n_dir: the initial direction state of the photon for each thread
+ * @param[in,out] n_len: the initial parameter state of the photon for each thread
+ * @param[in,out] detectedphoton: the buffer where the detected photon data are stored
+ * @param[in,out] simulatedphoton: the buffer where the simulated photon data are stored
+ * @param[in] srcpattern: user-specified source pattern array if pattern source is used
+ * @param[in] replayweight: the pre-computed detected photon weight for replay
+ * @param[in] photontof: the pre-computed detected photon time-of-fly for replay
+ * @param[in,out] seeddata: pointer to the buffer to save detected photon seeds
+ * @param[in,out] gdebugdata: pointer to the buffer to save photon trajectory positions
+ * @param[in,out] gprogress: pointer to the host variable to update progress bar
+ */
+
+template <const int isinternal, const  int isreflect, const int issavedet>
+kernel void mcx_main_loop(uint media[], OutputType field[], float genergy[], uint n_seed[],
+    float4 n_pos[], float4 n_dir[], float4 n_len[], float n_det[], uint detectedphoton[], uint simulatedphoton[],
+    float srcpattern[], float replayweight[], float photontof[], int photondetid[],
+    RandType* seeddata, float* gdebugdata, volatile int* gprogress) {
+#else
 /**
  * @brief The core Monte Carlo photon simulation kernel (!!!Important!!!)
  *
@@ -1194,11 +1227,13 @@ kernel void mcx_test_rng(OutputType field[],uint n_seed[]){
  * @param[in,out] gprogress: pointer to the host variable to update progress bar
  */
 
-template <const int isinternal,const  int isreflect, const int issavedet>
-kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n_seed[],
-     float4 n_pos[],float4 n_dir[],float4 n_len[],float n_det[], uint detectedphoton[], 
-     float srcpattern[],float replayweight[],float photontof[],int photondetid[], 
-     RandType *seeddata,float *gdebugdata,volatile int *gprogress){
+template <const int isinternal, const  int isreflect, const int issavedet>
+kernel void mcx_main_loop(uint media[], OutputType field[], float genergy[], uint n_seed[],
+    float4 n_pos[], float4 n_dir[], float4 n_len[], float n_det[], uint detectedphoton[],
+    float srcpattern[], float replayweight[], float photontof[], int photondetid[],
+    RandType* seeddata, float* gdebugdata, volatile int* gprogress) {
+#endif //NO_USE_RAM
+
 
      /** the 1D index of the current thread */
      int idx= blockDim.x * blockIdx.x + threadIdx.x;
@@ -1265,8 +1300,11 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
 	 moved from one voxel to the immediately next voxel when the scattering path continues, 
 	 or moved to the end of the scattering path if it ends within the current voxel.
       */
-
-     while(f.ndone<(gcfg->threadphoton+(idx<gcfg->oddphotons))) {
+#ifdef NO_USE_RAM
+     while (f.ndone < (gcfg->threadphoton + (idx < gcfg->oddphotons)) && *detectedphoton < gcfg->maxdetphoton) {
+#else
+     while (f.ndone < (gcfg->threadphoton + (idx < gcfg->oddphotons))) {
+#endif //NO_USE_RAM   
 
           GPUDEBUG(("photonid [%d] L=%f w=%e medium=%d\n",(int)f.ndone,f.pscat,p.w,mediaid));
 
@@ -1625,6 +1663,10 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
      
      if(gcfg->issaveref>1)
          *detectedphoton=gcfg->maxdetphoton;
+#ifdef NO_USE_RAM
+     atomicAdd(simulatedphoton, (unsigned int)f.ndone);
+#endif //NO_USE_RAM  
+
 
      /** for debugging purposes, we also pass the last photon states back to the host for printing */
      n_pos[idx]=*((float4*)(&p));
@@ -2005,9 +2047,11 @@ void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
 	       memcpy(cfg->exportfield,field,fieldlen*sizeof(float));
 	   }
 	   if(cfg->issave2pt && cfg->parentid==mpStandalone){
+#ifndef NO_USE_RAM
                MCX_FPRINTF(cfg->flog,"saving data to file ...\t");
 	       mcx_savedata(field,fieldlen,cfg);
                MCX_FPRINTF(cfg->flog,"saving data complete : %d ms\n\n",GetTimeMillis()-tic);
+#endif //NO_USE_RAM
                fflush(cfg->flog);
            }
 	   CUDA_ASSERT(cudaFree(gfield));
@@ -2176,9 +2220,13 @@ void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
     // printf("Free memory space in GPU = %d KB = %.2f GB of %.2f GB\n", cudaFreeMemory, cudaFreeMemory / 1073741824.0f, cudaMemory / 1073741824.0f);
      cudaFreememory_ph = (cudaFreeMemory / (hostdetreclen*sizeof(float))) * 0.98;
      if (cudaFreememory_ph < cfg->maxdetphoton)
-     cfg->maxdetphoton = (unsigned int)cudaFreememory_ph;
+     cfg->maxdetphoton = (unsigned int)cudaFreememory_ph;     
      param.maxdetphoton = cfg->maxdetphoton;
      CUDA_ASSERT(cudaMalloc((void**)& gPdet, sizeof(float)* cfg->maxdetphoton* (hostdetreclen)));
+     /** Initialize buffer to count simulated photons*/
+     uint* gsimulated;
+     CUDA_ASSERT(cudaMalloc((void**)& gsimulated, sizeof(uint)));
+     CUDA_ASSERT(cudaMemset(gsimulated, 0, sizeof(uint)));
 #endif
 
      /*
@@ -2237,17 +2285,30 @@ void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
            MCX_FPRINTF(cfg->flog,"simulation run#%2d ... \n",iter+1); fflush(cfg->flog);
            mcx_flush(cfg);
            int isinternal=((cfg->internalsrc>0) || (param.mediaidorig && (cfg->srctype==MCX_SRC_PENCIL || cfg->srctype==MCX_SRC_CONE || cfg->srctype==MCX_SRC_ISOTROPIC)));
+#ifdef NO_USE_RAM
+	   switch (isinternal * 100 + (cfg->isreflect > 0) * 10 + (cfg->issavedet > 0)) {
+	   case 0:  mcx_main_loop<0, 0, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 1:  mcx_main_loop<0, 0, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 10: mcx_main_loop<0, 1, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 11: mcx_main_loop<0, 1, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 100:mcx_main_loop<1, 0, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 101:mcx_main_loop<1, 0, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 110:mcx_main_loop<1, 1, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 111:mcx_main_loop<1, 1, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsimulated, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   }
+#else
+	   switch (isinternal * 100 + (cfg->isreflect > 0) * 10 + (cfg->issavedet > 0)) {
+	   case 0:  mcx_main_loop<0, 0, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 1:  mcx_main_loop<0, 0, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 10: mcx_main_loop<0, 1, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 11: mcx_main_loop<0, 1, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 100:mcx_main_loop<1, 0, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 101:mcx_main_loop<1, 0, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 110:mcx_main_loop<1, 1, 0> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   case 111:mcx_main_loop<1, 1, 1> << <mcgrid, mcblock, sharedbuf >> > (gmedia, gfield, genergy, gPseed, gPpos, gPdir, gPlen, gPdet, gdetected, gsrcpattern, greplayw, greplaytof, greplaydetid, gseeddata, gdebugdata, gprogress); break;
+	   }
+#endif //NO_USE_RAM
 
-	   switch(isinternal*100 + (cfg->isreflect>0)*10+(cfg->issavedet>0)){
-	       case 0:  mcx_main_loop<0,0,0> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 1:  mcx_main_loop<0,0,1> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 10: mcx_main_loop<0,1,0> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 11: mcx_main_loop<0,1,1> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 100:mcx_main_loop<1,0,0> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 101:mcx_main_loop<1,0,1> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 110:mcx_main_loop<1,1,0> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-	       case 111:mcx_main_loop<1,1,1> <<<mcgrid,mcblock,sharedbuf>>>(gmedia,gfield,genergy,gPseed,gPpos,gPdir,gPlen,gPdet,gdetected,gsrcpattern,greplayw,greplaytof,greplaydetid,gseeddata,gdebugdata,gprogress);break;
-           }
 #pragma omp master
 {
            if((param.debuglevel & MCX_DEBUG_PROGRESS)){
@@ -2475,9 +2536,11 @@ is more than what your have specified (%d), please use the -H option to specify 
 	 free(scale);
      }
      if(cfg->issave2pt && cfg->parentid==mpStandalone){
+#ifndef NO_USE_RAM
          MCX_FPRINTF(cfg->flog,"saving data to file ...\t");
          mcx_savedata(cfg->exportfield,fieldlen,cfg);
          MCX_FPRINTF(cfg->flog,"saving data complete : %d ms\n\n",GetTimeMillis()-tic);
+#endif //NO_USE_RAM
          fflush(cfg->flog);
      }
      if(cfg->issavedet && cfg->parentid==mpStandalone && cfg->exportdetected){
@@ -2535,9 +2598,12 @@ is more than what your have specified (%d), please use the -H option to specify 
      cfg->energyabs=cfg->energytot-cfg->energyesc;
 }
 #pragma omp barrier
-     
+#ifdef NO_USE_RAM
+CUDA_ASSERT(cudaMemcpy(&cfg->nphoton, gsimulated, sizeof(uint), cudaMemcpyDeviceToHost));
+CUDA_ASSERT(cudaFree(gsimulated));
      * detectedphotons = gPdet;
      gPdet = NULL;
+#endif
      CUDA_ASSERT(cudaFree(gmedia));
      CUDA_ASSERT(cudaFree(gfield));
      CUDA_ASSERT(cudaFree(gPpos));
