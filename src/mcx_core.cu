@@ -199,7 +199,8 @@ __device__ inline void savedetphoton(float n_det[], uint* detectedphoton, float*
 __device__ inline void savedetphoton(float n_det[], uint * detectedphoton, float* ppath, MCXpos * p0, MCXdir * v, RandType t[RAND_BUF_LEN], RandType * seeddata, uint * idx1d) {
 #endif //SAVE_LAUNCHPOS
 #ifdef SAVE_LAUNCHPOS
-    if (p->z < (gcfg->vsize.z-0.1f)) {
+    /** Chech if the photons hits the z boundary*/
+    if ((p->x < gcfg->maxidx.x) && (p->y < gcfg->maxidx.y) && (p->x > 0.f) && (p->y > 0.f)) {
     uint detid = finddetector(p);
 #else
     uint detid = finddetector(p0);
@@ -2185,7 +2186,7 @@ void mcx_run_simulation(Config* cfg, GPUInfo* gpu, float** detectedphotons) {
 }
 #pragma omp barrier
 
-     MCX_FPRINTF(cfg->flog,"\nGPU=%d (%s) threadph=%d extra=%d np=%ld nthread=%d maxgate=%d repetition=%d\n",gpuid+1,gpu[gpuid].name,param.threadphoton,param.oddphotons,
+     MCX_FPRINTF(cfg->flog,"\nGPU=%d (%s) threadph=%d extra=%d np=%lu nthread=%d maxgate=%d repetition=%d\n",gpuid+1,gpu[gpuid].name,param.threadphoton,param.oddphotons,
            gpuphoton,gpu[gpuid].autothread,gpu[gpuid].maxgate,ABS(cfg->respin));
      MCX_FPRINTF(cfg->flog,"initializing streams ...\t");
      fflush(cfg->flog);
