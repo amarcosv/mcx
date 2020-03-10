@@ -5,9 +5,9 @@
 **  \copyright Qianqian Fang, 2009-2018
 **
 **  \section sref Reference:
-**  \li \c (\b Fang2009) Qianqian Fang and David A. Boas, 
+**  \li \c (\b Fang2009) Qianqian Fang and David A. Boas,
 **          <a href="http://www.opticsinfobase.org/abstract.cfm?uri=oe-17-22-20178">
-**          "Monte Carlo Simulation of Photon Migration in 3D Turbid Media Accelerated 
+**          "Monte Carlo Simulation of Photon Migration in 3D Turbid Media Accelerated
 **          by Graphics Processing Units,"</a> Optics Express, 17(22) 20178-20190 (2009).
 **  \li \c (\b Yu2018) Leiming Yu, Fanny Nina-Paravecino, David Kaeli, and Qianqian Fang,
 **          "Scalable and massively parallel Monte Carlo photon transport
@@ -176,7 +176,7 @@ const char boundarycond[]={'_','r','a','m','c','\0'};
 const char* srctypeid[] = { "pencil","isotropic","cone","gaussian","planar",
     "pattern","fourier","arcsine","disk","fourierx","fourierx2d","zgaussian",
     "line","slit","pencilarray","pattern3d","fluopattern","" };
-#else 
+#else
 const char* srctypeid[] = { "pencil","isotropic","cone","gaussian","planar",
     "pattern","fourier","arcsine","disk","fourierx","fourierx2d","zgaussian",
     "line","slit","pencilarray","pattern3d","" };
@@ -196,7 +196,7 @@ const char *mediaformat[]={"byte","short","integer","muamus_float","mua_float","
 /**
  * Flag to decide if parameter has been initialized over command line
  */
- 
+
 char flagset[256]={'\0'};
 
 /**
@@ -371,7 +371,7 @@ void mcx_clearcfg(Config *cfg){
 
 void mcx_savenii(float *dat, size_t len, char* name, int type32bit, int outputformatid, Config *cfg){
      FILE *fp;
-     char fname[MAX_PATH_LENGTH]={'\0'};
+     char fname[MAX_FULL_PATH]={'\0'};
      nifti_1_header hdr;
      nifti1_extender pad={{0,0,0,0}};
      float *logval=dat;
@@ -438,7 +438,7 @@ void mcx_savenii(float *dat, size_t len, char* name, int type32bit, int outputfo
          fp = fopen(fname,"wb");
          if (fp == NULL)
              mcx_error(-9, "Error opening img file for write",__FILE__,__LINE__);
-         if (fwrite(logval, (size_t)(hdr.bitpix>>3), hdr.dim[1]*hdr.dim[2]*hdr.dim[3]*hdr.dim[4], fp) != 
+         if (fwrite(logval, (size_t)(hdr.bitpix>>3), hdr.dim[1]*hdr.dim[2]*hdr.dim[3]*hdr.dim[4], fp) !=
 	       hdr.dim[1]*hdr.dim[2]*hdr.dim[3]*hdr.dim[4])
              mcx_error(-9, "Error writing img file",__FILE__,__LINE__);
 
@@ -457,8 +457,8 @@ void mcx_savenii(float *dat, size_t len, char* name, int type32bit, int outputfo
 
 void mcx_savedata(float *dat, size_t len, Config *cfg){
      FILE *fp;
-     char name[MAX_PATH_LENGTH];
-     char fname[MAX_PATH_LENGTH];
+     char name[MAX_FULL_PATH];
+     char fname[MAX_FULL_PATH];
      unsigned int glformat=GL_RGBA32F;
 
      if(cfg->rootpath[0])
@@ -496,7 +496,7 @@ void mcx_savedata(float *dat, size_t len, Config *cfg){
 
 void mcx_savedetphoton(float *ppath, void *seeds, int count, int doappend, Config *cfg){
 	FILE *fp;
-	char fhistory[MAX_PATH_LENGTH], filetag;
+	char fhistory[MAX_FULL_PATH], filetag;
 	filetag=((cfg->his.detected==0  && cfg->his.savedphoton) ? 't' : 'h');
         if(cfg->rootpath[0])
                 sprintf(fhistory,"%s%c%s.mc%c",cfg->rootpath,pathsep,cfg->session,filetag);
@@ -549,14 +549,14 @@ void mcx_normalize(float field[], float scale, int fieldlen, int option, int pid
 }
 
 /**
- * @brief Kahan summation: Add a sequence of finite precision floating point numbers  
+ * @brief Kahan summation: Add a sequence of finite precision floating point numbers
  *
  * Source: https://en.wikipedia.org/wiki/Kahan_summation_algorithm
  * @param[in,out] sum: sum of the squence before and after adding the next element
  * @param[in,out] kahanc: a running compensation for lost low-order bits
  * @param[in] input: the next element of the sequence
  */
- 
+
  void mcx_kahanSum(float *sum, float *kahanc, float input){
      float kahany=input-*kahanc;
      float kahant=*sum+kahany;
@@ -565,13 +565,13 @@ void mcx_normalize(float field[], float scale, int fieldlen, int option, int pid
  }
 
  /**
- * @brief Retrieve mua for different cfg.vol formats to convert fluence back to energy in post-processing 
+ * @brief Retrieve mua for different cfg.vol formats to convert fluence back to energy in post-processing
  *
  * @param[out] output: medium absorption coefficient for the current voxel
  * @param[in] mediaid: medium index of the current voxel
  * @param[in] cfg: simulation configuration
  */
- 
+
  float mcx_updatemua(unsigned int mediaid, Config *cfg){
      float mua;
      if(cfg->mediabyte<=4)
@@ -623,11 +623,11 @@ void mcx_error(const int id,const char *msg,const char *file,const int linenum){
 #ifdef MCX_CONTAINER
      mcx_throw_exception(id,msg,file,linenum);
 #else
-     MCX_FPRINTF(stdout,S_RED"\nMCX ERROR(%d):%s in unit %s:%d\n"S_RESET,id,msg,file,linenum);
+     MCX_FPRINTF(stdout,S_RED "\nMCX ERROR(%d):%s in unit %s:%d\n" S_RESET,id,msg,file,linenum);
      if(id==-CUDA_ERROR_LAUNCH_FAILED){
-         MCX_FPRINTF(stdout,S_RED"MCX is terminated by your graphics driver. If you use windows, \n\
+         MCX_FPRINTF(stdout,S_RED "MCX is terminated by your graphics driver. If you use windows, \n\
 please modify TdrDelay value in the registry. Please checkout FAQ #1 for more details:\n\
-URL: http://mcx.space/wiki/index.cgi?Doc/FAQ\n"S_RESET);
+URL: http://mcx.space/wiki/index.cgi?Doc/FAQ\n" S_RESET);
      }
      exit(id);
 #endif
@@ -718,7 +718,7 @@ void mcx_readconfig(char *fname, Config *cfg){
             }
             if(fp!=NULL) free(jbuf);
         }else{
-	    mcx_loadconfig(fp,cfg); 
+	    mcx_loadconfig(fp,cfg);
         }
         if(fp!=NULL) fclose(fp);
 	if(cfg->session[0]=='\0'){
@@ -747,7 +747,7 @@ void mcx_writeconfig(char *fname, Config *cfg){
      else{
      	FILE *fp=fopen(fname,"wt");
 	if(fp==NULL) mcx_error(-2,"can not write to the specified config file",__FILE__,__LINE__);
-	mcx_saveconfig(fp,cfg);     
+	mcx_saveconfig(fp,cfg);
 	fclose(fp);
      }
 }
@@ -782,6 +782,14 @@ void mcx_prepdomain(char *filename, Config *cfg){
 		mcx_convertrow2col(&(cfg->vol), &(cfg->dim));
 		cfg->isrowmajor=0;
 	}
+        if(cfg->issavedet && cfg->detnum==0)
+            cfg->issavedet=0;
+        if(cfg->issavedet==0){
+            cfg->issaveexit=0;
+	    cfg->ismomentum=0;
+	    if(cfg->seed!=SEED_FROM_FILE)
+	        cfg->savedetflag=0;
+        }
 	if(cfg->issavedet)
 		mcx_maskdet(cfg);
 	if(cfg->isdumpmask)
@@ -795,7 +803,7 @@ void mcx_prepdomain(char *filename, Config *cfg){
      if(cfg->seed==SEED_FROM_FILE && cfg->seedfile[0]){
         if(cfg->respin>1 || cfg->respin<0){
 	   cfg->respin=1;
-	   fprintf(stderr,S_RED"WARNING: respin is disabled in the replay mode\n"S_RESET);
+	   fprintf(stderr,S_RED "WARNING: respin is disabled in the replay mode\n" S_RESET);
 	}
         mcx_loadseedfile(cfg);
      }
@@ -832,10 +840,10 @@ void mcx_prepdomain(char *filename, Config *cfg){
      }
      if(cfg->issavedet && cfg->savedetflag==0)
          cfg->savedetflag=0x5;
-     if(cfg->mediabyte>=100){
-		 cfg->savedetflag=UNSET_SAVE_NSCAT(cfg->savedetflag);
-		 cfg->savedetflag=UNSET_SAVE_PPATH(cfg->savedetflag);
-		 cfg->savedetflag=UNSET_SAVE_MOM(cfg->savedetflag);
+     if(cfg->mediabyte>=100 && cfg->savedetflag){
+	 cfg->savedetflag=UNSET_SAVE_NSCAT(cfg->savedetflag);
+	 cfg->savedetflag=UNSET_SAVE_PPATH(cfg->savedetflag);
+	 cfg->savedetflag=UNSET_SAVE_MOM(cfg->savedetflag);
      }
      if(cfg->issaveref>1){
         if(cfg->issavedet==0)
@@ -862,8 +870,8 @@ void mcx_loadconfig(FILE *in, Config *cfg){
      uint i,gates,itmp;
      size_t count;
      float dtmp;
-     char filename[MAX_PATH_LENGTH]={'\0'}, comment[MAX_PATH_LENGTH],strtypestr[MAX_SESSION_LENGTH]={'\0'},*comm;
-     
+     char filename[MAX_FULL_PATH]={'\0'}, comment[MAX_FULL_PATH],strtypestr[MAX_FULL_PATH]={'\0'},*comm;
+
      if(in==stdin)
      	fprintf(stdout,"Please specify the total number of photons: [1000000]\n\t");
      MCX_ASSERT(fscanf(in,"%ld", &(count) )==1);
@@ -1008,8 +1016,7 @@ void mcx_loadconfig(FILE *in, Config *cfg){
          mcx_error(-4,"input media types plus detector number exceeds the maximum total (4000)",__FILE__,__LINE__);
 
      cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
-     if(cfg->issavedet && cfg->detnum==0) 
-      	cfg->issavedet=0;
+
      for(i=0;i<cfg->detnum;i++){
         if(in==stdin)
 		fprintf(stdout,"Please define detector #%d: x,y,z (in grid unit): [5 5 5 1]\n\t",i);
@@ -1090,7 +1097,7 @@ void mcx_loadconfig(FILE *in, Config *cfg){
 int mcx_loadjson(cJSON *root, Config *cfg){
      int i;
      cJSON *Domain, *Optode, *Forward, *Session, *Shapes, *tmp, *subitem;
-     char filename[MAX_PATH_LENGTH]={'\0'};
+     char filename[MAX_FULL_PATH]={'\0'};
      Domain  = cJSON_GetObjectItem(root,"Domain");
      Optode  = cJSON_GetObjectItem(root,"Optode");
      Session = cJSON_GetObjectItem(root,"Session");
@@ -1381,8 +1388,6 @@ int mcx_loadjson(cJSON *root, Config *cfg){
            if(det){
              cfg->detnum=cJSON_GetArraySize(dets);
              cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
-	     if(cfg->issavedet && cfg->detnum==0) 
-      		cfg->issavedet=0;
              for(i=0;i<cfg->detnum;i++){
                cJSON *pos=dets, *rad=NULL;
                rad=FIND_JSON_OBJ("R","Optode.Detector.R",det);
@@ -1426,8 +1431,8 @@ int mcx_loadjson(cJSON *root, Config *cfg){
 	if(!flagset['m'])  cfg->ismomentum=FIND_JSON_KEY("DoDCS","Session.DoDCS",Session,cfg->ismomentum,valueint);
 	if(!flagset['V'])  cfg->isspecular=FIND_JSON_KEY("DoSpecular","Session.DoSpecular",Session,cfg->isspecular,valueint);
 	if(!flagset['D'])  cfg->debuglevel=mcx_parsedebugopt(FIND_JSON_KEY("DebugFlag","Session.DebugFlag",Session,"",valuestring),debugflag);
-	if(!flagset['w'])  cfg->savedetflag=mcx_parsedebugopt(FIND_JSON_KEY("SaveDataMask","Session.SaveDataMask",Session,"",valuestring),saveflag);
-	
+	if(!flagset['w'])  cfg->savedetflag=mcx_parsedebugopt(FIND_JSON_KEY("SaveDataMask","Session.SaveDataMask",Session,"DP",valuestring),saveflag);
+
         if(!cfg->outputformat)  cfg->outputformat=mcx_keylookup((char *)FIND_JSON_KEY("OutputFormat","Session.OutputFormat",Session,"mc2",valuestring),outputformat);
         if(cfg->outputformat<0)
                 mcx_error(-2,"the specified output format is not recognized",__FILE__,__LINE__);
@@ -1515,7 +1520,7 @@ void mcx_loadvolume(char *filename,Config *cfg){
      unsigned int i,datalen,res;
      unsigned char *inputvol=NULL;
      FILE *fp;
-     
+
      if(strstr(filename,".json")!=NULL){
          int status;
          Grid3D grid={&(cfg->vol),&(cfg->dim),{1.f,1.f,1.f},cfg->isrowmajor};
@@ -1684,10 +1689,10 @@ void  mcx_convertrow2col(unsigned int **vol, uint3 *dim){
      uint x,y,z;
      unsigned int dimxy,dimyz;
      unsigned int *newvol=NULL;
-     
+
      if(*vol==NULL || dim->x==0 || dim->y==0 || dim->z==0){
      	return;
-     }     
+     }
      newvol=(unsigned int*)malloc(sizeof(unsigned int)*dim->x*dim->y*dim->z);
      dimxy=dim->x*dim->y;
      dimyz=dim->y*dim->z;
@@ -1717,11 +1722,11 @@ void  mcx_maskdet(Config *cfg){
      unsigned int *padvol;
      const float corners[8][3]={{0.f,0.f,0.f},{1.f,0.f,0.f},{0.f,1.f,0.f},{0.f,0.f,1.f},
                                 {1.f,1.f,0.f},{1.f,0.f,1.f},{0.f,1.f,1.f},{1.f,1.f,1.f}};
-     
+
      dx=cfg->dim.x+2;
      dy=cfg->dim.y+2;
      dz=cfg->dim.z+2;
-     
+
      /*handling boundaries in a volume search is tedious, I first pad vol by a layer of zeros,
        then I don't need to worry about boundaries any more*/
 
@@ -1732,9 +1737,9 @@ void  mcx_maskdet(Config *cfg){
 	        memcpy(padvol+zi*dy*dx+yi*dx+1,cfg->vol+(zi-1)*cfg->dim.y*cfg->dim.x+(yi-1)*cfg->dim.x,cfg->dim.x*sizeof(int));
 
      /**
-        The goal here is to find a set of voxels for each 
+        The goal here is to find a set of voxels for each
 	detector so that the intersection between a sphere
-	of R=cfg->detradius,c0=cfg->detpos[d] and the object 
+	of R=cfg->detradius,c0=cfg->detpos[d] and the object
 	surface (or bounding box) is fully covered.
      */
      for(d=0;d<cfg->detnum;d++){                             /*loop over each detector*/
@@ -1779,7 +1784,7 @@ void  mcx_maskdet(Config *cfg){
 	   }
         }
         if(cfg->issavedet && count==0)
-              MCX_FPRINTF(stderr,S_RED"WARNING: detector %d is not located on an interface, please check coordinates.\n"S_RESET,d+1);
+              MCX_FPRINTF(stderr,S_RED "WARNING: detector %d is not located on an interface, please check coordinates.\n" S_RESET,d+1);
      }
 
      free(padvol);
@@ -1788,7 +1793,7 @@ void  mcx_maskdet(Config *cfg){
 /**
  * @brief Save the pre-masked volume (with detector ID) to an nii file
  *
- * To test the results, you should use -M to dump the det-mask, load 
+ * To test the results, you should use -M to dump the det-mask, load
  * it in matlab, and plot the interface containing the detector with
  * pcolor() (has the matching index), and then draw a circle with the
  * radius and center set in the input file. the pixels should completely
@@ -1798,7 +1803,7 @@ void  mcx_maskdet(Config *cfg){
  */
 
 void mcx_dumpmask(Config *cfg){
-     char fname[MAX_PATH_LENGTH];
+     char fname[MAX_FULL_PATH];
      if(cfg->rootpath[0])
          sprintf(fname,"%s%c%s_vol",cfg->rootpath,pathsep,cfg->session);
      else
@@ -1845,7 +1850,7 @@ void mcx_progressbar(float percent, Config *cfg){
         for(j=0;j<percentage;j++)      MCX_FPRINTF(stdout,"=");
         MCX_FPRINTF(stdout,(percentage<colwidth-18) ? ">" : "=");
         for(j=percentage;j<colwidth-18;j++) MCX_FPRINTF(stdout," ");
-        MCX_FPRINTF(stdout,"] %3d%%"S_RESET,(int)(percent*100));
+        MCX_FPRINTF(stdout,"] %3d%%" S_RESET,(int)(percent*100));
 #ifdef MCX_CONTAINER
         mcx_matlab_flush();
 #else
@@ -1868,7 +1873,7 @@ void mcx_progressbar(float percent, Config *cfg){
 
 int mcx_readarg(int argc, char *argv[], int id, void *output,const char *type){
      /*
-         when a binary option is given without a following number (0~1), 
+         when a binary option is given without a following number (0~1),
          we assume it is 1
      */
      if(strcmp(type,"char")==0 && (id>=argc-1||(argv[id+1][0]<'0'||argv[id+1][0]>'9'))){
@@ -1901,7 +1906,7 @@ int mcx_readarg(int argc, char *argv[], int id, void *output,const char *type){
          }else if(strcmp(type,"floatlist")==0){
              char *nexttok;
              float *numlist=(float *)output;
-             int len=0;   
+             int len=0;
              nexttok=strtok(argv[id+1]," ,;");
              while(nexttok){
                  numlist[len++]=atof(nexttok); /*device id<256*/
@@ -1966,7 +1971,7 @@ void mcx_parsecmd(int argc, char* argv[], Config *cfg){
 		if(argv[i][1]<='z' && argv[i][1]>='A')
 		     flagset[(int)(argv[i][1])]=1;
 	        switch(argv[i][1]){
-		     case 'h': 
+		     case 'h':
 		                mcx_usage(cfg,argv[0]);
 				exit(0);
 		     case 'i':
@@ -1975,7 +1980,7 @@ void mcx_parsecmd(int argc, char* argv[], Config *cfg){
 				}
 		     		isinteractive=1;
 				break;
-		     case 'f': 
+		     case 'f':
 		     		isinteractive=0;
 				if(i<argc-1 && argv[i+1][0]=='{'){
 					jsoninput=argv[i+1];
@@ -2312,7 +2317,7 @@ int mcx_run_from_json(char *jsonstr){
      #pragma omp parallel
      {
 #endif
-         mcx_run_simulation(&mcxconfig,gpuinfo); 
+         mcx_run_simulation(&mcxconfig,gpuinfo);
 #ifdef _OPENMP
      }
 #endif
@@ -2341,7 +2346,7 @@ void mcx_printheader(Config *cfg){
 #    The MCX Project is funded by the NIH/NIGMS under grant R01-GM114365      #\n\
 ###############################################################################\n\
 $Rev::      $2019.4 $Date::                       $ by $Author::              $\n\
-###############################################################################\n"S_RESET);
+###############################################################################\n" S_RESET);
 }
 
 /**
@@ -2357,10 +2362,10 @@ void mcx_usage(Config *cfg,char *exename){
 usage: %s <param1> <param2> ...\n\
 where possible parameters include (the first value in [*|*] is the default)\n\
 \n"S_BOLD S_CYAN"\
-== Required option ==\n"S_RESET"\
+== Required option ==\n" S_RESET"\
  -f config     (--input)       read an input file in .json or .inp format\n\
 \n"S_BOLD S_CYAN"\
-== MC options ==\n"S_RESET"\
+== MC options ==\n" S_RESET"\
  -n [0|int]    (--photon)      total photon number (exponential form accepted)\n\
                                max accepted value:9.2234e+18 on 64bit systems\n\
  -r [1|+/-int] (--repeat)      if positive, repeat by r times,total= #photon*r\n\
@@ -2395,7 +2400,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
  -e [0.|float] (--minenergy)   minimum energy level to terminate a photon\n\
  -g [1|int]    (--gategroup)   number of time gates per run\n\
 \n"S_BOLD S_CYAN"\
-== GPU options ==\n"S_RESET"\
+== GPU options ==\n" S_RESET"\
  -L            (--listgpu)     print GPU information only\n\
  -t [16384|int](--thread)      total thread number\n\
  -T [64|int]   (--blocksize)   thread number per block\n\
@@ -2406,7 +2411,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
  -W '50,30,20' (--workload)    workload for active devices; normalized by sum\n\
  -I            (--printgpu)    print GPU information and run program\n\
 \n"S_BOLD S_CYAN"\
-== Input options ==\n"S_RESET"\
+== Input options ==\n" S_RESET"\
  -P '{...}'    (--shapes)      a JSON string for additional shapes in the grid\n\
  -K [1|int|str](--mediabyte)   volume data format, use either a number or a str\n\
                                1 or byte: 0-128 tissue labels\n\
@@ -2419,7 +2424,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
 			     104 or muamus_short: 2x short gray-levels for mua/s\n\
  -a [0|1]      (--array)       1 for C array (row-major); 0 for Matlab array\n\
 \n"S_BOLD S_CYAN"\
-== Output options ==\n"S_RESET"\
+== Output options ==\n" S_RESET"\
  -s sessionid  (--session)     a string to label all output file names\n\
  -O [X|XFEJPM] (--outputtype)  X - output flux, F - fluence, E - energy deposit\n\
     /case insensitive/         J - Jacobian (replay mode),   P - scattering, \n\
@@ -2454,13 +2459,13 @@ where possible parameters include (the first value in [*|*] is the default)\n\
                                hdr - Analyze 7.5 hdr/img format\n\
                                tx3 - GL texture data for rendering (GL_RGBA32F)\n\
 \n"S_BOLD S_CYAN"\
-== User IO options ==\n"S_RESET"\
+== User IO options ==\n" S_RESET"\
  -h            (--help)        print this message\n\
  -v            (--version)     print MCX revision number\n\
  -l            (--log)         print messages to a log file instead\n\
  -i 	       (--interactive) interactive mode\n\
 \n"S_BOLD S_CYAN"\
-== Debug options ==\n"S_RESET"\
+== Debug options ==\n" S_RESET"\
  -D [0|int]    (--debug)       print debug information (you can use an integer\n\
   or                           or a string by combining the following flags)\n\
  -D [''|RMP]                   1 R  debug RNG\n\
@@ -2468,7 +2473,7 @@ where possible parameters include (the first value in [*|*] is the default)\n\
                                4 P  print progress bar\n\
       combine multiple items by using a string, or add selected numbers together\n\
 \n"S_BOLD S_CYAN"\
-== Additional options ==\n"S_RESET"\
+== Additional options ==\n" S_RESET"\
  --root         [''|string]    full path to the folder storing the input files\n\
  --gscatter     [1e9|int]      after a photon completes the specified number of\n\
                                scattering events, mcx then ignores anisotropy g\n\
@@ -2482,14 +2487,14 @@ where possible parameters include (the first value in [*|*] is the default)\n\
                                stored (default: 1e7)\n\
  --faststep [0|1]              1-use fast 1mm stepping, [0]-precise ray-tracing\n\
 \n"S_BOLD S_CYAN"\
-== Example ==\n"S_RESET"\
+== Example ==\n" S_RESET"\
 example: (autopilot mode)\n"S_GREEN"\
-       %s -A 1 -n 1e7 -f input.inp -G 1 -D P\n"S_RESET"\
+       %s -A 1 -n 1e7 -f input.inp -G 1 -D P\n" S_RESET"\
 or (manual mode)\n"S_GREEN"\
-       %s -t 16384 -T 64 -n 1e7 -f input.inp -s test -r 2 -g 10 -d 1 -w dpx -b 1 -G 1\n"S_RESET"\
+       %s -t 16384 -T 64 -n 1e7 -f input.inp -s test -r 2 -g 10 -d 1 -w dpx -b 1 -G 1\n" S_RESET"\
 or (use multiple devices - 1st,2nd and 4th GPUs - together with equal load)\n"S_GREEN"\
-       %s -A -n 1e7 -f input.inp -G 1101 -W 10,10,10\n"S_RESET"\
+       %s -A -n 1e7 -f input.inp -G 1101 -W 10,10,10\n" S_RESET"\
 or (use inline domain definition)\n"S_GREEN"\
-       %s -f input.json -P '{\"Shapes\":[{\"ZLayers\":[[1,10,1],[11,30,2],[31,60,3]]}]}'"S_RESET"\n",
+       %s -f input.json -P '{\"Shapes\":[{\"ZLayers\":[[1,10,1],[11,30,2],[31,60,3]]}]}'" S_RESET"\n",
               exename,exename,exename,exename,exename);
 }

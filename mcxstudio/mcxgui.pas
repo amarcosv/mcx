@@ -16,7 +16,7 @@ uses
   SynHighlighterAny, SynHighlighterPerl, synhighlighterunixshellscript, LclIntf,
   LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus, ComCtrls,
   ExtCtrls, Spin, EditBtn, Buttons, ActnList, lcltype, AsyncProcess, Grids,
-  CheckLst, LazHelpHTML, ValEdit, inifiles, fpjson, jsonparser, runssh,
+  CheckLst, LazHelpHTML, ValEdit, inifiles, fpjson, jsonparser {$IFDEF USE_SYNAPSE}, runssh{$ENDIF},
   strutils, RegExpr, OpenGLTokens, mcxabout, mcxshape, mcxnewsession, mcxsource,
   mcxrender, mcxview, mcxconfig, mcxstoprun, Types {$IFDEF WINDOWS}, registry, ShlObj{$ENDIF};
 
@@ -79,6 +79,9 @@ type
     MenuItem66: TMenuItem;
     MenuItem67: TMenuItem;
     MenuItem68: TMenuItem;
+    MenuItem69: TMenuItem;
+    MenuItem70: TMenuItem;
+    MenuItem71: TMenuItem;
     miClearLog: TMenuItem;
     miCopy: TMenuItem;
     mmOutput: TSynEdit;
@@ -414,7 +417,9 @@ type
     MapList, ConfigData, JSONstr, PassList : TStringList;
     JSONdata : TJSONData;
     RegEngine:TRegExpr;
+    {$IFDEF USE_SYNAPSE}
     sshrun: TSSHThread;
+    {$ENDIF}
     function CreateCmd(proc: TProcess=nil):AnsiString;
     function CreateCmdOnly:AnsiString;
     procedure VerifyInput;
@@ -834,8 +839,11 @@ begin
       sgConfig.Cols[2].CommaText:=ConfigData.CommaText;
       sgConfig.FixedCols:=2;
       sgConfig.FixedRows:=1;
-
+{$IFDEF USE_SYNAPSE}
       edRemote.ItemIndex:=0;
+{$ELSE}
+      edRemote.ItemIndex:=1;
+{$ENDIF}
       ckDoRemote.Checked:=false;
       ckSharedFS.Checked:=false;
       grBC.Enabled:=false;
@@ -1307,12 +1315,14 @@ begin
             pass:=PasswordBox('SSH','Plese type your SSH password');
             PassList.Values[url]:=pass;
     end;
+{$IFDEF USE_SYNAPSE}
     sshrun := TSSHThread.Create(host,fmConfig.edPort.Text,username,pass,cmd,doprogress,@pMCXTerminate,true);
     sshrun.isupdategpu:=updategpu;
     sshrun.OutputMemo:=mmOutput;
     sshrun.sbInfo:=sbInfo;
     sshrun.ProgressBar:=fmStop.pbProgress;
     sshrun.Resume;
+{$ENDIF}
 end;
 
 procedure TfmMCX.mcxdoQueryExecute(Sender: TObject);
@@ -1325,6 +1335,7 @@ begin
     if(ResetMCX(0)) then begin
           AddLog('"-- Run Command --"');
           if(ckDoRemote.Checked) then begin
+{$IFDEF USE_SYNAPSE}
               if(edRemote.ItemIndex=0) then
               begin
                 url:=fmConfig.cbHost.Text;
@@ -1338,6 +1349,7 @@ begin
                 RunSSHCmd(Sender, cmd, true, false);
                 exit;
               end;
+{$ENDIF}
               url:=ExpandPassword(edRemote.Text);
               if(sscanf(url,'%s',[@cmd])=1) then begin
                   pMCX.CommandLine:='"'+SearchForExe(cmd)+'"'+
@@ -1444,12 +1456,12 @@ begin
 
         UpdateMCXActions(acMCX,'Run','');
         mcxdoRun.Tag:=ptrint(GetTickCount64);
-
+{$IFDEF USE_SYNAPSE}
         if(edRemote.ItemIndex=0) then
         begin
           url:=fmConfig.cbHost.Text;
           cmd:=fmConfig.edUserName.Text;
-          if(url.IsEmpty) or (cmd.IsEmpty) then begin
+          if ckDoRemote.Checked and ( (url.IsEmpty) or (cmd.IsEmpty) ) then begin
              if(MessageDlg('Question', 'You have not set up remote server information. Do you want to set now?', mtWarning,
                  [mbYes, mbNo, mbCancel],0) <> mrYes) then exit;
              mcxdoConfigExecute(Sender);
@@ -1457,6 +1469,7 @@ begin
           RunSSHCmd(Sender, fullcmd, false, ckbDebug.Checked[2]);
           exit;
         end;
+{$ENDIF}
 
         {$IFDEF DARWIN}
         AProcess := TProcess.Create(nil);
@@ -1525,10 +1538,12 @@ end;
 
 procedure TfmMCX.mcxdoStopExecute(Sender: TObject);
 begin
+{$IFDEF USE_SYNAPSE}
      if(ckDoRemote.Checked) and (sshrun<>nil) then
      begin
           sshrun.Terminate;
      end else if(pMCX.Running) then
+{$ENDIF}
      begin
        pMCX.Terminate(0);
      end;
@@ -1626,8 +1641,9 @@ begin
     fmStop.FormStyle:=fsStayOnTop;
 
     CurrentSession:=nil;
+{$IFDEF USE_SYNAPSE}
     sshrun:=nil;
-
+{$ENDIF}
     PassList:=TStringList.Create();
     MapList:=TStringList.Create();
     MapList.Clear;
@@ -1892,8 +1908,10 @@ end;
 
 procedure TfmMCX.pMCXTerminate(Sender: TObject);
 begin
+  {$IFDEF USE_SYNAPSE}
      if (ckDoRemote.Checked) and (sshrun<>nil) and (sshrun.isupdategpu) then
          UpdateGPUList(sshrun.FullLog);
+  {$ENDIF}
      if(not mcxdoStop.Enabled) then exit;
      if(Sender <> nil) and (Sender is TAsyncProcess) then
          AddMultiLineLog(GetMCXOutput(Sender), Sender);
