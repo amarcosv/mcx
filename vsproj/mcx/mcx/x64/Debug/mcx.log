@@ -1,9 +1,137 @@
 ﻿  Compiling CUDA source file ..\..\..\src\mcx_core.cu...
   
-  D:\Code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.22.27905\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu" 
+  D:\Code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -D_MBCS -Xcompiler "/EHsc /Wall /nologo /Od /Fdx64\Debug\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu" 
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(250): warning C4668: '__CUDACC_RTC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(250): warning C4668: '__CUDACC_RTC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(250): warning C4668: '__CUDACC_RTC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(250): warning C4668: '__CUDACC_RTC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(250): warning C4668: '__CUDACC_RTC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\crt/host_config.h(104): warning C4668: '__NV_NO_HOST_COMPILER_CHECK' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.h(1413): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.h(1621): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.h(1632): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.h(3000): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.h(3006): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.hpp(214): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.hpp(276): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.hpp(1035): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.hpp(1177): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda_fp16.hpp(1233): warning C4668: '__CUDA_ARCH__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1722): warning C4668: '__DEVICE_EMULATION__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
   mcx_core.cu
-  mcx.vcxproj -> D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug\mcx.exe
-  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\cudart*.dll" "D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug\"
-  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\cudart32_101.dll
-  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\cudart64_101.dll
-          2 file(s) copied.
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(433): warning C4820: 'CUstreamBatchMemOpParams_union::CUstreamMemOpWaitValueParams_st': '4' bytes padding added after data member 'CUstreamBatchMemOpParams_union::CUstreamMemOpWaitValueParams_st::operation'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(439): warning C4820: 'CUstreamBatchMemOpParams_union::CUstreamMemOpWaitValueParams_st': '4' bytes padding added after data member 'CUstreamBatchMemOpParams_union::CUstreamMemOpWaitValueParams_st::flags'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(443): warning C4820: 'CUstreamBatchMemOpParams_union::CUstreamMemOpWriteValueParams_st': '4' bytes padding added after data member 'CUstreamBatchMemOpParams_union::CUstreamMemOpWriteValueParams_st::operation'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(449): warning C4820: 'CUstreamBatchMemOpParams_union::CUstreamMemOpWriteValueParams_st': '4' bytes padding added after data member 'CUstreamBatchMemOpParams_union::CUstreamMemOpWriteValueParams_st::flags'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1128): warning C4820: 'CUDA_KERNEL_NODE_PARAMS_st': '4' bytes padding added after data member 'CUDA_KERNEL_NODE_PARAMS_st::sharedMemBytes'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1777): warning C4820: 'CUDA_MEMCPY2D_st': '4' bytes padding added after data member 'CUDA_MEMCPY2D_st::srcMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1786): warning C4820: 'CUDA_MEMCPY2D_st': '4' bytes padding added after data member 'CUDA_MEMCPY2D_st::dstMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1804): warning C4820: 'CUDA_MEMCPY3D_st': '4' bytes padding added after data member 'CUDA_MEMCPY3D_st::srcMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1816): warning C4820: 'CUDA_MEMCPY3D_st': '4' bytes padding added after data member 'CUDA_MEMCPY3D_st::dstMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1837): warning C4820: 'CUDA_MEMCPY3D_PEER_st': '4' bytes padding added after data member 'CUDA_MEMCPY3D_PEER_st::srcMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1849): warning C4820: 'CUDA_MEMCPY3D_PEER_st': '4' bytes padding added after data member 'CUDA_MEMCPY3D_PEER_st::dstMemoryType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1885): warning C4820: 'CUDA_ARRAY3D_DESCRIPTOR_st': '4' bytes padding added after data member 'CUDA_ARRAY3D_DESCRIPTOR_st::Flags'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1922): warning C4820: 'CUDA_RESOURCE_DESC_st': '4' bytes padding added after data member 'CUDA_RESOURCE_DESC_st::resType'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1925): warning C4820: 'CUDA_RESOURCE_DESC_st': '4' bytes padding added after data member 'CUDA_RESOURCE_DESC_st::flags'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(1991): warning C4820: 'CUDA_RESOURCE_VIEW_DESC_st': '4' bytes padding added after data member 'CUDA_RESOURCE_VIEW_DESC_st::format'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2007): warning C4820: 'CUDA_POINTER_ATTRIBUTE_P2P_TOKENS_st': '4' bytes padding added after data member 'CUDA_POINTER_ATTRIBUTE_P2P_TOKENS_st::vaSpaceToken'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2025): warning C4820: 'CUDA_LAUNCH_PARAMS_st': '4' bytes padding added after data member 'CUDA_LAUNCH_PARAMS_st::sharedMemBytes'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2102): warning C4820: 'CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st::type'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2112): warning C4820: 'CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_MEMORY_HANDLE_DESC_st::reserved'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2131): warning C4820: 'CUDA_EXTERNAL_MEMORY_BUFFER_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_MEMORY_BUFFER_DESC_st::reserved'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2151): warning C4820: 'CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_MEMORY_MIPMAPPED_ARRAY_DESC_st::reserved'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2212): warning C4820: 'CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC_st::type'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2218): warning C4820: 'CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_SEMAPHORE_HANDLE_DESC_st::reserved'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2241): warning C4820: 'CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_SEMAPHORE_SIGNAL_PARAMS_st::reserved'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include\cuda.h(2264): warning C4820: 'CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS_st': '4' bytes padding added after data member 'CUDA_EXTERNAL_SEMAPHORE_WAIT_PARAMS_st::reserved'
+D:\Code\mcx_custom\mcx\src\cjson/cJSON.h(115): warning C4820: 'cJSON': '4' bytes padding added after data member 'cJSON::type'
+D:\Code\mcx_custom\mcx\src\cjson/cJSON.h(119): warning C4820: 'cJSON': '4' bytes padding added after data member 'cJSON::valueint'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(139): warning C4324: 'MCXConfig': structure was padded due to alignment specifier
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(139): warning C4820: 'MCXConfig': '12' bytes padding added after data member 'MCXConfig::seed'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(187): warning C4820: 'MCXConfig': '3' bytes padding added after data member 'MCXConfig::faststep'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(195): warning C4820: 'MCXConfig': '4' bytes padding added after data member 'MCXConfig::rootpath'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(198): warning C4324: 'MCXConfig': structure was padded due to alignment specifier
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(198): warning C4820: 'MCXConfig': '8' bytes padding added after data member 'MCXConfig::voidtime'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(201): warning C4820: 'MCXConfig': '4' bytes padding added after data member 'MCXConfig::srcnum'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(213): warning C4820: 'MCXConfig': '4' bytes padding added after data member 'MCXConfig::runtime'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(222): warning C4820: 'MCXConfig': '4' bytes padding added after data member 'MCXConfig::mediabyte'
+D:\Code\mcx_custom\mcx\src\mcx_utils.h(224): warning C4820: 'MCXConfig': '8' bytes padding added after data member 'MCXConfig::bc'
+D:\Code\mcx_custom\mcx\src\mcx_core.h(109): warning C4324: 'KernelParams': structure was padded due to alignment specifier
+D:\Code\mcx_custom\mcx\src\mcx_core.h(109): warning C4820: 'KernelParams': '12' bytes padding added after data member 'KernelParams::Rtstep'
+D:\Code\mcx_custom\mcx\src\mcx_core.h(112): warning C4324: 'KernelParams': structure was padded due to alignment specifier
+D:\Code\mcx_custom\mcx\src\mcx_core.h(112): warning C4820: 'KernelParams': '4' bytes padding added after data member 'KernelParams::maxidx'
+D:\Code\mcx_custom\mcx\src\mcx_core.h(152): warning C4820: 'KernelParams': '4' bytes padding added after data member 'KernelParams::bc'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1733): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1747): warning C4244: '=': conversion from 'int' to 'char', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1763): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1812): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1812): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1812): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1828): warning C4365: 'initializing': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1864): warning C4365: 'initializing': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1890): warning C4365: 'initializing': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1891): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1891): warning C4365: '=': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1892): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1901): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1926): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1927): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1932): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1937): warning C4365: '=': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1943): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1949): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1961): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1973): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1979): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1979): warning C4365: '=': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1980): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1980): warning C4365: '=': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1982): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1982): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1982): warning C4365: '=': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1983): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1983): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1983): warning C4365: '=': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1998): warning C4365: '=': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(1999): warning C4365: '=': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2000): warning C4365: '=': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2013): warning C4365: '=': conversion from 'int' to 'uint', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2022): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'size_t'
+  D:/Code/mcx_custom/mcx/src/mcx_core.cu(2022): note: consider using '%zu' in the format string
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2055): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2126): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2140): warning C4365: 'argument': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2142): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2142): warning C4365: 'argument': conversion from 'time_t' to 'unsigned int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2166): warning C4477: 'fprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 5 has type 'size_t'
+  D:/Code/mcx_custom/mcx/src/mcx_core.cu(2166): note: consider using '%zd' in the format string
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2236): warning C4365: '=': conversion from 'int' to 'uint', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2417): warning C4456: declaration of 'p0' hides previous local declaration
+  D:/Code/mcx_custom/mcx/src/mcx_core.cu(1810): note: see declaration of 'p0'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2568): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2568): warning C4365: 'initializing': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2586): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2591): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2597): warning C4456: declaration of 'i' hides previous local declaration
+  D:/Code/mcx_custom/mcx/src/mcx_core.cu(1808): note: see declaration of 'i'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2608): warning C4456: declaration of 'i' hides previous local declaration
+  D:/Code/mcx_custom/mcx/src/mcx_core.cu(1808): note: see declaration of 'i'
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2627): warning C4365: 'argument': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2627): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2627): warning C4365: 'argument': conversion from 'size_t' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2641): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2646): warning C4365: 'argument': conversion from 'unsigned long' to 'int', signed/unsigned mismatch
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2651): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(2653): warning C4365: 'argument': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+C:\Users\Asier\AppData\Local\Temp\tmpxft_00004c24_00000000-3_mcx_core.fatbin.c(3436961): fatal error C1060: compiler is out of heap space
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\CUDA 10.1.targets(764,9): error MSB3721: The command ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -D_MBCS -Xcompiler "/EHsc /Wall /nologo /Od /Fdx64\Debug\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu"" exited with code 2.
