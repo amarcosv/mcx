@@ -6,11 +6,9 @@ d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx_shapes.obj
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcextreme.obj
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\cjson.obj
 x64\debug_custom\mcx_core.cu.obj
-d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.exe
 d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.ilk
+d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.exe
 d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.pdb
-d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.lib
-d:\code\mcx_custom\mcx\vsproj\mcx\x64\debug_custom\mcx.exp
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx_core.cu.cache
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx_core.cu.obj
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\cl.command.1.tlog
@@ -21,4 +19,3 @@ d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\cudacompile.writ
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\link.command.1.tlog
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\link.read.1.tlog
 d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\link.write.1.tlog
-d:\code\mcx_custom\mcx\vsproj\mcx\mcx\x64\debug_custom\mcx.tlog\mcx.write.1u.tlog
