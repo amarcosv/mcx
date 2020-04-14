@@ -141,6 +141,43 @@ __device__ inline void clearpath(float *p,int maxmediatype){
 
 #ifdef SAVE_DETECTORS
 
+
+#ifdef FIBER_DETECTORS
+
+__device__ inline uint findfiberdetector(MCXpos* p0, MCXdir* v, float len) {
+    uint i;
+    float t; /** vector translation factor*/
+    float d; /** distance from intersection to detector center*/
+    float3 p; /** intersection position in detector plane*/
+    float denom;
+    for (i = gcfg->maxmedia + 1; i < gcfg->maxmedia + gcfg->detnum + 1; i++) {//Shift i to arrive detpos
+        /** Find an intersection point between the photon and the detector plane*/
+        denom = v->x * gproperty[i+gcfg->detnum].x + v->y * gproperty[i + gcfg->detnum].y + v->z * gproperty[i + gcfg->detnum].z;
+        if (denom > 1e-6) {
+            //detv = p0 - l0;
+            t = ((gproperty[i].x - p0->x) * gproperty[i + gcfg->detnum].x + 
+                (gproperty[i].y - p0->y) * gproperty[i + gcfg->detnum].y + 
+                (gproperty[i].z - p0->z) * gproperty[i + gcfg->detnum].z) / denom;
+            p = { p0->x + v->x * t, p0->y + v->y * t, p0->z + v->z * t };
+            d = exp2(p.x - gproperty[i].x) + exp2(p.y - gproperty[i].y) + exp2(p.z- gproperty[i].z);
+            t = exp2(p.x - p0->x) + exp2(p.y - p0->y) + exp2(p.z - p0->z);
+            if ((d < gproperty[i].w * gproperty[i].w) && (t< len*len))
+            return i - gcfg->maxmedia;
+        }
+
+    }
+    return 0;
+}
+
+__device__ inline uint savefiberphoton(uint* detectedphoton, MCXpos* p0, MCXdir* v,  float len ) {
+    uint detid = findfiberdetector(p0,v,len);
+    if (detid) {
+        uint baseaddr = atomicAdd(detectedphoton, 1);        
+    }
+    return detid;
+}
+
+#endif
 /**
  * @brief Testing which detector detects an escaping photon
  * @param[in] p0: the position of the escaping photon
@@ -1292,6 +1329,7 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
       */
 
      while(f.ndone<(gcfg->threadphoton+(idx<gcfg->oddphotons))) {
+         printf("photonid [%d] L=%f w=%e medium=%d\n", (int)f.ndone, f.pscat, p.w, mediaid);
 
           GPUDEBUG(("photonid [%d] L=%f w=%e medium=%d\n",(int)f.ndone,f.pscat,p.w,mediaid));
 
@@ -1407,6 +1445,25 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
 
 	  /** final length that the photon moves - either the length to move to the next voxel, or the remaining scattering length */
 	  len=slen/(prop.mus*(v.nscat+1.f > gcfg->gscatter ? (1.f-prop.g) : 1.f));
+          //printf("Attempting photon detection");
+          /**
+          ATTEMPT DETECTION SOMEWHERE HERE!          
+          
+          printf("Attempting photon detection");
+          */
+         // atomicAdd(detectedphoton, 1);
+          /*if (v.z < 0.0f && len>0.0f) {
+              
+              if (savefiberphoton(detectedphoton, &p, &v, len)) {
+                  if (launchnewphoton<mcxsource, isinternal, isreflect, islabel>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+                      n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+                      media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+                      break;
+                  isdet = mediaid & DET_MASK;
+                  mediaid &= MED_MASK;
+                  continue;
+              }
+          }
 
 	  /** if photon moves to the next voxel, use the precomputed intersection coord. htime which are assured to be outside of the current voxel */
 	  *((float3*)(&p)) = (gcfg->faststep || slen==f.pscat) ? float3(p.x+len*v.x,p.y+len*v.y,p.z+len*v.z) : float3(htime.x,htime.y,htime.z);
@@ -2185,6 +2242,8 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 
      CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->prop,  cfg->medianum*sizeof(Medium), 0, cudaMemcpyHostToDevice));
      CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->detpos,  cfg->detnum*sizeof(float4), cfg->medianum*sizeof(Medium), cudaMemcpyHostToDevice));
+     /** Load into gpu memory the new properties */
+     //CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->detprops, cfg->detnum * sizeof(float4), cfg->medianum * sizeof(Medium)+ cfg->detnum * sizeof(float4), cudaMemcpyHostToDevice));
 
      MCX_FPRINTF(cfg->flog,"init complete : %d ms\n",GetTimeMillis()-tic);
 
@@ -2245,6 +2304,8 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
            mcx_flush(cfg);
            int isinternal=((cfg->internalsrc>0) || (param.mediaidorig && (cfg->srctype==MCX_SRC_PENCIL || cfg->srctype==MCX_SRC_CONE || cfg->srctype==MCX_SRC_ISOTROPIC)));
 
+           //mcgrid = 1;
+           //mcblock = 1;
 	   if(cfg->mediabyte<=4){
 	     if(cfg->isreflect){
                if(isinternal){
@@ -2410,6 +2471,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 	       }
              }
            }
+
 #pragma omp master
 {
            if((param.debuglevel & MCX_DEBUG_PROGRESS)){

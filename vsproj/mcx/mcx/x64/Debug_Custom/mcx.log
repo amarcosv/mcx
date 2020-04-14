@@ -1,408 +1,708 @@
 ﻿  Compiling CUDA source file ..\..\..\src\mcx_core.cu...
   
-  D:\Code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include"     --keep-dir x64\Debug_Custom -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DSAVE_LAUNCHPOS -DSRC_FLUOPATTERN -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_LAUNCHPOS -DSRC_FLUOPATTERN -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_Custom\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_Custom\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu" 
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=1]" 
-  (2253): here
-  
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=1]" 
+  D:\Code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include"     --keep-dir x64\Debug_Custom -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DSRC_FLUOPATTERN -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSRC_FLUOPATTERN -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_Custom\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_Custom\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=1]" 
   (2254): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=1]" 
   (2255): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=1]" 
   (2256): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=1]" 
   (2257): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=1]" 
   (2258): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=1]" 
   (2259): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=1]" 
   (2260): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=1]" 
   (2261): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=1]" 
   (2262): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=1]" 
   (2263): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=1]" 
   (2264): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=1]" 
   (2265): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=1]" 
   (2266): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=1]" 
   (2267): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=1]" 
   (2268): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=1]" 
-  (2272): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=1]" 
+  (2269): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=1]" 
   (2273): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=1]" 
   (2274): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=1]" 
   (2275): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=1]" 
   (2276): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=1]" 
   (2277): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=1]" 
   (2278): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=1]" 
   (2279): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=1]" 
   (2280): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=1]" 
   (2281): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=1]" 
   (2282): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=1]" 
   (2283): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=1]" 
   (2284): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=1]" 
   (2285): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=1]" 
   (2286): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=1]" 
   (2287): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=1]" 
-  (2293): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=1]" 
+  (2288): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=1]" 
   (2294): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=1]" 
   (2295): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=1]" 
   (2296): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=1]" 
   (2297): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=0, islabel=1]" 
   (2298): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=0, islabel=1]" 
   (2299): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=0, islabel=1]" 
   (2300): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=0, islabel=1]" 
   (2301): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=0, islabel=1]" 
   (2302): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=0, islabel=1]" 
   (2303): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=0, islabel=1]" 
   (2304): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=0, islabel=1]" 
   (2305): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=0, islabel=1]" 
   (2306): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=0, islabel=1]" 
   (2307): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=0, islabel=1]" 
   (2308): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=0, islabel=1]" 
-  (2312): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=0, islabel=1]" 
+  (2309): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=0, islabel=1]" 
   (2313): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=0, islabel=1]" 
   (2314): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=0, islabel=1]" 
   (2315): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=0, islabel=1]" 
   (2316): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=0, islabel=1]" 
   (2317): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=0, islabel=1]" 
   (2318): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=0, islabel=1]" 
   (2319): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=0, islabel=1]" 
   (2320): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=0, islabel=1]" 
   (2321): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=0, islabel=1]" 
   (2322): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=0, islabel=1]" 
   (2323): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=0, islabel=1]" 
   (2324): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=0, islabel=1]" 
   (2325): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=0, islabel=1]" 
   (2326): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=0, islabel=1]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=0, islabel=1]" 
   (2327): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=0]" 
-  (2335): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=0, islabel=1]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=0, islabel=1]" 
+  (2328): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=1, islabel=0]" 
   (2336): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=1, islabel=0]" 
   (2337): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=1, islabel=0]" 
   (2338): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=1, islabel=0]" 
   (2339): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=1, isreflect=1, islabel=0]" 
   (2340): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=1, isreflect=1, islabel=0]" 
   (2341): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=1, isreflect=1, islabel=0]" 
   (2342): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=1, isreflect=1, islabel=0]" 
   (2343): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=1, isreflect=1, islabel=0]" 
   (2344): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=1, isreflect=1, islabel=0]" 
   (2345): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=1, isreflect=1, islabel=0]" 
   (2346): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=1, isreflect=1, islabel=0]" 
   (2347): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=1, isreflect=1, islabel=0]" 
   (2348): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=1, isreflect=1, islabel=0]" 
   (2349): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=1, isreflect=1, islabel=0]" 
   (2350): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=0]" 
-  (2354): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=1, isreflect=1, islabel=0]" 
+  (2351): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=0, isreflect=1, islabel=0]" 
   (2355): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=0, isreflect=1, islabel=0]" 
   (2356): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=0, isreflect=1, islabel=0]" 
   (2357): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=0, isreflect=1, islabel=0]" 
   (2358): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=4, isinternal=0, isreflect=1, islabel=0]" 
   (2359): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=5, isinternal=0, isreflect=1, islabel=0]" 
   (2360): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=6, isinternal=0, isreflect=1, islabel=0]" 
   (2361): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=7, isinternal=0, isreflect=1, islabel=0]" 
   (2362): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=8, isinternal=0, isreflect=1, islabel=0]" 
   (2363): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=9, isinternal=0, isreflect=1, islabel=0]" 
   (2364): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=10, isinternal=0, isreflect=1, islabel=0]" 
   (2365): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=11, isinternal=0, isreflect=1, islabel=0]" 
   (2366): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=12, isinternal=0, isreflect=1, islabel=0]" 
   (2367): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=13, isinternal=0, isreflect=1, islabel=0]" 
   (2368): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=14, isinternal=0, isreflect=1, islabel=0]" 
   (2369): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=0]" 
-  (2375): here
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=15, isinternal=0, isreflect=1, islabel=0]" 
+  (2370): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=0, isinternal=1, isreflect=0, islabel=0]" 
   (2376): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=1, isinternal=1, isreflect=0, islabel=0]" 
   (2377): here
   
-D:/Code/mcx_custom/mcx/src/mcx_core.cu(1269): error : identifier "issavedet" is undefined
-            detected during instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=0]" 
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=2, isinternal=1, isreflect=0, islabel=0]" 
   (2378): here
   
+D:/Code/mcx_custom/mcx/src/mcx_core.cu(808): error : expected an expression
+            detected during:
+              instantiation of "int launchnewphoton<mcxsource,isinternal,isreflect,islabel>(MCXpos *, MCXdir *, MCXtime *, float3 *, Medium *, uint *, OutputType *, uint *, OutputType *, uint, float *, float *, uint *, RandType *, RandType *, uint *, float *, int, RandType *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=0]" 
+  (1276): here
+              instantiation of "void mcx_main_loop<mcxsource,isinternal,isreflect,islabel>(uint *, OutputType *, float *, uint *, float4 *, float4 *, float4 *, float *, uint *, float *, float *, float *, int *, RandType *, float *, volatile int *) [with mcxsource=3, isinternal=1, isreflect=0, islabel=0]" 
+  (2379): here
+  
   Error limit reached.
-  100 errors detected in the compilation of "C:/Users/Asier/AppData/Local/Temp/tmpxft_00001f4c_00000000-11_mcx_core.compute_70.cpp1.ii".
+  100 errors detected in the compilation of "C:/Users/Asier/AppData/Local/Temp/tmpxft_0000294c_00000000-11_mcx_core.compute_70.cpp1.ii".
   Compilation terminated.
   mcx_core.cu
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\CUDA 10.1.targets(764,9): error MSB3721: The command ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\include"     --keep-dir x64\Debug_Custom -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DSAVE_LAUNCHPOS -DSRC_FLUOPATTERN -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSAVE_LAUNCHPOS -DSRC_FLUOPATTERN -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_Custom\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_Custom\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu"" exited with code 1.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\CUDA 10.2.targets(764,9): error MSB3721: The command ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include"     --keep-dir x64\Debug_Custom -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DSRC_FLUOPATTERN -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSRC_FLUOPATTERN -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_Custom\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_Custom\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu"" exited with code 1.

@@ -1388,10 +1388,13 @@ int mcx_loadjson(cJSON *root, Config *cfg){
            if(det){
              cfg->detnum=cJSON_GetArraySize(dets);
              cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
+             cfg->detprops = (float4*)malloc(sizeof(float4) * cfg->detnum);
              for(i=0;i<cfg->detnum;i++){
-               cJSON *pos=dets, *rad=NULL;
+               cJSON *pos=dets, *rad=NULL, *na=NULL, * theta =NULL;
                rad=FIND_JSON_OBJ("R","Optode.Detector.R",det);
-               if(cJSON_GetArraySize(det)==2){
+               na = FIND_JSON_OBJ("NA", "Optode.Detector.NA", det);
+               theta = FIND_JSON_OBJ("bevel", "Optode.Detector.bevel", det);
+               if(cJSON_GetArraySize(det)>2){
                    pos=FIND_JSON_OBJ("Pos","Optode.Detector.Pos",det);
                }
                if(pos){
@@ -1402,6 +1405,19 @@ int mcx_loadjson(cJSON *root, Config *cfg){
                if(rad){
                    cfg->detpos[i].w=rad->valuedouble;
                }
+               
+               /*Load here the parameters we miss: na and detector bevel angle
+*/
+               if(na) {                    
+                   cfg->detprops[i].w= na->valuedouble;
+               }
+               if (theta) {
+                   /** We calculate the normal vector to the detector's surface*/
+                   cfg->detprops[i].x = sin(theta->valuedouble*ONE_PI/180);
+                   cfg->detprops[i].y = sin(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[i].z = cos(theta->valuedouble * ONE_PI / 180);
+               }
+
                if(!cfg->issrcfrom0){
 		   cfg->detpos[i].x--;cfg->detpos[i].y--;cfg->detpos[i].z--;  /*convert to C index*/
 	       }

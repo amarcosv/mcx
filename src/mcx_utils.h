@@ -154,6 +154,7 @@ typedef struct MCXConfig{
 
 	Medium *prop;                 /**<optical property mapping table*/
 	float4 *detpos;               /**<detector positions and radius, overwrite detradius*/
+	float4* detprops;	      /**<detector properties: normal vector to the detector surface, na */
 
 	unsigned int maxgate;         /**<simultaneous recording gates*/
 	int respin;          /**<number of repeatitions*/
