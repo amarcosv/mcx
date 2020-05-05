@@ -230,6 +230,7 @@ void mcx_initcfg(Config *cfg){
      cfg->isgpuinfo=0;
      cfg->prop=NULL;
      cfg->detpos=NULL;
+     cfg->detprops = NULL;
      cfg->vol=NULL;
      cfg->session[0]='\0';
      cfg->printnum=0;
@@ -325,8 +326,10 @@ void mcx_cleargpuinfo(GPUInfo **gpuinfo){
 void mcx_clearcfg(Config *cfg){
      if(cfg->medianum)
      	free(cfg->prop);
-     if(cfg->detnum)
-     	free(cfg->detpos);
+     if (cfg->detnum) {
+         free(cfg->detpos);
+         free(cfg->detprops);
+     }
      if(cfg->dim.x && cfg->dim.y && cfg->dim.z)
         free(cfg->vol);
      if(cfg->srcpattern)
@@ -515,6 +518,28 @@ void mcx_savedetphoton(float *ppath, void *seeds, int count, int doappend, Confi
 	if(cfg->issaveseed && seeds!=NULL)
            fwrite(seeds,cfg->his.seedbyte,count,fp);
 	fclose(fp);
+}
+
+void mcx_savefiberdetphoton(uint* pdetphotons, int count, int doappend, Config* cfg) {
+    FILE* fp;
+    char fhistory[MAX_FULL_PATH], filetag;
+    filetag = 'f';
+    if (cfg->rootpath[0])
+        sprintf(fhistory, "%s%c%s.mc%c", cfg->rootpath, pathsep, cfg->session, filetag);
+    else
+        sprintf(fhistory, "%s.mc%c", cfg->session, filetag);
+    if (doappend) {
+        fp = fopen(fhistory, "ab");
+    }
+    else {
+        fp = fopen(fhistory, "wb");
+    }
+    if (fp == NULL) {
+        mcx_error(-2, "can not save data to disk", __FILE__, __LINE__);
+    }
+    //fwrite(&(cfg->his), sizeof(History), 1, fp);
+    fwrite(pdetphotons, sizeof(uint), count+1, fp);
+    fclose(fp);
 }
 
 /**
@@ -1388,10 +1413,13 @@ int mcx_loadjson(cJSON *root, Config *cfg){
            if(det){
              cfg->detnum=cJSON_GetArraySize(dets);
              cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
+             cfg->detprops = (float4*)malloc(sizeof(float4) * cfg->detnum);
              for(i=0;i<cfg->detnum;i++){
-               cJSON *pos=dets, *rad=NULL;
+               cJSON *pos=dets, *rad=NULL, *na=NULL, * theta =NULL;
                rad=FIND_JSON_OBJ("R","Optode.Detector.R",det);
-               if(cJSON_GetArraySize(det)==2){
+               na = FIND_JSON_OBJ("NA", "Optode.Detector.NA", det);
+               theta = FIND_JSON_OBJ("Bev", "Optode.Detector.Bev", det);
+               if(cJSON_GetArraySize(det)>=2){
                    pos=FIND_JSON_OBJ("Pos","Optode.Detector.Pos",det);
                }
                if(pos){
@@ -1402,6 +1430,19 @@ int mcx_loadjson(cJSON *root, Config *cfg){
                if(rad){
                    cfg->detpos[i].w=rad->valuedouble;
                }
+               
+               /*Load here the parameters we miss: na and detector bevel angle
+*/
+               if(na) {                    
+                   cfg->detprops[i].w= na->valuedouble;
+               }
+               if (theta) {
+                   /** We calculate the normal vector to the detector's surface*/
+                   cfg->detprops[i].x = sin(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[i].y = sin(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[i].z = cos(theta->valuedouble * ONE_PI / 180);
+               }
+
                if(!cfg->issrcfrom0){
 		   cfg->detpos[i].x--;cfg->detpos[i].y--;cfg->detpos[i].z--;  /*convert to C index*/
 	       }

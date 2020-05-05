@@ -154,6 +154,7 @@ typedef struct MCXConfig{
 
 	Medium *prop;                 /**<optical property mapping table*/
 	float4 *detpos;               /**<detector positions and radius, overwrite detradius*/
+	float4* detprops;	      /**<detector properties: normal vector to the detector surface, na */
 
 	unsigned int maxgate;         /**<simultaneous recording gates*/
 	int respin;          /**<number of repeatitions*/
@@ -260,6 +261,7 @@ void mcx_progressbar(float percent, Config *cfg);
 void mcx_flush(Config *cfg);
 int  mcx_run_from_json(char *jsonstr);
 float mcx_updatemua(unsigned int mediaid, Config *cfg);
+void mcx_savefiberdetphoton(uint* pdetphotons, int count, int doappend, Config* cfg);
 
 #ifdef MCX_CONTAINER
 #ifdef __cplusplus

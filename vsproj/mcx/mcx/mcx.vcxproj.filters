@@ -9,10 +9,10 @@
     <ClCompile Include="..\..\..\src\cjson\cJSON.c">
       <Filter>cjson</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\mcextreme.c" />
     <ClCompile Include="..\..\..\src\mcx_shapes.c" />
     <ClCompile Include="..\..\..\src\mcx_utils.c" />
     <ClCompile Include="..\..\..\src\tictoc.c" />
+    <ClCompile Include="..\..\..\src\mcextreme.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\cjson\cJSON.h">

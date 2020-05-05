@@ -139,6 +139,55 @@ __device__ inline void clearpath(float *p,int maxmediatype){
       	   p[i]=0.f;
 }
 
+
+//#ifdef FIBER_DETECTORS
+
+__device__ inline uint findfiberdetector(MCXpos* p0, MCXdir* v, float len) {
+    uint i;
+    float t; /** vector translation factor*/
+    float d; /** distance from intersection to detector center*/
+    float3 p; /** intersection position in detector plane*/
+    float denom;
+    //if(p0->z<9.1f & p0->z + len * v->z > 9.1f || p0->z + len * v->z < 9.1f & p0->z > 9.1f)
+    //printf("Photon traveling from:\n\t x0 = %f\t to x = %f\n\t y0 = %f\t to y = %f\n\t z0 = %f\t to z = %f\n",
+//        p0->x, p0->x + len * v->x, p0->y, p0->y + len * v->y, p0->z, p0->z + len * v->z);
+    for (i = gcfg->maxmedia + 1; i < gcfg->maxmedia + gcfg->detnum + 1; i++) {//Shift i to arrive detpos
+        /** Find an intersection point between the photon and the detector plane*/
+        /*dot product tells us if vectors point in the same or oposite directions. We need oposited directions! So denom <0*/
+        denom = v->x * gproperty[i + gcfg->detnum].x + v->y * gproperty[i + gcfg->detnum].y + v->z * gproperty[i + gcfg->detnum].z;
+        if (denom < -1e-6) {
+            //detv = p0 - l0;
+            t = ((gproperty[i].x - p0->x) * gproperty[i + gcfg->detnum].x +
+                (gproperty[i].y - p0->y) * gproperty[i + gcfg->detnum].y +
+                (gproperty[i].z - p0->z) * gproperty[i + gcfg->detnum].z) / denom;
+            p = { p0->x + v->x * t, p0->y + v->y * t, p0->z + v->z * t };
+            if (t > 0) {
+                d = pow(p.x - gproperty[i].x, 2) + pow(p.y - gproperty[i].y, 2) + pow(p.z - gproperty[i].z, 2);
+                t = pow(p.x - p0->x, 2) + pow(p.y - p0->y, 2) + pow(p.z - p0->z, 2);
+                if ((d < gproperty[i].w * gproperty[i].w) && (t < len * len)) {
+                   // printf("Photon detected!\n");
+                    /* Check for NA*/
+                    if(sqrt(1-v->z*v->z)< gproperty[i + gcfg->detnum].w)
+                    return i - gcfg->maxmedia;
+                }
+            }
+        }
+
+    }
+    return 0;
+}
+
+__device__ inline uint savefiberphoton(uint* detectedphoton, MCXpos* p0, MCXdir* v, float len) {
+    uint detid = findfiberdetector(p0, v, len);
+    if (detid) {
+        atomicAdd(detectedphoton+detid, 1);
+        uint baseaddr = atomicAdd(detectedphoton, 1);
+    }
+    return detid;
+}
+
+//#endif
+
 #ifdef SAVE_DETECTORS
 
 /**
@@ -1408,6 +1457,26 @@ kernel void mcx_main_loop(uint media[],OutputType field[],float genergy[],uint n
 	  /** final length that the photon moves - either the length to move to the next voxel, or the remaining scattering length */
 	  len=slen/(prop.mus*(v.nscat+1.f > gcfg->gscatter ? (1.f-prop.g) : 1.f));
 
+          //printf("Attempting photon detection");
+          /**
+          ATTEMPT DETECTION SOMEWHERE HERE!
+
+          printf("Attempting photon detection");
+          */
+          // atomicAdd(detectedphoton, 1);
+           if (v.z < 0.0f &&len>0.0f) {
+               //atomicAdd(detectedphoton, 1);
+               if (savefiberphoton(detectedphoton, &p, &v, len)) {
+                   if (launchnewphoton<mcxsource, isinternal, isreflect, islabel>(&p, &v, &f, &rv, &prop, &idx1d, field, &mediaid, &w0, (mediaidold & DET_MASK), ppath,
+                       n_det, detectedphoton, t, (RandType*)(sharedmem + threadIdx.x * gcfg->issaveseed * RAND_BUF_LEN * sizeof(RandType)),
+                       media, srcpattern, idx, (RandType*)n_seed, seeddata, gdebugdata, gprogress))
+                       break;
+                   isdet = mediaid & DET_MASK;
+                   mediaid &= MED_MASK;
+                   continue;
+               }
+           }
+
 	  /** if photon moves to the next voxel, use the precomputed intersection coord. htime which are assured to be outside of the current voxel */
 	  *((float3*)(&p)) = (gcfg->faststep || slen==f.pscat) ? float3(p.x+len*v.x,p.y+len*v.y,p.z+len*v.z) : float3(htime.x,htime.y,htime.z);
 
@@ -1835,6 +1904,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      float  *srcpw=NULL,*energytot=NULL,*energyabs=NULL; // for multi-srcpattern
      RandType *seeddata=NULL;
      uint    detected=0,sharedbuf=0;
+     uint   *fdetected;
 
      volatile int *progress, *gprogress;
      cudaEvent_t updateprogress;
@@ -2047,7 +2117,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 
 	   return;
      }
-
+     fdetected = (uint*)malloc(sizeof(uint) * (cfg->detnum + 1));
      Ppos=(float4*)malloc(sizeof(float4)*gpu[gpuid].autothread);
      Pdir=(float4*)malloc(sizeof(float4)*gpu[gpuid].autothread);
      Plen=(float4*)malloc(sizeof(float4)*gpu[gpuid].autothread);
@@ -2066,7 +2136,9 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
      CUDA_ASSERT(cudaMalloc((void **) &gPdir, sizeof(float4)*gpu[gpuid].autothread));
      CUDA_ASSERT(cudaMalloc((void **) &gPlen, sizeof(float4)*gpu[gpuid].autothread));
      CUDA_ASSERT(cudaMalloc((void **) &gPdet, sizeof(float)*cfg->maxdetphoton*(hostdetreclen)));
-     CUDA_ASSERT(cudaMalloc((void **) &gdetected, sizeof(uint)));
+
+     /** Here now we add more fields to store detexted for all the fiber detectors [total, det0, det1, det2, ..., detn]*/
+     CUDA_ASSERT(cudaMalloc((void **) &gdetected, sizeof(uint) * (cfg->detnum + 1)));
      CUDA_ASSERT(cudaMalloc((void **) &genergy, sizeof(float)*(gpu[gpuid].autothread<<1)));
 
      CUDA_ASSERT(cudaHostAlloc((void **)&progress, sizeof(int), cudaHostAllocMapped));
@@ -2185,6 +2257,8 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 
      CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->prop,  cfg->medianum*sizeof(Medium), 0, cudaMemcpyHostToDevice));
      CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->detpos,  cfg->detnum*sizeof(float4), cfg->medianum*sizeof(Medium), cudaMemcpyHostToDevice));
+     /** Load into gpu memory the new properties */
+     CUDA_ASSERT(cudaMemcpyToSymbol(gproperty, cfg->detprops, cfg->detnum * sizeof(float4), cfg->medianum * sizeof(Medium)+ cfg->detnum * sizeof(float4), cudaMemcpyHostToDevice));
 
      MCX_FPRINTF(cfg->flog,"init complete : %d ms\n",GetTimeMillis()-tic);
 
@@ -2221,7 +2295,8 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
            CUDA_ASSERT(cudaMemset(gPdet,0,sizeof(float)*cfg->maxdetphoton*(hostdetreclen)));
            if(cfg->issaveseed)
 	       CUDA_ASSERT(cudaMemset(gseeddata,0,sizeof(RandType)*cfg->maxdetphoton*RAND_BUF_LEN));
-           CUDA_ASSERT(cudaMemset(gdetected,0,sizeof(float)));
+           /** Here now we add more fields to store detexted for all the fiber detectors [total, det0, det1, det2, ..., detn]*/
+           CUDA_ASSERT(cudaMemset(gdetected,0,sizeof(uint)* (cfg->detnum+1)));
            if(cfg->debuglevel & MCX_DEBUG_MOVE){
 	       uint jumpcount=0;
                CUDA_ASSERT(cudaMemcpyToSymbol(gjumpdebug, &jumpcount, sizeof(uint), 0, cudaMemcpyHostToDevice));
@@ -2435,12 +2510,13 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
            }
 }
            CUDA_ASSERT(cudaDeviceSynchronize());
-	   CUDA_ASSERT(cudaMemcpy(&detected, gdetected,sizeof(uint),cudaMemcpyDeviceToHost));
+	   CUDA_ASSERT(cudaMemcpy(fdetected, gdetected,sizeof(uint)* (cfg->detnum + 1),cudaMemcpyDeviceToHost));           
+           detected = fdetected[0];
            tic1=GetTimeMillis();
 	   toc+=tic1-tic0;
            MCX_FPRINTF(cfg->flog,"kernel complete:  \t%d ms\nretrieving fields ... \t",tic1-tic);
            CUDA_ASSERT(cudaGetLastError());
-
+           printf("Detected %u photons. Sensor #0: %u photons Sensor #1: %u photon\n", fdetected[0], fdetected[1], fdetected[2]);
            CUDA_ASSERT(cudaMemcpy(Plen0,  gPlen,  sizeof(float4)*gpu[gpuid].autothread, cudaMemcpyDeviceToHost));
            for(i=0;i<gpu[gpuid].autothread;i++)
 	      photoncount+=int(Plen0[i].w+0.5f);
@@ -2690,6 +2766,8 @@ is more than what your have specified (%d), please use the -H option to specify 
      cfg->energyabs=cfg->energytot-cfg->energyesc;
 }
 #pragma omp barrier
+
+mcx_savefiberdetphoton(fdetected,  cfg->detnum, 0, cfg);
 
      CUDA_ASSERT(cudaFree(gmedia));
      CUDA_ASSERT(cudaFree(gfield));

@@ -1,0 +1,2 @@
+@echo off
+mcx --session test2 --input D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2\test2.json --root D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2 --outputformat mc2 --gpu 10000000 --autopilot 1 --photon 1000000 --normalize 1 --save2pt 1 --reflect 0 --savedet 1 --unitinmm 1.00 --seed 1648335518 --saveseed 0 --specular 0 --skipradius -2 --array 0 --dumpmask 0 --repeat 1 --maxdetphoton 10000000 --bc aaaaaa

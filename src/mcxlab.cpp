@@ -592,16 +592,32 @@ void mcx_set_field(const mxArray *root,const mxArray *item,int idx, Config *cfg)
         printf("mcx.mediabyte=%d;\n",cfg->mediabyte);
     }else if(strcmp(name,"detpos")==0){
         arraydim=mxGetDimensions(item);
-	if(arraydim[0]>0 && arraydim[1]!=4)
+	if(arraydim[0]>0 && arraydim[1]!=6)
             mexErrMsgTxt("the 'detpos' field must have 4 columns (x,y,z,radius)");
         double *val=mxGetPr(item);
         cfg->detnum=arraydim[0];
 	if(cfg->detpos) free(cfg->detpos);
         cfg->detpos=(float4 *)malloc(cfg->detnum*sizeof(float4));
+        if (cfg->detprops) free(cfg->detprops);
+        cfg->detprops = (float4*)malloc(cfg->detnum * sizeof(float4));
         for(j=0;j<4;j++)
           for(i=0;i<cfg->detnum;i++)
              ((float *)(&cfg->detpos[i]))[j]=val[j*cfg->detnum+i];
+        for (j = 4; j < 6; j++)
+            for (i = 0; i < cfg->detnum; i++)
+                ((float*)(&cfg->detprops[i]))[j] = val[j * cfg->detnum + i];
+
+        
+        for (i = 0; i < cfg->detnum; i++) {
+            ((float*)(&cfg->detprops[i]))[3] = val[4 * cfg->detnum + i];
+            ((float*)(&cfg->detprops[i]))[0] = sin(val[4 * cfg->detnum + i] * ONE_PI / 180);
+            ((float*)(&cfg->detprops[i]))[1] = sin(val[4 * cfg->detnum + i] * ONE_PI / 180);
+            ((float*)(&cfg->detprops[i]))[2] = cos(val[4 * cfg->detnum + i] * ONE_PI / 180);
+        }
+
+
         printf("mcx.detnum=%d;\n",cfg->detnum);
+
     }else if(strcmp(name,"prop")==0){
         arraydim=mxGetDimensions(item);
         if(arraydim[0]>0 && arraydim[1]!=4)
