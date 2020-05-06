@@ -5,11 +5,11 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Custom|x64'">
-    <LocalDebuggerCommandArguments>--session test2 --input D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2\test2.json --root D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2 --outputformat mc2 --gpu 10000000 --autopilot 1  --normalize 1 --save2pt 1 --reflect 0 --savedet 1 --unitinmm 1.00 --seed 1648335518 --saveseed 0 --specular 0 --skipradius -2 --array 0 --dumpmask 0 --repeat 1 --maxdetphoton 10000000  --bc aaaaaa</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--session test2 --input D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2\test2_probe.json --root D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2 --outputformat mc2 --gpu 10000000 --autopilot 1  --normalize 1 --save2pt 1 --reflect 0 --savedet 1 --unitinmm 1.00 --seed 1648335518 --saveseed 0 --specular 0 --skipradius -2 --array 0 --dumpmask 0 --repeat 1 --maxdetphoton 10000000  --bc aaaaaa</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Custom_MEX|x64'">
-    <LocalDebuggerCommandArguments>--session spiral --input D:\MCXworkshop19\MCXStudio\Output\mcxsessions\spiral\vesselTest.json --root D:\MCXworkshop19\MCXStudio\Output\mcxsessions\spiral --outputformat mc2 --gpu 1  --photon 500000 --normalize 1 --save2pt 1 --reflect 0 --savedet 1  --seed 1648335518 --saveseed 0 --specular 0 --array 0 --dumpmask 0 --repeat 1 --savedetflag PXVL --maxdetphoton 10000000 --bc aaaaaa</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--session test2 --input D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2\test2_probe.json --root D:\MCX19Workshop\Software\win64\MCXStudio\Output\mcxsessions\test2 --outputformat mc2 --gpu 10000000 --autopilot 1  --normalize 1 --save2pt 1 --reflect 0 --savedet 1 --unitinmm 1.00 --seed 1648335518 --saveseed 0 --specular 0 --skipradius -2 --array 0 --dumpmask 0 --repeat 1 --maxdetphoton 10000000  --bc aaaaaa</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -1,8 +1,4 @@
-﻿  Compiling CUDA source file ..\..\..\src\mcx_core.cu...
-  
-  D:\Code\mcx_custom\mcx\vsproj\mcx\mcx>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_50,code=\"sm_50,compute_50\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_70,code=\"sm_70,compute_70\" --use-local-env -Xcompiler /openmp -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64" -x cu  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include"     --keep-dir x64\Debug_Custom -maxrregcount=0  --machine 64 --compile -cudart static    -use_fast_math -DUSE_XORSHIFT128P_RAND -DUSE_ATOMIC -DSAVE_DETECTORS -DUSE_CACHEBOX -DSRC_FLUOPATTERN -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -DSAVE_DETECTORS -DSRC_FLUOPATTERN -D_MBCS -Xcompiler "/EHsc /W0 /nologo /Od /Fdx64\Debug_Custom\vc142.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug_Custom\mcx_core.cu.obj "D:\Code\mcx_custom\mcx\src\mcx_core.cu" 
-  mcx_core.cu
-  mcx_utils.c
+﻿  mcx_utils.c
   mcx.vcxproj -> D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug_Custom\mcx.exe
   copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\cudart*.dll" "D:\Code\mcx_custom\mcx\vsproj\mcx\x64\Debug_Custom\"
   C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\bin\cudart32_102.dll

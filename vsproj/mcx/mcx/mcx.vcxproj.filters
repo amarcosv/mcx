@@ -13,6 +13,7 @@
     <ClCompile Include="..\..\..\src\mcx_utils.c" />
     <ClCompile Include="..\..\..\src\tictoc.c" />
     <ClCompile Include="..\..\..\src\mcextreme.c" />
+    <ClCompile Include="..\..\..\src\mcxlab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\cjson\cJSON.h">

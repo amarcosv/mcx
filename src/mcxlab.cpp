@@ -592,7 +592,8 @@ void mcx_set_field(const mxArray *root,const mxArray *item,int idx, Config *cfg)
         printf("mcx.mediabyte=%d;\n",cfg->mediabyte);
     }else if(strcmp(name,"detpos")==0){
         arraydim=mxGetDimensions(item);
-	if(arraydim[0]>0 && arraydim[1]!=6)
+        printf("dims: %d %d", arraydim[0], arraydim[1]);
+	if(arraydim[0]>0 && arraydim[1]!=4)
             mexErrMsgTxt("the 'detpos' field must have 4 columns (x,y,z,radius)");
         double *val=mxGetPr(item);
         cfg->detnum=arraydim[0];

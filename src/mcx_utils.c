@@ -1412,40 +1412,50 @@ int mcx_loadjson(cJSON *root, Config *cfg){
            cJSON *det=dets->child;
            if(det){
              cfg->detnum=cJSON_GetArraySize(dets);
-             cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
-             cfg->detprops = (float4*)malloc(sizeof(float4) * cfg->detnum);
+             //cfg->detpos=(float4*)malloc(sizeof(float4)*cfg->detnum);
+             //cfg->detprops = (float4*)malloc(sizeof(float4) * cfg->detnum);
              for(i=0;i<cfg->detnum;i++){
-               cJSON *pos=dets, *rad=NULL, *na=NULL, * theta =NULL;
-               rad=FIND_JSON_OBJ("R","Optode.Detector.R",det);
+               cJSON *pos=dets, *rad=NULL, *na=NULL, * theta =NULL, * ndets = NULL, * rprobe = NULL;
+               ndets = FIND_JSON_OBJ("Ndets", "Optode.Detector.Ndets", det);
+               rprobe = FIND_JSON_OBJ("Rprobe", "Optode.Detector.Rprobe", det);
+               rad = FIND_JSON_OBJ("R","Optode.Detector.R",det);
                na = FIND_JSON_OBJ("NA", "Optode.Detector.NA", det);
                theta = FIND_JSON_OBJ("Bev", "Optode.Detector.Bev", det);
+                
+               cfg->detnum = (unsigned int)ndets->valuedouble;
+               cfg->detpos = (float4*)malloc(sizeof(float4) * cfg->detnum);
+               cfg->detprops = (float4*)malloc(sizeof(float4) * cfg->detnum);
                if(cJSON_GetArraySize(det)>=2){
                    pos=FIND_JSON_OBJ("Pos","Optode.Detector.Pos",det);
                }
-               if(pos){
-	           cfg->detpos[i].x=pos->child->valuedouble;
-                   cfg->detpos[i].y=pos->child->next->valuedouble;
-	           cfg->detpos[i].z=pos->child->next->next->valuedouble;
+
+               if (pos) {
+                   cfg->probepos.x = pos->child->valuedouble;
+                   cfg->probepos.y = pos->child->next->valuedouble;
+                   cfg->probepos.z = pos->child->next->next->valuedouble;
                }
-               if(rad){
-                   cfg->detpos[i].w=rad->valuedouble;
+               if (!cfg->issrcfrom0) {
+                   cfg->probepos.x--; cfg->probepos.y--; cfg->probepos.z--;  /*convert to C index*/
+               }
+               if(rprobe)
+                   cfg->probepos.w = rprobe->valuedouble;
+               float degstep = 360 / cfg->detnum;
+               float ang = 0;
+               for (int d = 0; d < cfg->detnum; d++) {
+                   cfg->detpos[d].x = cfg->probepos.x + cfg->probepos.w * cos(ang * ONE_PI / 180);
+                   cfg->detpos[d].y = cfg->probepos.y + cfg->probepos.w * sin(ang * ONE_PI / 180);
+                   cfg->detpos[d].z = cfg->probepos.z;
+                   cfg->detpos[d].w = rad->valuedouble;
+
+                   cfg->detprops[d].x = sin(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[d].y = sin(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[d].z = cos(theta->valuedouble * ONE_PI / 180);
+                   cfg->detprops[d].w = na->valuedouble;
+                   ang += degstep;
+            
                }
                
-               /*Load here the parameters we miss: na and detector bevel angle
-*/
-               if(na) {                    
-                   cfg->detprops[i].w= na->valuedouble;
-               }
-               if (theta) {
-                   /** We calculate the normal vector to the detector's surface*/
-                   cfg->detprops[i].x = sin(theta->valuedouble * ONE_PI / 180);
-                   cfg->detprops[i].y = sin(theta->valuedouble * ONE_PI / 180);
-                   cfg->detprops[i].z = cos(theta->valuedouble * ONE_PI / 180);
-               }
-
-               if(!cfg->issrcfrom0){
-		   cfg->detpos[i].x--;cfg->detpos[i].y--;cfg->detpos[i].z--;  /*convert to C index*/
-	       }
+               
                det=det->next;
                if(det==NULL) break;
              }

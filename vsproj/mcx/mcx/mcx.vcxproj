@@ -275,13 +275,13 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
-      <CodeGeneration>compute_30,sm_30;compute_35,sm_35;compute_50,sm_50;compute_52,sm_52;compute_70,sm_70;</CodeGeneration>
+      <CodeGeneration>compute_30,sm_30;</CodeGeneration>
       <AdditionalCompilerOptions>
       </AdditionalCompilerOptions>
       <Defines>USE_XORSHIFT128P_RAND;USE_ATOMIC;SAVE_DETECTORS;USE_CACHEBOX;SRC_FLUOPATTERN;%(Defines)</Defines>
       <FastMath>true</FastMath>
       <Runtime>MDd</Runtime>
-      <PtxAsOptionV>true</PtxAsOptionV>
+      <PtxAsOptionV>false</PtxAsOptionV>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -368,6 +368,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\cjson\cJSON.c" />
     <ClCompile Include="..\..\..\src\mcextreme.c" />
+    <ClCompile Include="..\..\..\src\mcxlab.cpp" />
     <ClCompile Include="..\..\..\src\mcx_shapes.c" />
     <ClCompile Include="..\..\..\src\mcx_utils.c" />
     <ClCompile Include="..\..\..\src\tictoc.c" />
