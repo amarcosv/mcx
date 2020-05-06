@@ -2516,7 +2516,7 @@ void mcx_run_simulation(Config *cfg,GPUInfo *gpu){
 	   toc+=tic1-tic0;
            MCX_FPRINTF(cfg->flog,"kernel complete:  \t%d ms\nretrieving fields ... \t",tic1-tic);
            CUDA_ASSERT(cudaGetLastError());
-           printf("Detected %u photons. Sensor #0: %u photons Sensor #1: %u photon\n", fdetected[0], fdetected[1], fdetected[2]);
+           printf("Detected %u photons:\n\t Sensor #0: %u photons\n\tSensor #1: %u photon\n\tSensor #2: %u photon\n\tSensor #3: %u photon\n", fdetected[0], fdetected[1], fdetected[2], fdetected[3], fdetected[4]);
            CUDA_ASSERT(cudaMemcpy(Plen0,  gPlen,  sizeof(float4)*gpu[gpuid].autothread, cudaMemcpyDeviceToHost));
            for(i=0;i<gpu[gpuid].autothread;i++)
 	      photoncount+=int(Plen0[i].w+0.5f);
